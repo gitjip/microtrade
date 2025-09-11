@@ -1,6 +1,4 @@
-QT += core gui network sql
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT += core network sql
 
 TEMPLATE = lib
 DEFINES += MYLIB_LIBRARY
@@ -18,8 +16,7 @@ SOURCES += \
     responser.cpp \
     sqlquery.cpp \
     tcpclient.cpp \
-    tcpserver.cpp \
-    window.cpp
+    tcpserver.cpp
 
 HEADERS += \
     MyLib_global.h \
@@ -30,8 +27,7 @@ HEADERS += \
     responser.h \
     sqlquery.h \
     tcpclient.h \
-    tcpserver.h \
-    window.h
+    tcpserver.h
 
 # Default rules for deployment.
 unix {

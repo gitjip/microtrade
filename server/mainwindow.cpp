@@ -7,11 +7,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    setWindowTitle("Microtrade 1.0.0");
+    setWindowTitle("Microtrade Server 1.0.0");
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-

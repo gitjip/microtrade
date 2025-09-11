@@ -1,11 +1,11 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#include <QString>
+#include <QHostAddress>
 
 namespace My {
-inline QString rootAppName = "microtrade";
-inline QString version = "1.0.0";
+inline QHostAddress ServerHostAddress("127.0.0.1");
+constexpr quint64 ServerPort = 8888;
 } // namespace My
 
 #endif // CONSTANTS_H

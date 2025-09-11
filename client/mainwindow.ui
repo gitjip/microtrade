@@ -15,132 +15,45 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="1">
-     <spacer name="verticalSpacer_top">
-      <property name="orientation">
-       <enum>Qt::Orientation::Vertical</enum>
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="tabPosition">
+       <enum>QTabWidget::TabPosition::North</enum>
       </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
+      <property name="currentIndex">
+       <number>0</number>
       </property>
-     </spacer>
-    </item>
-    <item row="1" column="2">
-     <spacer name="horizontalSpacer_right">
-      <property name="orientation">
-       <enum>Qt::Orientation::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="5" column="1">
-     <widget class="QPushButton" name="pushButton_register">
-      <property name="text">
-       <string>注册</string>
-      </property>
+      <widget class="WelcomeWidget" name="welcomeTab">
+       <attribute name="title">
+        <string>欢迎</string>
+       </attribute>
+      </widget>
+      <widget class="ShopWidget" name="shopTab">
+       <attribute name="title">
+        <string>商店</string>
+       </attribute>
+      </widget>
+      <widget class="CartWidget" name="cartTab">
+       <attribute name="title">
+        <string>购物车</string>
+       </attribute>
+      </widget>
+      <widget class="OrderWidget" name="orderTab">
+       <attribute name="title">
+        <string>订单</string>
+       </attribute>
+      </widget>
+      <widget class="NotificationWidget" name="NotificationTab">
+       <attribute name="title">
+        <string>通知</string>
+       </attribute>
+      </widget>
+      <widget class="UserCenterWidget" name="userCenterTab">
+       <attribute name="title">
+        <string>用户中心</string>
+       </attribute>
+      </widget>
      </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QPushButton" name="pushButton_login">
-      <property name="text">
-       <string>登录</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="1">
-     <spacer name="verticalSpacer_bottom">
-      <property name="orientation">
-       <enum>Qt::Orientation::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="7" column="1">
-     <widget class="QPushButton" name="pushButton_quit">
-      <property name="text">
-       <string>退出</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <spacer name="verticalSpacer_1">
-      <property name="orientation">
-       <enum>Qt::Orientation::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="1" column="1">
-     <widget class="QLabel" name="label_welcome">
-      <property name="font">
-       <font>
-        <pointsize>30</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>    欢迎    </string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <spacer name="verticalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Orientation::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="1" column="0">
-     <spacer name="horizontalSpacer_left">
-      <property name="orientation">
-       <enum>Qt::Orientation::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="6" column="1">
-     <spacer name="verticalSpacer_3">
-      <property name="orientation">
-       <enum>Qt::Orientation::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
     </item>
    </layout>
   </widget>
@@ -156,6 +69,44 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>WelcomeWidget</class>
+   <extends>QWidget</extends>
+   <header>welcomewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ShopWidget</class>
+   <extends>QWidget</extends>
+   <header>shopwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CartWidget</class>
+   <extends>QWidget</extends>
+   <header>cartwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OrderWidget</class>
+   <extends>QWidget</extends>
+   <header>orderwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UserCenterWidget</class>
+   <extends>QWidget</extends>
+   <header>usercenterwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>NotificationWidget</class>
+   <extends>QWidget</extends>
+   <header>notificationwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -1,49 +1,27 @@
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
-
-VERSION = 1.0.0
-QMAKE_TARGET_PRODUCT = "Microtrade"
-QMAKE_TARGET_COMPANY = "JLU"
-QMAKE_TARGET_DESCRIPTION = "Microtrade" "Client"
-QMAKE_TARGET_COPYRIGHT = "Copyright(C)" "2025" "JLU." "All" "rights" "reserved."
-# RC_ICONS = .ico
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    cartwidget.cpp \
-    logindialog.cpp \
+    controlwidget.cpp \
     main.cpp \
     mainwindow.cpp \
-    notificationwidget.cpp \
-    orderwidget.cpp \
-    shopwidget.cpp \
-    usercenterwidget.cpp \
     welcomewidget.cpp
 
 HEADERS += \
-    cartwidget.h \
-    logindialog.h \
+    controlwidget.h \
     mainwindow.h \
-    notificationwidget.h \
-    orderwidget.h \
-    shopwidget.h \
-    usercenterwidget.h \
     welcomewidget.h
 
 FORMS += \
-    cartwidget.ui \
-    logindialog.ui \
+    controlwidget.ui \
     mainwindow.ui \
-    notificationwidget.ui \
-    orderwidget.ui \
-    shopwidget.ui \
-    usercenterwidget.ui \
     welcomewidget.ui
 
 # Default rules for deployment.

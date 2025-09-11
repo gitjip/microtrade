@@ -1,5 +1,4 @@
 #include "sqlquery.h"
-#include "constants.h"
 
 namespace My {
 SqlQuery::SqlQuery() {
@@ -8,7 +7,7 @@ SqlQuery::SqlQuery() {
     } else {
         db = QSqlDatabase::addDatabase("QSQLITE");
     }
-    db.setDatabaseName(My::rootAppName + ".db");
+    db.setDatabaseName("my.db");
 }
 
 SqlQuery::~SqlQuery() {}
