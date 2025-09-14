@@ -16,7 +16,7 @@ public:
     explicit TcpServer(QObject *parent = nullptr);
 
 signals:
-    void readyWrite(QTcpSocket *socket, const Request &req);
+    void readyWrite(QTcpSocket *socket, const My::Request &req);
 
 public slots:
     void onNewConnection();

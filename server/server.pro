@@ -1,4 +1,4 @@
-QT       += core gui network
+QT       += core gui network sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,6 +28,13 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Controllers/release/ -lControllers
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Controllers/debug/ -lControllers
+else:unix: LIBS += -L$$OUT_PWD/../Controllers/ -lControllers
+
+INCLUDEPATH += $$PWD/../Controllers
+DEPENDPATH += $$PWD/../Controllers
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../MyLib/release/ -lMyLib
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../MyLib/debug/ -lMyLib

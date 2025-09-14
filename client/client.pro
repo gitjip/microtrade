@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -57,3 +57,10 @@ else:unix: LIBS += -L$$OUT_PWD/../MyLib/ -lMyLib
 
 INCLUDEPATH += $$PWD/../MyLib
 DEPENDPATH += $$PWD/../MyLib
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Models/release/ -lModels
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Models/debug/ -lModels
+else:unix: LIBS += -L$$OUT_PWD/../Models/ -lModels
+
+INCLUDEPATH += $$PWD/../Models
+DEPENDPATH += $$PWD/../Models

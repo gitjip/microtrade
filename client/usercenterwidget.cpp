@@ -1,22 +1,25 @@
 #include "usercenterwidget.h"
-#include "ui_usercenterwidget.h"
 #include "logindialog.h"
+#include "ui_usercenterwidget.h"
 
 UserCenterWidget::UserCenterWidget(QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::UserCenterWidget)
-{
+    : QWidget(parent), ui(new Ui::UserCenterWidget), client(nullptr) {
     ui->setupUi(this);
 }
 
-UserCenterWidget::~UserCenterWidget()
-{
-    delete ui;
+UserCenterWidget::~UserCenterWidget() { delete ui; }
+
+void UserCenterWidget::setClient(My::TcpClient *client) {
+    this->client = client;
 }
 
-void UserCenterWidget::on_pushButtonLogin_clicked()
-{
+void UserCenterWidget::setUser(My::User *user) { this->user = user; }
+
+void UserCenterWidget::on_pushButtonLogin_clicked() {
     LoginDialog *loginDialog = new LoginDialog(this);
+    loginDialog->setClient(client);
     loginDialog->show();
+    connect(loginDialog, &LoginDialog::gotUser, this, [=](){
+        emit(gotUser(user));
+    });
 }
-

@@ -1,17 +1,18 @@
 #ifndef ORDER_H
 #define ORDER_H
 
+#include "Models_global.h"
 #include <QList>
-#include <QtGlobal>
 #include <QTime>
+#include <QtGlobal>
 
-class Order
-{
+namespace My {
+class MODELS_EXPORT Order {
 public:
     Order();
 
 public:
-    enum class Status{};
+    enum class Status {};
 
 private:
     int id;
@@ -21,5 +22,6 @@ private:
     Status status;
     QList<int> OrderItemIdList;
 };
+} // namespace My
 
 #endif // ORDER_H

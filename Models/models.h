@@ -3,10 +3,11 @@
 
 #include "Models_global.h"
 
-class MODELS_EXPORT Models
-{
+namespace My {
+class MODELS_EXPORT Models {
 public:
     Models();
 };
+} // namespace My
 
 #endif // MODELS_H

@@ -1,13 +1,14 @@
 #ifndef USER_H
 #define USER_H
 
-#include <QtGlobal>
+#include "Models_global.h"
 #include <QString>
+#include <QtGlobal>
 
-class User
-{
+namespace My {
+class MODELS_EXPORT User {
 public:
-    User();
+    User(int id, const QString &username, const QString &password);
     virtual ~User();
 
 private:
@@ -15,5 +16,6 @@ private:
     QString username;
     QString password;
 };
+} // namespace My
 
 #endif // USER_H

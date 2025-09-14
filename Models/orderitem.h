@@ -1,8 +1,10 @@
 #ifndef ORDERITEM_H
 #define ORDERITEM_H
 
-class OrderItem
-{
+#include "Models_global.h"
+
+namespace My {
+class MODELS_EXPORT OrderItem {
 public:
     OrderItem();
 
@@ -13,5 +15,6 @@ private:
     int quantity;
     double price;
 };
+} // namespace My
 
 #endif // ORDERITEM_H

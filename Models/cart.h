@@ -1,10 +1,11 @@
 #ifndef CART_H
 #define CART_H
 
+#include "Models_global.h"
 #include <QList>
 
-class Cart
-{
+namespace My {
+class MODELS_EXPORT Cart {
 public:
     Cart();
 
@@ -13,5 +14,6 @@ private:
     int userId;
     QList<int> cartItemIdList;
 };
+} // namespace My
 
 #endif // CART_H

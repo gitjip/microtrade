@@ -1,15 +1,16 @@
 #ifndef GOODS_H
 #define GOODS_H
 
-#include <QtGlobal>
+#include "Models_global.h"
 #include <QString>
+#include <QtGlobal>
 
-class Goods
-{
+namespace My {
+class MODELS_EXPORT Goods {
 public:
     Goods();
 
-enum class Category{};
+    enum class Category {};
 
 private:
     int id;
@@ -19,5 +20,6 @@ private:
     int stock;
     Category category;
 };
+} // namespace My
 
 #endif // GOODS_H

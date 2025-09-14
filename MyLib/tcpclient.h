@@ -17,7 +17,13 @@ class MYLIB_EXPORT TcpClient : public QTcpSocket {
     Q_OBJECT
 public:
     explicit TcpClient(QObject *parent = nullptr);
+    Response get(const QString &route, const QJsonObject &headers,
+                  const QJsonValue &body);
     Response post(const QString &route, const QJsonObject &headers,
+                  const QJsonValue &body);
+    Response put(const QString &route, const QJsonObject &headers,
+                  const QJsonValue &body);
+    Response del(const QString &route, const QJsonObject &headers,
                   const QJsonValue &body);
     void setTimeout(int timeout);
 

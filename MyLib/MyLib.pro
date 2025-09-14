@@ -13,8 +13,6 @@ SOURCES += \
     mylib.cpp \
     request.cpp \
     response.cpp \
-    responser.cpp \
-    sqlquery.cpp \
     tcpclient.cpp \
     tcpserver.cpp
 
@@ -24,8 +22,6 @@ HEADERS += \
     mylib.h \
     request.h \
     response.h \
-    responser.h \
-    sqlquery.h \
     tcpclient.h \
     tcpserver.h
 

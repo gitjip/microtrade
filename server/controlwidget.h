@@ -1,6 +1,7 @@
 #ifndef CONTROLWIDGET_H
 #define CONTROLWIDGET_H
 
+#include "controllerfactory.h"
 #include "tcpserver.h"
 #include <QWidget>
 
@@ -22,6 +23,7 @@ private slots:
 private:
     Ui::ControlWidget *ui;
     My::TcpServer *server;
+    My::ControllerFactory *controllerFactory;
 };
 
 #endif // CONTROLWIDGET_H
