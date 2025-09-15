@@ -18,7 +18,8 @@ void TcpServer::onReadyRead() {
     QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
     Request req = QJsonDocument::fromJson(socket->readAll()).object();
     qDebug() << req.method << req.route
-             << QJsonDocument(req.headers).toJson(QJsonDocument::Compact);
+             << QJsonDocument(req.headers).toJson(QJsonDocument::Compact)
+             << QJsonDocument(req.body.toObject()).toJson(QJsonDocument::Compact);
     emit readyWrite(socket, req);
 }
 

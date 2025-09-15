@@ -9,7 +9,7 @@ ControllerFactory::ControllerFactory(TcpServer *server, QObject *parent)
 
 Controller *ControllerFactory::produce(const Request &req) {
     if (req.route == "/api/user") {
-        return new UserController();
+        return new UserController(this);
     } else {
         return nullptr;
     }

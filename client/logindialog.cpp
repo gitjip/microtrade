@@ -24,9 +24,11 @@ void LoginDialog::on_pushButtonConfirm_clicked() {
         My::User *user =
             new My::User(res.body["id"].toInt(), res.body["username"].toString(),
                                       res.body["password"].toString());
-        emit(user);
+        qDebug() << res.body["id"].toInt() << res.body["username"].toString()
+                 << res.body["password"].toString();
+        emit gotUser(user);
     } else {
-        QMessageBox::critical(this, "登录失败", "用户名或密码错误");
+        QMessageBox::critical(this, "登录失败", res.error);
     }
     close();
 }

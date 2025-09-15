@@ -22,6 +22,7 @@ SOURCES += \
     mainwindow.cpp \
     notificationwidget.cpp \
     orderwidget.cpp \
+    registerdialog.cpp \
     shopwidget.cpp \
     usercenterwidget.cpp \
     welcomewidget.cpp
@@ -32,6 +33,7 @@ HEADERS += \
     mainwindow.h \
     notificationwidget.h \
     orderwidget.h \
+    registerdialog.h \
     shopwidget.h \
     usercenterwidget.h \
     welcomewidget.h
@@ -42,6 +44,7 @@ FORMS += \
     mainwindow.ui \
     notificationwidget.ui \
     orderwidget.ui \
+    registerdialog.ui \
     shopwidget.ui \
     usercenterwidget.ui \
     welcomewidget.ui

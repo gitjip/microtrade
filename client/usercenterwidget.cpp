@@ -1,5 +1,6 @@
 #include "usercenterwidget.h"
 #include "logindialog.h"
+#include "registerdialog.h"
 #include "ui_usercenterwidget.h"
 
 UserCenterWidget::UserCenterWidget(QWidget *parent)
@@ -20,6 +21,14 @@ void UserCenterWidget::on_pushButtonLogin_clicked() {
     loginDialog->setClient(client);
     loginDialog->show();
     connect(loginDialog, &LoginDialog::gotUser, this, [=](){
-        emit(gotUser(user));
+        emit gotUser(user);
     });
 }
+
+void UserCenterWidget::on_pushButtonRegister_clicked()
+{
+    RegisterDialog *registerDialog = new RegisterDialog(this);
+    registerDialog->setClient(client);
+    registerDialog->show();
+}
+
