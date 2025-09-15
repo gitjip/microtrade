@@ -1,7 +1,7 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include "Controllers_global.h"
+#include "controllers_global.h"
 #include "response.h"
 #include <QObject>
 #include <QSqlDatabase>

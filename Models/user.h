@@ -1,7 +1,7 @@
 #ifndef USER_H
 #define USER_H
 
-#include "Models_global.h"
+#include "models_global.h"
 #include <QString>
 #include <QtGlobal>
 

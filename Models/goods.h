@@ -1,7 +1,7 @@
 #ifndef GOODS_H
 #define GOODS_H
 
-#include "Models_global.h"
+#include "models_global.h"
 #include <QString>
 #include <QtGlobal>
 

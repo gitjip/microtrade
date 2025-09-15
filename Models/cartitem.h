@@ -1,7 +1,7 @@
 #ifndef CARTITEM_H
 #define CARTITEM_H
 
-#include "Models_global.h"
+#include "models_global.h"
 
 namespace My {
 class MODELS_EXPORT CartItem {

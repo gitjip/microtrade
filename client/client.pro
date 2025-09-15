@@ -51,16 +51,16 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../MyLib/release/ -lMyLib
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../MyLib/debug/ -lMyLib
-else:unix: LIBS += -L$$OUT_PWD/../MyLib/ -lMyLib
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../mylib/release/ -lmylib
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../mylib/debug/ -lmylib
+else:unix: LIBS += -L$$OUT_PWD/../mylib/ -lmylib
 
-INCLUDEPATH += $$PWD/../MyLib
-DEPENDPATH += $$PWD/../MyLib
+INCLUDEPATH += $$PWD/../mylib
+DEPENDPATH += $$PWD/../mylib
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Models/release/ -lModels
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Models/debug/ -lModels
-else:unix: LIBS += -L$$OUT_PWD/../Models/ -lModels
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../models/release/ -lmodels
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../models/debug/ -lmodels
+else:unix: LIBS += -L$$OUT_PWD/../models/ -lmodels
 
-INCLUDEPATH += $$PWD/../Models
-DEPENDPATH += $$PWD/../Models
+INCLUDEPATH += $$PWD/../models
+DEPENDPATH += $$PWD/../models

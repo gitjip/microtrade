@@ -1,7 +1,7 @@
 #ifndef MYLIB_H
 #define MYLIB_H
 
-#include "MyLib_global.h"
+#include "mylib_global.h"
 
 class MYLIB_EXPORT MyLib
 {

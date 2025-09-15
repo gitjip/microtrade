@@ -1,8 +1,8 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    Controllers \
-    Models \
-    MyLib \
     client \
+    controllers \
+    models \
+    mylib \
     server

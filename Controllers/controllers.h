@@ -1,7 +1,7 @@
 #ifndef CONTROLLERS_H
 #define CONTROLLERS_H
 
-#include "Controllers_global.h"
+#include "controllers_global.h"
 
 class CONTROLLERS_EXPORT Controllers
 {

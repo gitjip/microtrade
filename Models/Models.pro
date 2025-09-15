@@ -19,11 +19,11 @@ SOURCES += \
     user.cpp
 
 HEADERS += \
-    Models_global.h \
     cart.h \
     cartitem.h \
     goods.h \
     models.h \
+    models_global.h \
     order.h \
     orderitem.h \
     user.h

@@ -29,16 +29,16 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Controllers/release/ -lControllers
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Controllers/debug/ -lControllers
-else:unix: LIBS += -L$$OUT_PWD/../Controllers/ -lControllers
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../controllers/release/ -lcontrollers
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../controllers/debug/ -lcontrollers
+else:unix: LIBS += -L$$OUT_PWD/../controllers/ -lcontrollers
 
-INCLUDEPATH += $$PWD/../Controllers
-DEPENDPATH += $$PWD/../Controllers
+INCLUDEPATH += $$PWD/../controllers
+DEPENDPATH += $$PWD/../controllers
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../MyLib/release/ -lMyLib
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../MyLib/debug/ -lMyLib
-else:unix: LIBS += -L$$OUT_PWD/../MyLib/ -lMyLib
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../mylib/release/ -lmylib
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../mylib/debug/ -lmylib
+else:unix: LIBS += -L$$OUT_PWD/../mylib/ -lmylib
 
-INCLUDEPATH += $$PWD/../MyLib
-DEPENDPATH += $$PWD/../MyLib
+INCLUDEPATH += $$PWD/../mylib
+DEPENDPATH += $$PWD/../mylib

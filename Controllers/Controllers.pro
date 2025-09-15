@@ -16,10 +16,10 @@ SOURCES += \
     usercontroller.cpp
 
 HEADERS += \
-    Controllers_global.h \
     controller.h \
     controllerfactory.h \
     controllers.h \
+    controllers_global.h \
     usercontroller.h
 
 # Default rules for deployment.
@@ -28,9 +28,9 @@ unix {
 }
 !isEmpty(target.path): INSTALLS += target
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../MyLib/release/ -lMyLib
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../MyLib/debug/ -lMyLib
-else:unix: LIBS += -L$$OUT_PWD/../MyLib/ -lMyLib
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../mylib/release/ -lmylib
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../mylib/debug/ -lmylib
+else:unix: LIBS += -L$$OUT_PWD/../mylib/ -lmylib
 
-INCLUDEPATH += $$PWD/../MyLib
-DEPENDPATH += $$PWD/../MyLib
+INCLUDEPATH += $$PWD/../mylib
+DEPENDPATH += $$PWD/../mylib
