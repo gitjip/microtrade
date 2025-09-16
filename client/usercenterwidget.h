@@ -2,7 +2,6 @@
 #define USERCENTERWIDGET_H
 
 #include "tcpclient.h"
-#include "user.h"
 #include <QWidget>
 
 namespace Ui {
@@ -17,20 +16,21 @@ public:
     explicit UserCenterWidget(QWidget *parent = nullptr);
     ~UserCenterWidget();
     void setClient(My::TcpClient *client);
-    void setUser(My::User *user);
+    void setUserId(int userId);
 
 signals:
-    void gotUser(My::User *user);
+    void gotUserId(int userId);
 
 private slots:
     void on_pushButtonLogin_clicked();
-
     void on_pushButtonRegister_clicked();
+    void on_pushButtonLogout_clicked();
+    void onGotUserId(int userId);
 
 private:
     Ui::UserCenterWidget *ui;
     My::TcpClient *client;
-    My::User *user;
+    int userId;
 };
 
 #endif // USERCENTERWIDGET_H

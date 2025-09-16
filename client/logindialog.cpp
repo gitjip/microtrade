@@ -13,20 +13,16 @@ LoginDialog::~LoginDialog() { delete ui; }
 
 void LoginDialog::setClient(My::TcpClient *client) { this->client = client; }
 
-void LoginDialog::setUser(My::User *user) { this->user = user; }
-
 void LoginDialog::on_pushButtonConfirm_clicked() {
     QJsonObject headers;
     headers["username"] = ui->lineEditUsername->text();
     headers["password"] = ui->lineEditPassword->text();
     My::Response res = client->get("/api/user", headers, QJsonValue());
     if (res.status == 200) {
-        My::User *user =
-            new My::User(res.body["id"].toInt(), res.body["username"].toString(),
-                                      res.body["password"].toString());
+        int userId = res.body["id"].toInt();
         qDebug() << res.body["id"].toInt() << res.body["username"].toString()
                  << res.body["password"].toString();
-        emit gotUser(user);
+        emit gotUserId(userId);
     } else {
         QMessageBox::critical(this, "登录失败", res.error);
     }

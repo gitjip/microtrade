@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include "tcpclient.h"
-#include "user.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -20,11 +19,11 @@ public:
     ~MainWindow();
 
 public slots:
-    void onGotUser(My::User *user);
+    void onGotUserId(int userId);
 
 private:
     Ui::MainWindow *ui;
     My::TcpClient *client;
-    My::User *user;
+    int userId;
 };
 #endif // MAINWINDOW_H

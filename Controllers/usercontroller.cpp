@@ -1,14 +1,14 @@
 #include "usercontroller.h"
+#include <QSqlError>
 #include <QSqlQuery>
 
 namespace My {
 UserController::UserController(QObject *parent) : Controller{parent} {
     QSqlQuery query(db);
-    // qDebug() << db.databaseName();
     if (!query.exec(
-            "CREATE TABLE IF NOT EXISTS users (username TEXT PRIMARY KEY NOT "
+            "CREATE TABLE IF NOT EXISTS users (username TEXT UNIQUE NOT "
             "NULL, password TEXT NOT NULL);")) {
-        qDebug() << "failed to create table users";
+        qDebug() << "创建用户数据库失败";
     }
 }
 

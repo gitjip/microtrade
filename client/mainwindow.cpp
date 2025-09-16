@@ -3,17 +3,17 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), client(new My::TcpClient),
-    user(nullptr) {
+    userId(0) {
     ui->setupUi(this);
     setWindowTitle("Microtrade 1.0.0");
     ui->userCenterTab->setClient(client);
-    connect(ui->userCenterTab, &UserCenterWidget::gotUser, this,
-            &MainWindow::onGotUser);
+    connect(ui->userCenterTab, &UserCenterWidget::gotUserId, this,
+            &MainWindow::onGotUserId);
 }
 
 MainWindow::~MainWindow() { delete ui; }
 
-void MainWindow::onGotUser(My::User *user) {
-    this->user = user;
-    ui->userCenterTab->setUser(user);
+void MainWindow::onGotUserId(int userId) {
+    this->userId = userId;
+    ui->userCenterTab->setUserId(userId);
 }
