@@ -17,8 +17,8 @@ SOURCES += \
     tcpserver.cpp
 
 HEADERS += \
-    constants.h \
     mylib.h \
+    mylib_constants.h \
     mylib_global.h \
     request.h \
     response.h \

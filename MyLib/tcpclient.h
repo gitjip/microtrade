@@ -2,6 +2,7 @@
 #define TCPCLIENT_H
 
 #include "mylib_global.h"
+#include "mylib_constants.h"
 #include "request.h"
 #include "response.h"
 #include <QJsonArray>
@@ -17,19 +18,13 @@ class MYLIB_EXPORT TcpClient : public QTcpSocket {
     Q_OBJECT
 public:
     explicit TcpClient(QObject *parent = nullptr);
-    Response get(const QString &route, const QJsonObject &headers,
-                  const QJsonValue &body);
-    Response post(const QString &route, const QJsonObject &headers,
-                  const QJsonValue &body);
-    Response put(const QString &route, const QJsonObject &headers,
-                  const QJsonValue &body);
-    Response del(const QString &route, const QJsonObject &headers,
-                  const QJsonValue &body);
+    Response post(const QString &route, const Headers &headers,
+                  const Body &body);
     void setTimeout(int timeout);
 
 private:
     Response send(const QString &method, const QString &route,
-                  const QJsonObject &headers, const QJsonValue &body);
+                  const Headers &headers, const Body &body);
     Response send(const Request &request);
 
 signals:

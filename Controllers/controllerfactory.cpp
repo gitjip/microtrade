@@ -1,4 +1,6 @@
 #include "controllerfactory.h"
+#include "logincontroller.h"
+#include "registercontroller.h"
 #include "usercontroller.h"
 
 namespace My {
@@ -8,17 +10,20 @@ ControllerFactory::ControllerFactory(TcpServer *server, QObject *parent)
 }
 
 Controller *ControllerFactory::produce(const Request &req) {
-    if (req.route == "/api/user") {
+    if (req.route == "/login") {
+        return new LoginController(this);
+    } else if (req.route == "/register") {
+        return new RegisterController(this);
+    } else if (req.route == "/user") {
         return new UserController(this);
-    } else {
-        return nullptr;
     }
+    return nullptr;
 }
 
 void ControllerFactory::write(QTcpSocket *socket, const Request &req) {
     Controller *controller = produce(req);
     if (controller != nullptr) {
-        qDebug() << "控制器返回信息";
+        qDebug() << "controller returns data";
         Response res = controller->send(req.method, req.headers, req.body);
         socket->write(QJsonDocument(res).toJson(QJsonDocument::Compact));
         delete controller;

@@ -1,4 +1,5 @@
 #include "logindialog.h"
+#include "mylib_constants.h"
 #include "ui_logindialog.h"
 
 #include <QMessageBox>
@@ -14,17 +15,19 @@ LoginDialog::~LoginDialog() { delete ui; }
 void LoginDialog::setClient(My::TcpClient *client) { this->client = client; }
 
 void LoginDialog::on_pushButtonConfirm_clicked() {
-    QJsonObject headers;
-    headers["username"] = ui->lineEditUsername->text();
-    headers["password"] = ui->lineEditPassword->text();
-    My::Response res = client->get("/api/user", headers, QJsonValue());
+    QJsonObject body;
+    body["username"] = ui->lineEditUsername->text();
+    body["password"] = ui->lineEditPassword->text();
+    My::Response res = client->post("/login", My::Headers(), body);
     if (res.status == 200) {
         int userId = res.body["id"].toInt();
-        qDebug() << res.body["id"].toInt() << res.body["username"].toString()
+        qDebug() << "LoginDialog::on_pushButtonConfirm_clicked:"
+                 << res.body["id"].toInt() << res.body["username"].toString()
                  << res.body["password"].toString();
         emit gotUserId(userId);
+        qDebug() << "LoginDialog::on_pushButtonConfirm_clicked:" << userId;
     } else {
-        QMessageBox::critical(this, "登录失败", res.error);
+        QMessageBox::critical(this, "login failed", res.error);
     }
     close();
 }

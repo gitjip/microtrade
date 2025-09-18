@@ -1,5 +1,5 @@
 #include "controlwidget.h"
-#include "constants.h"
+#include "mylib_constants.h"
 #include "ui_controlwidget.h"
 #include <QMessageBox>
 
@@ -17,12 +17,14 @@ void ControlWidget::on_checkBoxListen_checkStateChanged(
     if (state == Qt::Checked) {
         if (!server->listen(My::ServerHostAddress, My::ServerPort)) {
             ui->checkBoxListen->setCheckState(Qt::Unchecked);
-            QMessageBox::critical(this, "无法开启监听", "");
+            QMessageBox::critical(this, "cannot listen", "");
         } else {
-            qDebug() << "成功开启监听";
+            qDebug() << "ControlWidget::on_checkBoxListen_checkStateChanged:"
+                     << "listen";
         }
     } else if (state == Qt::Unchecked) {
         server->close();
-        qDebug() << "成功关闭监听";
+        qDebug() << "ControlWidget::on_checkBoxListen_checkStateChanged:"
+                 << "close";
     }
 }

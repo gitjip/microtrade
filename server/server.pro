@@ -42,3 +42,10 @@ else:unix: LIBS += -L$$OUT_PWD/../mylib/ -lmylib
 
 INCLUDEPATH += $$PWD/../mylib
 DEPENDPATH += $$PWD/../mylib
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../models/release/ -lmodels
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../models/debug/ -lmodels
+else:unix: LIBS += -L$$OUT_PWD/../models/ -lmodels
+
+INCLUDEPATH += $$PWD/../models
+DEPENDPATH += $$PWD/../models

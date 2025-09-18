@@ -13,7 +13,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() { delete ui; }
 
+void MainWindow::refreshAll() {
+    ui->userCenterTab->refresh(userId);
+}
+
 void MainWindow::onGotUserId(int userId) {
     this->userId = userId;
-    ui->userCenterTab->setUserId(userId);
+    refreshAll();
 }

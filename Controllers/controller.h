@@ -2,6 +2,7 @@
 #define CONTROLLER_H
 
 #include "controllers_global.h"
+#include "mylib_constants.h"
 #include "response.h"
 #include <QObject>
 #include <QSqlDatabase>
@@ -13,12 +14,9 @@ class CONTROLLERS_EXPORT Controller : public QObject {
 public:
     explicit Controller(QObject *parent = nullptr);
     virtual ~Controller();
-    Response send(const QString &method, const QJsonObject &headers,
-                  const QJsonValue &body);
-    virtual Response get(const QJsonObject &headers, const QJsonValue &body) = 0;
-    virtual Response post(const QJsonObject &headers, const QJsonValue &body) = 0;
-    virtual Response put(const QJsonObject &headers, const QJsonValue &body) = 0;
-    virtual Response del(const QJsonObject &headers, const QJsonValue &body) = 0;
+    virtual Response post(const Headers &headers, const Body &body) = 0;
+    Response send(const QString &method, const Headers &headers,
+                  const Body &body);
 
 signals:
 

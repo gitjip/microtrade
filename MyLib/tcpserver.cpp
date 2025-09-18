@@ -6,7 +6,7 @@ TcpServer::TcpServer(QObject *parent) : QTcpServer{parent} {
 }
 
 void TcpServer::onNewConnection() {
-    qDebug() << "服务器有新连接";
+    qDebug() << "TcpServer::onNewConnection:" << "new connection";
     QTcpSocket *socket = nextPendingConnection();
     socketList.append(socket);
     connect(socket, &QTcpSocket::readyRead, this, &TcpServer::onReadyRead);
@@ -14,7 +14,7 @@ void TcpServer::onNewConnection() {
 }
 
 void TcpServer::onReadyRead() {
-    qDebug() << "服务器接收信息";
+    qDebug() << "TcpServer::onReadyRead:" << "ready read";
     QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
     Request req = QJsonDocument::fromJson(socket->readAll()).object();
     qDebug() << req.method << req.route
@@ -24,7 +24,7 @@ void TcpServer::onReadyRead() {
 }
 
 void TcpServer::onDisconnected() {
-    qDebug() << "服务器断开一个连接";
+    qDebug() << "TcpServer::onDisconnected:" << "disconnected";
     QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
     socketList.removeOne(socket);
     socket->deleteLater();

@@ -1,8 +1,8 @@
 #include "response.h"
 
 namespace My {
-Response::Response(int status, const QJsonObject &headers,
-                   const QJsonValue &body, const QString &error)
+Response::Response(int status, const Headers &headers, const Body &body,
+                   const QString &error)
     : status(status), headers(headers), body(body), error(error) {}
 
 Response::Response(const QJsonObject &object)

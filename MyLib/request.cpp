@@ -2,7 +2,7 @@
 
 namespace My {
 Request::Request(const QString &method, const QString &route,
-                 const QJsonObject &headers, const QJsonValue &body)
+                 const Headers &headers, const Body &body)
     : method(method), route(route), headers(headers), body(body) {}
 
 Request::Request(const QJsonObject &object)

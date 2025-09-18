@@ -13,6 +13,8 @@ SOURCES += \
     controller.cpp \
     controllerfactory.cpp \
     controllers.cpp \
+    logincontroller.cpp \
+    registercontroller.cpp \
     usercontroller.cpp
 
 HEADERS += \
@@ -20,6 +22,8 @@ HEADERS += \
     controllerfactory.h \
     controllers.h \
     controllers_global.h \
+    logincontroller.h \
+    registercontroller.h \
     usercontroller.h
 
 # Default rules for deployment.
@@ -34,3 +38,10 @@ else:unix: LIBS += -L$$OUT_PWD/../mylib/ -lmylib
 
 INCLUDEPATH += $$PWD/../mylib
 DEPENDPATH += $$PWD/../mylib
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../models/release/ -lmodels
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../models/debug/ -lmodels
+else:unix: LIBS += -L$$OUT_PWD/../models/ -lmodels
+
+INCLUDEPATH += $$PWD/../models
+DEPENDPATH += $$PWD/../models

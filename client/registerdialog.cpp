@@ -18,7 +18,7 @@ void RegisterDialog::on_pushButtonConfirm_clicked() {
     QJsonObject body;
     body["username"] = ui->lineEditUsername->text();
     body["password"] = ui->lineEditPassword->text();
-    My::Response res = client->post("/api/user", QJsonObject(), body);
+    My::Response res = client->post("/register", QJsonObject(), body);
     if (res.status == 200) {
         QMessageBox::information(this, "注册成功", "请回到用户中心继续登录");
     } else {

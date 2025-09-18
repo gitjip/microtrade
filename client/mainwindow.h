@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void refreshAll();
 
 public slots:
     void onGotUserId(int userId);

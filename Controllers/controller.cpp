@@ -9,26 +9,18 @@ Controller::Controller(QObject *parent) : QObject(parent) {
     }
     db.setDatabaseName("my.db");
     if (!db.open()) {
-        qDebug() << "未开启数据库";
-    }else{
-        qDebug() << "已开启数据库";
+        qDebug() << "database open failed";
     }
 }
 
 Controller::~Controller() {}
 
-Response Controller::send(const QString &method, const QJsonObject &headers,
-                          const QJsonValue &body) {
-    if (method == "get") {
-        return get(headers, body);
-    } else if (method == "post") {
+Response Controller::send(const QString &method, const Headers &headers,
+                          const Body &body) {
+    if (method == "post") {
         return post(headers, body);
-    } else if (method == "put") {
-        return put(headers, body);
-    } else if (method == "delete") {
-        return del(headers, body);
-    } else {
-        return Response(1, QJsonObject(), QJsonValue(), "invalid method");
     }
+    return Response(0, Headers(), Body(), "undefined method");
 }
+
 } // namespace My

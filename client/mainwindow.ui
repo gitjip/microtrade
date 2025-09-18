@@ -43,7 +43,7 @@
         <string>订单</string>
        </attribute>
       </widget>
-      <widget class="NotificationWidget" name="NotificationTab">
+      <widget class="NotificationWidget" name="notificationTab">
        <attribute name="title">
         <string>通知</string>
        </attribute>
