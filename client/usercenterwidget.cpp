@@ -16,23 +16,34 @@ void UserCenterWidget::setClient(My::TcpClient *client) {
     this->client = client;
 }
 
-void UserCenterWidget::refresh(int userId) {
+void UserCenterWidget::setUserId(int userId) { this->userId = userId; }
+
+void UserCenterWidget::refresh() {
     QJsonObject body;
     body["id"] = userId;
     My::Response res = client->post("/user", My::Headers(), body);
     qDebug() << "UserCenterWidget::refresh:" << res.status << res.headers
              << res.body << res.error;
-    My::User user(res.body.toObject());
-    ui->lineEditUsername->setText(user.username);
-    ui->lineEditPassword->setText(user.password);
+    if (res.status == 200) {
+        My::User user(res.body.toObject());
+        ui->lineEditUsername->setText(user.username);
+        ui->lineEditPassword->setText(user.password);
+    } else {
+        ui->lineEditUsername->clear();
+        ui->lineEditPassword->clear();
+    }
 }
 
 void UserCenterWidget::on_pushButtonLogin_clicked() {
     LoginDialog *loginDialog = new LoginDialog(this);
     loginDialog->setClient(client);
     loginDialog->show();
-    connect(loginDialog, &LoginDialog::gotUserId, this,
-            [=](int userId) { emit gotUserId(userId); });
+    connect(loginDialog, &LoginDialog::readySetUserId, this, [=](int userId) {
+        emit readySetUserId(userId);
+        ui->pushButtonLogin->setDisabled(true);
+        ui->pushButtonLogout->setDisabled(false);
+        ui->pushButtonUnregister->setDisabled(false);
+    });
 }
 
 void UserCenterWidget::on_pushButtonRegister_clicked() {
@@ -41,4 +52,19 @@ void UserCenterWidget::on_pushButtonRegister_clicked() {
     registerDialog->show();
 }
 
-void UserCenterWidget::on_pushButtonLogout_clicked() { emit gotUserId(0); }
+void UserCenterWidget::on_pushButtonLogout_clicked() {
+    emit readySetUserId(0);
+    ui->pushButtonLogout->setDisabled(true);
+    ui->pushButtonLogin->setDisabled(false);
+    ui->pushButtonUnregister->setDisabled(true);
+}
+
+void UserCenterWidget::on_pushButtonUnregister_clicked() {
+    My::Response res = client->post("/unregister", My::Headers(), userId);
+    qDebug() << "UserCenterWidget::on_pushButtonUnregister_clicked:" << res.status
+             << res.headers << res.body << res.error;
+    emit readySetUserId(0);
+    ui->pushButtonUnregister->setDisabled(true);
+    ui->pushButtonLogin->setDisabled(false);
+    ui->pushButtonLogout->setDisabled(true);
+}

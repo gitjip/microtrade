@@ -10,16 +10,20 @@ Response UserController::post(const QJsonObject &headers,
                               const QJsonValue &body) {
     Q_UNUSED(headers);
     QSqlQuery query(db);
-    int userId=body["id"].toInt();
-    query.prepare("SELECT * FROM users WHERE rowid = :id;");
+    int userId = body["id"].toInt();
+    query.prepare("SELECT * FROM users WHERE rowid = :id AND active = 1;");
     query.bindValue(":id", userId);
-    if(!query.exec()){
-        return Response(500, Headers(), Body(), "My::UserController::post: error occurred when quering user");
+    if (!query.exec()) {
+        return Response(
+            500, Headers(), Body(),
+            "My::UserController::post: error occurred when quering user");
     }
-    if(!query.next()){
-        return Response(404, Headers(), Body(), "My::UserController::post: user not found");
+    if (!query.next()) {
+        return Response(404, Headers(), Body(),
+                        "My::UserController::post: user not found");
     }
-    My::User responseUser(userId, query.value("username").toString(), query.value("password").toString());
+    My::User responseUser(userId, query.value("username").toString(),
+                          query.value("password").toString(), true);
     return Response(200, Headers(), QJsonObject(responseUser), "success");
 }
 } // namespace My

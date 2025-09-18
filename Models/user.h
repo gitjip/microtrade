@@ -8,7 +8,7 @@
 namespace My {
 class MODELS_EXPORT User {
 public:
-    User(int id, const QString &username, const QString &password);
+    User(int id, const QString &username, const QString &password, bool active);
     User(const QJsonObject &object);
     virtual ~User();
     operator QJsonObject() const;
@@ -17,6 +17,7 @@ public:
     int id;
     QString username;
     QString password;
+    bool active;
 };
 } // namespace My
 

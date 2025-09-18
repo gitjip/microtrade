@@ -24,7 +24,7 @@ void LoginDialog::on_pushButtonConfirm_clicked() {
         qDebug() << "LoginDialog::on_pushButtonConfirm_clicked:"
                  << res.body["id"].toInt() << res.body["username"].toString()
                  << res.body["password"].toString();
-        emit gotUserId(userId);
+        emit readySetUserId(userId);
         qDebug() << "LoginDialog::on_pushButtonConfirm_clicked:" << userId;
     } else {
         QMessageBox::critical(this, "login failed", res.error);

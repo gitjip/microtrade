@@ -1,8 +1,8 @@
 #include "user.h"
 
 namespace My {
-User::User(int id, const QString &username, const QString &password)
-    : id(id), username(username), password(password) {}
+User::User(int id, const QString &username, const QString &password, bool active)
+    : id(id), username(username), password(password), active(active) {}
 
 User::User(const QJsonObject &object) {
     id = object["id"].toInt();

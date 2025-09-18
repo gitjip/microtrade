@@ -1,6 +1,7 @@
 #include "controllerfactory.h"
 #include "logincontroller.h"
 #include "registercontroller.h"
+#include "unregistercontroller.h"
 #include "usercontroller.h"
 
 namespace My {
@@ -14,6 +15,8 @@ Controller *ControllerFactory::produce(const Request &req) {
         return new LoginController(this);
     } else if (req.route == "/register") {
         return new RegisterController(this);
+    } else if (req.route == "/unregister") {
+        return new UnregisterController(this);
     } else if (req.route == "/user") {
         return new UserController(this);
     }

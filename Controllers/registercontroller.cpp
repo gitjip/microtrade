@@ -15,7 +15,7 @@ Response RegisterController::post(const Headers &headers, const Body &body) {
         return Response(400, Headers(), Body(),
                         "username and password cannot be empty");
     }
-    query.prepare("SELECT * FROM users WHERE username = :username");
+    query.prepare("SELECT * FROM users WHERE username = :username AND active = 1");
     query.bindValue(":username", body["username"].toString());
     if (!query.exec()) {
         return Response(500, Headers(), Body(), "error occurred when quering user");
@@ -23,8 +23,8 @@ Response RegisterController::post(const Headers &headers, const Body &body) {
     if (query.next()) {
         return Response(403, Headers(), Body(), "user already exists");
     }
-    query.prepare("INSERT INTO users (username, password) VALUES (:username, "
-                  ":password)");
+    query.prepare("INSERT INTO users (username, password, active) VALUES (:username, "
+                  ":password, 1)");
     query.bindValue(":username", user.username);
     query.bindValue(":password", user.password);
     if (!query.exec()) {
