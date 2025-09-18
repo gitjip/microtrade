@@ -15,6 +15,7 @@ SOURCES += \
     controllers.cpp \
     logincontroller.cpp \
     registercontroller.cpp \
+    unregistercontroller.cpp \
     usercontroller.cpp
 
 HEADERS += \
@@ -24,6 +25,7 @@ HEADERS += \
     controllers_global.h \
     logincontroller.h \
     registercontroller.h \
+    unregistercontroller.h \
     usercontroller.h
 
 # Default rules for deployment.

@@ -30,6 +30,9 @@
    </item>
    <item row="2" column="3">
     <widget class="QPushButton" name="pushButtonUnregister">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="text">
       <string>注销</string>
      </property>
@@ -71,6 +74,9 @@
    </item>
    <item row="2" column="2">
     <widget class="QPushButton" name="pushButtonLogout">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="text">
       <string>登出</string>
      </property>

@@ -8,7 +8,7 @@ class CONTROLLERS_EXPORT RegisterController : public Controller {
     Q_OBJECT
 public:
     RegisterController(QObject *parent);
-    Response post(const QJsonObject &headers, const QJsonValue &body) override;
+    Response post(const Headers &headers, const Body &body) override;
 };
 } // namespace My
 

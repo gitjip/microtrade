@@ -7,17 +7,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     setWindowTitle("Microtrade 1.0.0");
     ui->userCenterTab->setClient(client);
-    connect(ui->userCenterTab, &UserCenterWidget::gotUserId, this,
-            &MainWindow::onGotUserId);
+    connect(ui->userCenterTab, &UserCenterWidget::readySetUserId, this,
+            &MainWindow::setUserId);
 }
 
 MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::refreshAll() {
-    ui->userCenterTab->refresh(userId);
+    ui->userCenterTab->refresh();
 }
 
-void MainWindow::onGotUserId(int userId) {
+void MainWindow::setUserId(int userId) {
     this->userId = userId;
+    ui->userCenterTab->setUserId(userId);
     refreshAll();
 }

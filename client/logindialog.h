@@ -17,7 +17,7 @@ public:
     void setClient(My::TcpClient *client);
 
 signals:
-    void gotUserId(int userId);
+    void readySetUserId(int userId);
 
 private slots:
     void on_pushButtonConfirm_clicked();

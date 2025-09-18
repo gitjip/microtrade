@@ -20,7 +20,7 @@ public:
     void refreshAll();
 
 public slots:
-    void onGotUserId(int userId);
+    void setUserId(int userId);
 
 private:
     Ui::MainWindow *ui;

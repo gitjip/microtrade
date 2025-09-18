@@ -16,7 +16,7 @@ Response LoginController::post(const Headers &headers, const Body &body) {
     }
     query.prepare(
         "SELECT rowid, * FROM users WHERE username = :username AND password = "
-        ":password;");
+        ":password AND active = 1;");
     query.bindValue(":username", user.username);
     query.bindValue(":password", user.password);
     if (!query.exec()) {
@@ -27,7 +27,7 @@ Response LoginController::post(const Headers &headers, const Body &body) {
     }
     User responseUser(query.value("rowid").toInt(),
                       query.value("username").toString(),
-                      query.value("password").toString());
+                      query.value("password").toString(), true);
     return Response(200, Headers(), QJsonObject(responseUser), "");
 }
 } // namespace My
