@@ -6,6 +6,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    setWindowTitle("Microtrade Server 1.0.0");
 }
 
 MainWindow::~MainWindow()
