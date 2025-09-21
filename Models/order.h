@@ -20,7 +20,7 @@ private:
     double cost;
     QTime createTime;
     Status status;
-    QList<int> OrderItemIdList;
+    QList<int> orderItemIdList;
 };
 } // namespace My
 
