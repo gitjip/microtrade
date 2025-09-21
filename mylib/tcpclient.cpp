@@ -9,6 +9,11 @@ Response TcpClient::post(const QString &route, const Headers &headers,
     return send("post", route, headers, body);
 }
 
+void TcpClient::postAsync(const QString &route, const Headers &headers,
+                          const Body &body) {
+    sendAsync("post", route, headers, body);
+}
+
 void TcpClient::setTimeout(int timeout) { this->timeout = timeout; }
 
 Response TcpClient::send(const QString &method, const QString &route,
@@ -32,5 +37,21 @@ Response TcpClient::send(const Request &request) {
     }
     qDebug() << "My::TcpClient::send: gained data";
     return QJsonDocument::fromJson(readAll()).object();
+}
+
+void TcpClient::sendAsync(const QString &method, const QString &route,
+                          const Headers &headers, const Body &body) {
+    sendAsync(Request(method, route, headers, body));
+}
+void TcpClient::sendAsync(const Request &request) {
+    if (state() != QTcpSocket::ConnectedState) {
+        connectToHost(ServerHostAddress, ServerPort);
+    }
+    connect(this, &QTcpSocket::connected, this, [=]() {
+        write(QJsonDocument(request).toJson(QJsonDocument::Compact));
+    });
+    connect(this, &QTcpSocket::readyRead, this, [=]() {
+        emit readyRead(QJsonDocument::fromJson(readAll()).object());
+    });
 }
 } // namespace My
