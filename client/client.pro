@@ -17,6 +17,7 @@ QMAKE_TARGET_COPYRIGHT = "Copyright(C)" "2025" "JLU." "All" "rights" "reserved."
 
 SOURCES += \
     cartwidget.cpp \
+    localusermanager.cpp \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -29,6 +30,7 @@ SOURCES += \
 
 HEADERS += \
     cartwidget.h \
+    localusermanager.h \
     logindialog.h \
     mainwindow.h \
     notificationwidget.h \

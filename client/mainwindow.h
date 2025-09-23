@@ -1,7 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "tcpclient.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -17,14 +16,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void refreshAll();
-
-public slots:
-    void setUserId(int userId);
 
 private:
     Ui::MainWindow *ui;
-    My::TcpClient *client;
-    int userId;
 };
 #endif // MAINWINDOW_H

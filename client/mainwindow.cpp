@@ -2,26 +2,8 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow), client(new My::TcpClient),
-    userId(0) {
+    : QMainWindow(parent), ui(new Ui::MainWindow){
     ui->setupUi(this);
-    setWindowTitle("Microtrade 1.0.0");
-
-    ui->userCenterTab->setClient(client);
-    ui->shopTab->setClient(client);
-    connect(ui->userCenterTab, &UserCenterWidget::readySetUserId, this,
-            &MainWindow::setUserId);
 }
 
 MainWindow::~MainWindow() { delete ui; }
-
-void MainWindow::refreshAll() {
-    ui->userCenterTab->refresh();
-    ui->shopTab->refresh();
-}
-
-void MainWindow::setUserId(int userId) {
-    this->userId = userId;
-    ui->userCenterTab->setUserId(userId);
-    refreshAll();
-}
