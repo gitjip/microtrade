@@ -1,6 +1,7 @@
 #include "controllerfactory.h"
 #include "logincontroller.h"
 #include "registercontroller.h"
+#include "shopcontroller.h"
 #include "unregistercontroller.h"
 #include "usercontroller.h"
 
@@ -19,6 +20,8 @@ Controller *ControllerFactory::produce(const Request &req) {
         return new UnregisterController(this);
     } else if (req.route == "/user") {
         return new UserController(this);
+    } else if (req.route == "/shop") {
+        return new ShopController(this);
     }
     return nullptr;
 }

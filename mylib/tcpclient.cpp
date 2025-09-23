@@ -43,6 +43,7 @@ void TcpClient::sendAsync(const QString &method, const QString &route,
                           const Headers &headers, const Body &body) {
     sendAsync(Request(method, route, headers, body));
 }
+
 void TcpClient::sendAsync(const Request &request) {
     if (state() != QTcpSocket::ConnectedState) {
         connectToHost(ServerHostAddress, ServerPort);

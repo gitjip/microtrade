@@ -20,7 +20,7 @@
       <number>10</number>
      </property>
      <property name="columnCount">
-      <number>4</number>
+      <number>5</number>
      </property>
      <attribute name="horizontalHeaderVisible">
       <bool>true</bool>
@@ -57,6 +57,11 @@
      <column>
       <property name="text">
        <string>单价</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>库存</string>
       </property>
      </column>
      <column>

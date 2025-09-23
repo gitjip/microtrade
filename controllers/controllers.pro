@@ -15,6 +15,7 @@ SOURCES += \
     controllers.cpp \
     logincontroller.cpp \
     registercontroller.cpp \
+    shopcontroller.cpp \
     unregistercontroller.cpp \
     usercontroller.cpp
 
@@ -25,6 +26,7 @@ HEADERS += \
     controllers_global.h \
     logincontroller.h \
     registercontroller.h \
+    shopcontroller.h \
     unregistercontroller.h \
     usercontroller.h
 
