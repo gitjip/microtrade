@@ -1,4 +1,5 @@
 #include "registerdialog.h"
+#include "tcpclient.h"
 #include "ui_registerdialog.h"
 #include <QMessageBox>
 
@@ -10,11 +11,8 @@ RegisterDialog::RegisterDialog(QWidget *parent)
 
 RegisterDialog::~RegisterDialog() { delete ui; }
 
-void RegisterDialog::setClient(My::TcpClient *client) { this->client = client; }
-
-void RegisterDialog::setUser(My::User *user) { this->user = user; }
-
 void RegisterDialog::on_pushButtonConfirm_clicked() {
+    My::TcpClient *client = new My::TcpClient;
     QJsonObject body;
     body["username"] = ui->lineEditUsername->text();
     body["password"] = ui->lineEditPassword->text();
@@ -24,6 +22,7 @@ void RegisterDialog::on_pushButtonConfirm_clicked() {
     } else {
         QMessageBox::critical(this, "注册失败", res.error);
     }
+    client->deleteLater();
     close();
 }
 
