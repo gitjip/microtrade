@@ -1,3 +1,9 @@
 TEMPLATE = subdirs
 
-SUBDIRS +=
+SUBDIRS += \
+    client \
+    entity \
+    server \
+    sqlserver \
+    tcpclient \
+    tcpserver
