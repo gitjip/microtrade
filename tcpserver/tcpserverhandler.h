@@ -3,11 +3,11 @@
 
 #include <QObject>
 
-class TcpHandler : public QObject
+class TcpServerHandler : public QObject
 {
     Q_OBJECT
 public:
-    explicit TcpHandler(QObject *parent = nullptr);
+    explicit TcpServerHandler(QObject *parent = nullptr);
 
 signals:
 };

@@ -1,5 +1,5 @@
 #include "tcpserverdistributor.h"
 
-TcpHandlerFactory::TcpHandlerFactory(QObject *parent)
+TcpServerDistributor::TcpServerDistributor(QObject *parent)
     : QObject{parent}
 {}

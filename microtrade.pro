@@ -6,4 +6,5 @@ SUBDIRS += \
     server \
     sqlserver \
     tcpclient \
+    tcpinteraction \
     tcpserver
