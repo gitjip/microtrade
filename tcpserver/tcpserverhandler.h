@@ -1,5 +1,5 @@
-#ifndef TCPHANDLER_H
-#define TCPHANDLER_H
+#ifndef TCPSERVERHANDLER_H
+#define TCPSERVERHANDLER_H
 
 #include <QObject>
 
@@ -12,4 +12,4 @@ public:
 signals:
 };
 
-#endif // TCPHANDLER_H
+#endif // TCPSERVERHANDLER_H

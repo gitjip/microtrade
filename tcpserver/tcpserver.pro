@@ -10,15 +10,17 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    tcphandler.cpp \
-    tcphandlerfactory.cpp \
-    tcpserver.cpp
+    tcpserver.cpp \
+    tcpserverdistributor.cpp \
+    tcpserverhandler.cpp \
+    tcpserverparser.cpp
 
 HEADERS += \
-    tcphandler.h \
-    tcphandlerfactory.h \
     tcpserver_global.h \
-    tcpserver.h
+    tcpserver.h \
+    tcpserverdistributor.h \
+    tcpserverhandler.h \
+    tcpserverparser.h
 
 # Default rules for deployment.
 unix {

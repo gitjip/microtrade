@@ -11,14 +11,16 @@ CONFIG += c++17
 
 SOURCES += \
     tcpclient.cpp \
-    tcpsender.cpp \
-    tcpsenderfactory.cpp
+    tcpclientdistributor.cpp \
+    tcpclientparser.cpp \
+    tcpclientsender.cpp
 
 HEADERS += \
     tcpclient_global.h \
     tcpclient.h \
-    tcpsender.h \
-    tcpsenderfactory.h
+    tcpclientdistributor.h \
+    tcpclientparser.h \
+    tcpclientsender.h
 
 # Default rules for deployment.
 unix {

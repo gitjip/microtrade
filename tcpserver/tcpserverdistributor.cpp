@@ -1,4 +1,4 @@
-#include "tcphandlerfactory.h"
+#include "tcpserverdistributor.h"
 
 TcpHandlerFactory::TcpHandlerFactory(QObject *parent)
     : QObject{parent}
