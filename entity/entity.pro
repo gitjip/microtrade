@@ -10,11 +10,25 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    entity.cpp
+    ecart.cpp \
+    ecartitem.cpp \
+    enotification.cpp \
+    entity.cpp \
+    eorder.cpp \
+    eorderitem.cpp \
+    eproduct.cpp \
+    euser.cpp
 
 HEADERS += \
+    ecart.h \
+    ecartitem.h \
+    enotification.h \
     entity_global.h \
-    entity.h
+    entity.h \
+    eorder.h \
+    eorderitem.h \
+    eproduct.h \
+    euser.h
 
 # Default rules for deployment.
 unix {
