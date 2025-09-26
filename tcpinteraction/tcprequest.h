@@ -3,6 +3,7 @@
 
 #include "tcpinteraction_global.h"
 #include "tcpinteraction.h"
+#include <QTcpSocket>
 
 class TCPINTERACTION_EXPORT TcpRequest : public TcpInteraction {
 public:
@@ -14,6 +15,7 @@ public:
     TcpRequest(const QJsonObject &jsonObj);
     ~TcpRequest() override;
     operator QJsonObject() const override;
+    static TcpRequest fromSocket(QTcpSocket *socket);
     QString authorizedToken() const;
     QString route() const;
     qint64 timeout() const;

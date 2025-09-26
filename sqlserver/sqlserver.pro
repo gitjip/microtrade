@@ -11,12 +11,14 @@ CONFIG += c++17
 
 SOURCES += \
     sqlserver.cpp \
-    sqlserverhandler.cpp
+    sqlservertask.cpp \
+    sqlserverthreadpool.cpp
 
 HEADERS += \
     sqlserver_global.h \
     sqlserver.h \
-    sqlserverhandler.h
+    sqlservertask.h \
+    sqlserverthreadpool.h
 
 # Default rules for deployment.
 unix {

@@ -13,7 +13,7 @@ TcpInteraction::~TcpInteraction() {}
 
 TcpInteraction::operator QByteArray() const {
     QByteArray bytes = QJsonDocument(*this).toJson();
-    return TcpInteraction::toFixedBytes(bytes.length()) + bytes;
+    return toFixedBytes(bytes.length()) + bytes;
 }
 
 QString TcpInteraction::toString(Item data) {

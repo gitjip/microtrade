@@ -33,6 +33,11 @@ TcpRequest::operator QJsonObject() const {
                         {toString(Timeout), m_timeout}});
 }
 
+TcpRequest TcpRequest::fromSocket(QTcpSocket *socket) {
+    qint64 length = toValue(socket->read(8));
+    return TcpRequest(QJsonDocument::fromJson(socket->read(length)).object());
+}
+
 QString TcpRequest::authorizedToken() const { return m_authorizedToken; }
 
 QString TcpRequest::route() const { return m_route; }

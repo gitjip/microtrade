@@ -1,11 +1,12 @@
 #ifndef TCPINTERACTION_H
 #define TCPINTERACTION_H
 
+#include "tcpinteraction_global.h"
 #include <QDateTime>
 #include <QHostAddress>
 #include <QJsonObject>
 
-class TcpInteraction {
+class TCPINTERACTION_EXPORT TcpInteraction {
 public:
     enum Item {         // Qt           QJsonValue
 
@@ -39,15 +40,16 @@ public:
     QJsonObject body() const;
 
 protected:
+    static QByteArray toFixedBytes(qint64 value);
+    static qint64 toValue(QByteArray bytes);
+
+protected:
     bool m_isValid;
     QDateTime m_dateTime;
     QHostAddress m_hostAddress;
     quint64 m_port = 0;
     QJsonObject m_body;
 
-private:
-    static QByteArray toFixedBytes(qint64 value);
-    static qint64 toValue(QByteArray bytes);
 };
 
 #endif // TCPINTERACTION_H

@@ -4,6 +4,7 @@
 #include "tcpinteraction_global.h"
 #include "tcpinteraction.h"
 #include <QDateTime>
+#include <QTcpSocket>
 
 class TCPINTERACTION_EXPORT TcpResponse : public TcpInteraction {
 public:
@@ -15,6 +16,7 @@ public:
     TcpResponse(const QJsonObject &jsonObj);
     ~TcpResponse() override;
     operator QJsonObject() const override;
+    static TcpResponse fromSocket(QTcpSocket *socket);
 
 public:
     bool success() const;

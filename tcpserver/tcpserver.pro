@@ -1,4 +1,5 @@
 QT -= gui
+QT += network
 
 TEMPLATE = lib
 DEFINES += TCPSERVER_LIBRARY
@@ -14,7 +15,8 @@ SOURCES += \
     tcpserverdistributor.cpp \
     tcpserverhandler.cpp \
     tcpserverparser.cpp \
-    tcpservertask.cpp
+    tcpservertask.cpp \
+    tcpserverthreadpool.cpp
 
 HEADERS += \
     tcpserver_global.h \
@@ -22,7 +24,8 @@ HEADERS += \
     tcpserverdistributor.h \
     tcpserverhandler.h \
     tcpserverparser.h \
-    tcpservertask.h
+    tcpservertask.h \
+    tcpserverthreadpool.h
 
 # Default rules for deployment.
 unix {

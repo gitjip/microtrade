@@ -1,5 +1,5 @@
-#ifndef SQLSERVERHANDLER_H
-#define SQLSERVERHANDLER_H
+#ifndef SQLSERVERTASK_H
+#define SQLSERVERTASK_H
 
 #include <QObject>
 
@@ -12,4 +12,4 @@ public:
 signals:
 };
 
-#endif // SQLSERVERHANDLER_H
+#endif // SQLSERVERTASK_H

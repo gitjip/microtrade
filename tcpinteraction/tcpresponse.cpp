@@ -35,7 +35,13 @@ TcpResponse::operator QJsonObject() const {
                         {toString(StatusDetail), m_statusDetail}});
 }
 
+TcpResponse TcpResponse::fromSocket(QTcpSocket *socket) {
+    qint64 length = toValue(socket->read(8));
+    return TcpResponse(QJsonDocument::fromJson(socket->read(length)).object());
+}
+
 bool TcpResponse::success() const { return m_success; }
+
 QString TcpResponse::statusType() const { return m_statusType; }
 
 QString TcpResponse::statusDetail() const { return m_statusDetail; }
