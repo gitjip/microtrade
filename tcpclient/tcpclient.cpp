@@ -30,7 +30,7 @@ void TcpClient::sendAsync(const TcpRequest &tcpRequest, qint64 timeout)
         });
     }
     connect(socket, &QTcpSocket::readyRead, this, [=](){
-        emit readyRead(TcpResponse());
+        emit readyRead(TcpResponse::fromSocket(socket));
     });
 }
 
