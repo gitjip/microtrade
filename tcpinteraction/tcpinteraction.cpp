@@ -59,6 +59,8 @@ qint64 TcpInteraction::toValue(QByteArray bytes) {
     return value;
 }
 
+bool TcpInteraction::isValid() const { return m_isValid; }
+
 QDateTime TcpInteraction::dateTime() const { return m_dateTime; }
 
 QHostAddress TcpInteraction::hostAddress() const { return m_hostAddress; }

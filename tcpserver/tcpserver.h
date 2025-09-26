@@ -2,6 +2,8 @@
 #define TCPSERVER_H
 
 #include "tcpserver_global.h"
+#include "tcpserverdistributor.h"
+#include "tcpserverparser.h"
 #include <QObject>
 #include <QTcpServer>
 #include <QTcpSocket>
@@ -23,7 +25,9 @@ public slots:
 
 private:
     QTcpServer *m_server;
-    QSet<QTcpSocket *> socketSet;
+    QSet<QTcpSocket *> m_socketSet;
+    TcpServerParser *m_parser;
+    TcpServerDistributor *m_distributor;
 };
 
 #endif // TCPSERVER_H

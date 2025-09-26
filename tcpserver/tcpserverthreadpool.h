@@ -2,6 +2,7 @@
 #define TCPSERVERTHREADPOOL_H
 
 #include <QObject>
+#include <QThreadPool>
 
 class TcpServerThreadPool : public QObject
 {

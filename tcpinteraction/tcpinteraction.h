@@ -34,6 +34,7 @@ public:
     static QString toString(Item data);
 
 public:
+    bool isValid() const;
     QDateTime dateTime() const;
     QHostAddress hostAddress() const;
     quint64 port() const;

@@ -14,8 +14,6 @@ SOURCES += \
     tcpserver.cpp \
     tcpserverdistributor.cpp \
     tcpserverhandler.cpp \
-    tcpserverparser.cpp \
-    tcpservertask.cpp \
     tcpserverthreadpool.cpp
 
 HEADERS += \
@@ -23,8 +21,6 @@ HEADERS += \
     tcpserver.h \
     tcpserverdistributor.h \
     tcpserverhandler.h \
-    tcpserverparser.h \
-    tcpservertask.h \
     tcpserverthreadpool.h
 
 # Default rules for deployment.
