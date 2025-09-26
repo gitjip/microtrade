@@ -13,14 +13,16 @@ SOURCES += \
     tcpserver.cpp \
     tcpserverdistributor.cpp \
     tcpserverhandler.cpp \
-    tcpserverparser.cpp
+    tcpserverparser.cpp \
+    tcpservertask.cpp
 
 HEADERS += \
     tcpserver_global.h \
     tcpserver.h \
     tcpserverdistributor.h \
     tcpserverhandler.h \
-    tcpserverparser.h
+    tcpserverparser.h \
+    tcpservertask.h
 
 # Default rules for deployment.
 unix {

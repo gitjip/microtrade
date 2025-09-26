@@ -1,4 +1,5 @@
 QT -= gui
+QT += network
 
 TEMPLATE = lib
 DEFINES += TCPCLIENT_LIBRARY
@@ -21,3 +22,10 @@ unix {
     target.path = /usr/lib
 }
 !isEmpty(target.path): INSTALLS += target
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../tcpinteraction/release/ -ltcpinteraction
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../tcpinteraction/debug/ -ltcpinteraction
+else:unix: LIBS += -L$$OUT_PWD/../tcpinteraction/ -ltcpinteraction
+
+INCLUDEPATH += $$PWD/../tcpinteraction
+DEPENDPATH += $$PWD/../tcpinteraction
