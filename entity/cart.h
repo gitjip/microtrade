@@ -11,6 +11,9 @@ public:
 
 public:
     Cart();
+    Cart(const QString &id, const QString &userId, const QDateTime &createdAt,
+         const QDateTime &deletedAt, bool isDeleted = false);
+    Cart(const QJsonObject &jsonObj);
     static QString toString(Attribute attribute);
     operator QJsonObject() const override;
 
