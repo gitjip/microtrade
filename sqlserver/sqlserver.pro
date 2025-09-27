@@ -1,5 +1,4 @@
-QT -= gui
-QT += sql
+QT += core sql
 
 TEMPLATE = lib
 DEFINES += SQLSERVER_LIBRARY
