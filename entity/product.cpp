@@ -2,6 +2,30 @@
 
 Product::Product() {}
 
+Product::Product(const QString &id, const QString &name,
+                 const QString &description, double price, qint64 stock,
+                 Category category, const QUrl &imageUrl,
+                 const QDateTime &listedAt, const QDateTime &delistedAt,
+                 bool isDeleted)
+    : m_id(id), m_name(name), m_description(description), m_price(price),
+    m_stock(stock), m_category(category), m_imageUrl(imageUrl),
+    m_listedAt(listedAt), m_delistedAt(delistedAt), m_isDeleted(isDeleted) {}
+
+Product::Product(const QJsonObject &jsonObj)
+    : m_id(jsonObj[toString(Attribute::Id)].toString()),
+    m_name(jsonObj[toString(Attribute::Name)].toString()),
+    m_description(jsonObj[toString(Attribute::Description)].toString()),
+    m_price(jsonObj[toString(Attribute::Price)].toDouble()),
+    m_stock(jsonObj[toString(Attribute::Stock)].toInt()),
+    m_category(toCategory(
+          jsonObj[toString(Attribute::Category)].toString())),
+    m_imageUrl(QUrl(jsonObj[toString(Attribute::ImageUrl)].toString())),
+    m_listedAt(QDateTime::fromString(
+          jsonObj[toString(Attribute::ListedAt)].toString())),
+    m_delistedAt(QDateTime::fromString(
+          jsonObj[toString(Attribute::DelistedAt)].toString())),
+    m_isDeleted(jsonObj[toString(Attribute::IsDeleted)].toBool()) {}
+
 QString Product::toString(Attribute attribute) {
     switch (attribute) {
     case Attribute::Id:
@@ -29,8 +53,8 @@ QString Product::toString(Attribute attribute) {
     }
 }
 
-QString Product::toString(Category category){
-    switch (category){
+QString Product::toString(Category category) {
+    switch (category) {
     case Category::Clothes:
         return "clothes";
     case Category::Electronic:
@@ -43,6 +67,22 @@ QString Product::toString(Category category){
         return "tool";
     default:
         return "";
+    }
+}
+
+Product::Category Product::toCategory(const QString &categoryStr) {
+    if (categoryStr == "food") {
+        return Category::Food;
+    } else if (categoryStr == "clothes") {
+        return Category::Clothes;
+    } else if (categoryStr == "furniture") {
+        return Category::Furniture;
+    } else if (categoryStr == "tool") {
+        return Category::Tool;
+    } else if (categoryStr == "electronic") {
+        return Category::Electronic;
+    } else {
+        return Category::Food; // default
     }
 }
 

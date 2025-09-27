@@ -3,13 +3,15 @@
 
 #include "entity.h"
 
-class CartItem : public Entity
-{
+class CartItem : public Entity {
 public:
     enum class Attribute { Id, CartId, ProductId, Quantity, IsDeleted };
 
 public:
     CartItem();
+    CartItem(const QString &id, const QString &cartId, const QString &productId,
+             qint64 quantity, bool isDeleted = false);
+    CartItem(const QJsonObject &jsonObj);
     static QString toString(Attribute attribute);
     operator QJsonObject() const override;
 

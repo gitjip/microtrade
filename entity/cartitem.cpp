@@ -2,6 +2,18 @@
 
 CartItem::CartItem() {}
 
+CartItem::CartItem(const QString &id, const QString &cartId, const QString &productId,
+                   qint64 quantity, bool isDeleted)
+    : m_id(id), m_cartId(cartId), m_productId(productId),
+    m_quantity(quantity), m_isDeleted(isDeleted) {}
+
+CartItem::CartItem(const QJsonObject &jsonObj)
+    : m_id(jsonObj[toString(Attribute::Id)].toString()),
+    m_cartId(jsonObj[toString(Attribute::CartId)].toString()),
+    m_productId(jsonObj[toString(Attribute::ProductId)].toString()),
+    m_quantity(jsonObj[toString(Attribute::Quantity)].toInt()),
+    m_isDeleted(jsonObj[toString(Attribute::IsDeleted)].toBool()) {}
+
 QString CartItem::toString(Attribute attribute) {
     switch (attribute) {
     case Attribute::Id:

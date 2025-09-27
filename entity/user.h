@@ -4,8 +4,7 @@
 #include "entity.h"
 #include <QDateTime>
 
-class User : public Entity
-{
+class User : public Entity {
 public:
     enum class Attribute {
         Id,
@@ -19,6 +18,10 @@ public:
 
 public:
     User();
+    User(const QString &id, const QString &username, const QString &password,
+         const QUrl &avatarUrl, const QDateTime &registeredAt,
+         const QDateTime &unregisteredAt, bool isDeleted = false);
+    User(const QJsonObject &jsonObj);
     static QString toString(Attribute attribute);
     operator QJsonObject() const override;
 

@@ -2,6 +2,20 @@
 
 OrderItem::OrderItem() {}
 
+OrderItem::OrderItem(const QString &id, const QString &orderId,
+                     const QString &productId, qint64 quantity, double cost,
+                     bool isDeleted)
+    : m_id(id), m_orderId(orderId), m_productId(productId),
+    m_quantity(quantity), m_cost(cost), m_isDeleted(isDeleted) {}
+
+OrderItem::OrderItem(const QJsonObject &jsonObj)
+    : m_id(jsonObj[toString(Attribute::Id)].toString()),
+    m_orderId(jsonObj[toString(Attribute::OrderId)].toString()),
+    m_productId(jsonObj[toString(Attribute::ProductId)].toString()),
+    m_quantity(jsonObj[toString(Attribute::Quantity)].toInt()),
+    m_cost(jsonObj[toString(Attribute::Cost)].toDouble()),
+    m_isDeleted(jsonObj[toString(Attribute::IsDeleted)].toBool()) {}
+
 QString OrderItem::toString(Attribute attribute) {
     switch (attribute) {
     case Attribute::Id:

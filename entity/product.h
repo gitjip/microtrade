@@ -4,8 +4,7 @@
 #include "entity.h"
 #include <QDateTime>
 
-class Product : public Entity
-{
+class Product : public Entity {
 public:
     enum class Attribute {
         Id,
@@ -23,8 +22,14 @@ public:
 
 public:
     Product();
+    Product(const QString &id, const QString &name, const QString &description,
+            double price, qint64 stock, Category category, const QUrl &imageUrl,
+            const QDateTime &listedAt, const QDateTime &delistedAt,
+            bool isDeleted = false);
+    Product(const QJsonObject &jsonObj);
     static QString toString(Attribute attribute);
     static QString toString(Category category);
+    static Category toCategory(const QString &categoryStr);
     operator QJsonObject() const override;
 
 public:

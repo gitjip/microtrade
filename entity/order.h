@@ -4,8 +4,7 @@
 #include "entity.h"
 #include <QDateTime>
 
-class Order : public Entity
-{
+class Order : public Entity {
 public:
     enum class Attribute {
         Id,
@@ -20,8 +19,13 @@ public:
 
 public:
     Order();
+    Order(const QString &id, const QString &userId, double cost, Status status,
+          const QDateTime &createdAt, const QDateTime &cancelledAt,
+          bool isDeleted = false);
+    Order(const QJsonObject &jsonObj);
     static QString toString(Attribute attribute);
     static QString toString(Status status);
+    static Status toStatus(const QString &statusStr);
     operator QJsonObject() const override;
 
 public:

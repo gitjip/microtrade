@@ -11,6 +11,9 @@ public:
 
 public:
     Notification();
+    Notification(const QString &id, const QString &userId, const QString &content,
+                 const QDateTime &createdAt, const QDateTime &deletedAt, bool isDeleted = false);
+    Notification(const QJsonObject &jsonObj);
     static QString toString(Attribute attribute);
     operator QJsonObject() const override;
 
