@@ -1,5 +1,5 @@
 QT -= gui
-QT += network
+QT += network concurrent
 
 TEMPLATE = lib
 DEFINES += TCPSERVER_LIBRARY

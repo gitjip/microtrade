@@ -8,7 +8,7 @@
 
 class TCPINTERACTION_EXPORT TcpInteraction {
 public:
-    enum Item {         // Qt           QJsonValue
+    enum class Attribute {         // Qt           QJsonValue
 
         IsValid,        // bool         Bool
         DateTime,       // QDateTime    String
@@ -27,11 +27,11 @@ public:
     TcpInteraction();
     TcpInteraction(bool isValid, const QDateTime &dateTime,
                    const QHostAddress &hostAddress, quint64 port,
-                   const QJsonObject &body);
+                   const QJsonObject &body = QJsonObject());
     virtual ~TcpInteraction();
     virtual operator QJsonObject() const = 0;
     operator QByteArray() const;
-    static QString toString(Item data);
+    static QString toString(Attribute data);
 
 public:
     bool isValid() const;
@@ -45,8 +45,8 @@ protected:
     static qint64 toValue(QByteArray bytes);
 
 protected:
-    bool m_isValid;
-    QDateTime m_dateTime;
+    bool m_isValid = true;
+    QDateTime m_dateTime = QDateTime::currentDateTime();
     QHostAddress m_hostAddress;
     quint64 m_port = 0;
     QJsonObject m_body;

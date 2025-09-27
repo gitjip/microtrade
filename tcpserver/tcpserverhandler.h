@@ -1,13 +1,17 @@
 #ifndef TCPSERVERHANDLER_H
 #define TCPSERVERHANDLER_H
 
+#include "tcprequest.h"
+#include "tcpresponse.h"
 #include <QObject>
+#include <QRunnable>
 
 class TcpServerHandler : public QObject
 {
     Q_OBJECT
 public:
     explicit TcpServerHandler(QObject *parent = nullptr);
+    virtual TcpResponse handle(const TcpRequest &tcpRequest) = 0;
 
 signals:
 };

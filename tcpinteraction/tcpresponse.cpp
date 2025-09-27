@@ -13,26 +13,26 @@ TcpResponse::TcpResponse(bool isValid, const QDateTime &dateTime,
 
 TcpResponse::TcpResponse(const QJsonObject &jsonObj)
     : TcpInteraction(
-          jsonObj[toString(IsValid)].toBool(),
-          QDateTime::fromString(jsonObj[toString(DateTime)].toString()),
-          QHostAddress(jsonObj[toString(HostAddress)].toString()),
-          jsonObj[toString(Port)].toInteger(),
-          jsonObj[toString(Body)].toObject()),
-    m_success(jsonObj[toString(Success)].toBool()),
-    m_statusType(jsonObj[toString(StatusType)].toString()),
-    m_statusDetail(jsonObj[toString(StatusDetail)].toString()) {}
+          jsonObj[toString(Attribute::IsValid)].toBool(),
+          QDateTime::fromString(jsonObj[toString(Attribute::DateTime)].toString()),
+          QHostAddress(jsonObj[toString(Attribute::HostAddress)].toString()),
+          jsonObj[toString(Attribute::Port)].toInteger(),
+          jsonObj[toString(Attribute::Body)].toObject()),
+    m_success(jsonObj[toString(Attribute::Success)].toBool()),
+    m_statusType(jsonObj[toString(Attribute::StatusType)].toString()),
+    m_statusDetail(jsonObj[toString(Attribute::StatusDetail)].toString()) {}
 
 TcpResponse::~TcpResponse() {}
 
 TcpResponse::operator QJsonObject() const {
-    return QJsonObject({{toString(IsValid), m_isValid},
-                        {toString(DateTime), m_dateTime.toString()},
-                        {toString(HostAddress), m_hostAddress.toString()},
-                        {toString(Port), qint64(m_port)},
-                        {toString(Body), m_body},
-                        {toString(Success), m_success},
-                        {toString(StatusType), m_statusType},
-                        {toString(StatusDetail), m_statusDetail}});
+    return QJsonObject({{toString(Attribute::IsValid), m_isValid},
+                        {toString(Attribute::DateTime), m_dateTime.toString()},
+                        {toString(Attribute::HostAddress), m_hostAddress.toString()},
+                        {toString(Attribute::Port), qint64(m_port)},
+                        {toString(Attribute::Body), m_body},
+                        {toString(Attribute::Success), m_success},
+                        {toString(Attribute::StatusType), m_statusType},
+                        {toString(Attribute::StatusDetail), m_statusDetail}});
 }
 
 TcpResponse TcpResponse::fromSocket(QTcpSocket *socket) {

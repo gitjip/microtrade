@@ -7,8 +7,8 @@ TcpServerDistributor::TcpServerDistributor(QObject *parent)
 TcpResponse TcpServerDistributor::distribute(const TcpRequest &tcpRequest)
 {
     if (tcpRequest.route() == "/login") {
-        return TcpResponse();
+        return m_threadPool->start(nullptr, tcpRequest);
     } else {
-        return TcpResponse();
+        return m_threadPool->start(nullptr, tcpRequest);
     }
 }

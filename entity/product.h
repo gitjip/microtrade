@@ -2,11 +2,40 @@
 #define PRODUCT_H
 
 #include "entity.h"
+#include <QDateTime>
 
 class Product : public Entity
 {
 public:
+    enum class Attribute {
+        Id,
+        Name,
+        Description,
+        Price,
+        Stock,
+        Category,
+        ImageUrl,
+        ListedAt,
+        DelistedAt,
+        IsDeleted
+    };
+    enum class Category { Food, Clothes, Furniture, Tool, Electronic };
+
+public:
     Product();
+    QString toString(Attribute attribute);
+
+public:
+    QString id() const;
+    QString name() const;
+    QString description() const;
+    double price() const;
+    qint64 stock() const;
+    Category category() const;
+    QUrl imageUrl() const;
+    QDateTime listedAt() const;
+    QDateTime delistedAt() const;
+    bool isDeleted() const;
 
 private:
     QString m_id;
@@ -14,8 +43,10 @@ private:
     QString m_description;
     double m_price = 0;
     qint64 m_stock = 0;
-    QString m_category;
+    Category m_category;
     QString m_imageUrl;
+    QDateTime m_listedAt;
+    QDateTime m_delistedAt;
     bool m_isDeleted = false;
 };
 

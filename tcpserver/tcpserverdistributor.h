@@ -3,6 +3,7 @@
 
 #include "tcprequest.h"
 #include "tcpresponse.h"
+#include "tcpserverthreadpool.h"
 #include <QObject>
 
 class TcpServerDistributor : public QObject
@@ -13,6 +14,9 @@ public:
     TcpResponse distribute(const TcpRequest &tcpRequest);
 
 signals:
+
+private:
+    TcpServerThreadPool *m_threadPool;
 };
 
 #endif // TCPSERVERDISTRIBUTOR_H

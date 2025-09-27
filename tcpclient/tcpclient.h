@@ -18,7 +18,8 @@ public:
 signals:
     void readyRead(const TcpResponse &tcpResponse);
     void timedOut();
-    void errorOccurred();
+    void notOpened();
+    void writtingErrorOccurred();
 
 private:
     bool send(const TcpRequest &tcpRequest);

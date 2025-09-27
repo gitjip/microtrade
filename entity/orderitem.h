@@ -6,7 +6,19 @@
 class OrderItem : public Entity
 {
 public:
+    enum class Attribute { Id, OrderId, ProductId, Quantity, Cost, IsDeleted };
+
+public:
     OrderItem();
+    QString toString(Attribute attribute);
+
+public:
+    QString id() const;
+    QString orderId() const;
+    QString productId() const;
+    qint64 quantity() const;
+    double cost() const;
+    bool isDeleted() const;
 
 private:
     QString m_id;

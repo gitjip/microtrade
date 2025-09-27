@@ -23,7 +23,7 @@ public:
 private:
     QString m_authorizedToken;
     QString m_route;
-    qint64 m_timeout = -1; // negtive on disabling timeout
+    qint64 m_timeout = -1; // -1 if timeout disabled
 };
 
 #endif // TCPREQUEST_H

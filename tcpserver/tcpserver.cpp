@@ -3,7 +3,6 @@
 
 TcpServer::TcpServer(QObject *parent)
     : QObject(parent), m_server(new QTcpServer(this)),
-    m_parser(new TcpServerParser(this)),
     m_distributor(new TcpServerDistributor(this)) {}
 
 bool TcpServer::listen(const QHostAddress &hostAddress, qint64 port) {
@@ -25,7 +24,6 @@ void TcpServer::onNewConnection() {
 void TcpServer::onReadyRead() {
     qDebug() << "TcpServer::onReadyRead:";
     QTcpSocket *socket = qobject_cast<QTcpSocket *>(sender());
-
     socket->write(m_distributor->distribute(TcpRequest::fromSocket(socket)));
 }
 

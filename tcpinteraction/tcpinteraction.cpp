@@ -16,29 +16,29 @@ TcpInteraction::operator QByteArray() const {
     return toFixedBytes(bytes.length()) + bytes;
 }
 
-QString TcpInteraction::toString(Item data) {
+QString TcpInteraction::toString(Attribute data) {
     switch (data) {
-    case Item::IsValid:
+    case Attribute::IsValid:
         return "is_valid";
-    case Item::DateTime:
+    case Attribute::DateTime:
         return "date_time";
-    case Item::Body:
+    case Attribute::Body:
         return "body";
-    case Item::HostAddress:
+    case Attribute::HostAddress:
         return "host_address";
-    case Item::Port:
+    case Attribute::Port:
         return "port";
-    case Item::AuthorizedToken:
+    case Attribute::AuthorizedToken:
         return "authorized_token";
-    case Item::Route:
+    case Attribute::Route:
         return "route";
-    case Item::Timeout:
+    case Attribute::Timeout:
         return "timeout";
-    case Item::Success:
+    case Attribute::Success:
         return "success";
-    case Item::StatusType:
+    case Attribute::StatusType:
         return "status_type";
-    case Item::StatusDetail:
+    case Attribute::StatusDetail:
         return "status_detail";
     default:
         return "";

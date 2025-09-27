@@ -7,14 +7,37 @@
 class Order : public Entity
 {
 public:
+    enum class Attribute {
+        Id,
+        UserId,
+        Cost,
+        Status,
+        CreatedAt,
+        CancelledAt,
+        IsDeleted
+    };
+    enum class Status { Pending, Cancelled, Accepted, Unaccepted, Returned };
+
+public:
     Order();
+    QString toString(Attribute attribute);
+
+public:
+    QString id() const;
+    QString userId() const;
+    double cost() const;
+    Status status() const;
+    QDateTime createdAt() const;
+    QDateTime cancelledAt() const;
+    bool isDeleted() const;
 
 private:
     QString m_id;
     QString m_userId;
     double m_cost = 0;
+    Status m_status;
     QDateTime m_createdAt;
-    QString m_status;
+    QDateTime m_cancelledAt;
     bool m_isDeleted = false;
 };
 

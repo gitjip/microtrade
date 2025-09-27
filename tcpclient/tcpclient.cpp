@@ -19,7 +19,6 @@ void TcpClient::sendAsync(const TcpRequest &tcpRequest, qint64 timeout)
 {
     if (!send(tcpRequest)) {
         qDebug() << "TcpClient::sendAsync: failed";
-        emit errorOccurred();
         return;
     }
     if (timeout != -1) {
@@ -43,10 +42,12 @@ bool TcpClient::send(const TcpRequest &tcpRequest)
 {
     if (!socket || !socket->isOpen()) {
         qDebug() << "TcpClient::send: socket not open";
+        emit notOpened();
         return false;
     }
     if (socket->write(tcpRequest) == -1) {
         qDebug() << "TcpClient::send: socket writing error";
+        emit writtingErrorOccurred();
         return false;
     }
     return true;

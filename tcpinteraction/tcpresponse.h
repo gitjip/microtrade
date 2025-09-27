@@ -3,7 +3,6 @@
 
 #include "tcpinteraction_global.h"
 #include "tcpinteraction.h"
-#include <QDateTime>
 #include <QTcpSocket>
 
 class TCPINTERACTION_EXPORT TcpResponse : public TcpInteraction {

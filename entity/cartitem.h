@@ -6,7 +6,18 @@
 class CartItem : public Entity
 {
 public:
+    enum class Attribute { Id, CartId, ProductId, Quantity, IsDeleted };
+
+public:
     CartItem();
+    QString toString(Attribute attribute);
+
+public:
+    QString id() const;
+    QString cartId() const;
+    QString productId() const;
+    qint64 quantity() const;
+    bool isDeleted() const;
 
 private:
     QString m_id;
