@@ -11,7 +11,8 @@ public:
 
 public:
     Cart();
-    QString toString(Attribute attribute);
+    static QString toString(Attribute attribute);
+    operator QJsonObject() const override;
 
 public:
     QString id() const;

@@ -19,7 +19,8 @@ public:
 
 public:
     User();
-    QString toString(Attribute attribute);
+    static QString toString(Attribute attribute);
+    operator QJsonObject() const override;
 
 public:
     QString id() const;

@@ -23,7 +23,9 @@ public:
 
 public:
     Product();
-    QString toString(Attribute attribute);
+    static QString toString(Attribute attribute);
+    static QString toString(Category category);
+    operator QJsonObject() const override;
 
 public:
     QString id() const;
@@ -44,7 +46,7 @@ private:
     double m_price = 0;
     qint64 m_stock = 0;
     Category m_category;
-    QString m_imageUrl;
+    QUrl m_imageUrl;
     QDateTime m_listedAt;
     QDateTime m_delistedAt;
     bool m_isDeleted = false;

@@ -7,11 +7,12 @@
 class Notification : public Entity
 {
 public:
-    enum class Attribute { Id, UserId, Content, CreatedAt, DeletedAt };
+    enum class Attribute { Id, UserId, Content, CreatedAt, DeletedAt, IsDeleted };
 
 public:
     Notification();
-    QString toString(Attribute attribute);
+    static QString toString(Attribute attribute);
+    operator QJsonObject() const override;
 
 public:
     QString id() const;

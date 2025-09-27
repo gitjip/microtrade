@@ -20,7 +20,9 @@ public:
 
 public:
     Order();
-    QString toString(Attribute attribute);
+    static QString toString(Attribute attribute);
+    static QString toString(Status status);
+    operator QJsonObject() const override;
 
 public:
     QString id() const;
