@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui network concurrent sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    configure.cpp \
     logwidget.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -16,16 +17,25 @@ SOURCES += \
     productwidget.cpp \
     promotionwidget.cpp \
     serverwidget.cpp \
+    sqltokengenerator.cpp \
+    sqluseridfinder.cpp \
+    tcpserverlocaldistributor.cpp \
+    tcpserverloginhandler.cpp \
     userwidget.cpp \
     welcomewidget.cpp
 
 HEADERS += \
+    configure.h \
     logwidget.h \
     mainwindow.h \
     notificationwidget.h \
     productwidget.h \
     promotionwidget.h \
     serverwidget.h \
+    sqltokengenerator.h \
+    sqluseridfinder.h \
+    tcpserverlocaldistributor.h \
+    tcpserverloginhandler.h \
     userwidget.h \
     welcomewidget.h
 
@@ -43,3 +53,24 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../tcpinteraction/release/ -ltcpinteraction
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../tcpinteraction/debug/ -ltcpinteraction
+else:unix: LIBS += -L$$OUT_PWD/../tcpinteraction/ -ltcpinteraction
+
+INCLUDEPATH += $$PWD/../tcpinteraction
+DEPENDPATH += $$PWD/../tcpinteraction
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../tcpserver/release/ -ltcpserver
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../tcpserver/debug/ -ltcpserver
+else:unix: LIBS += -L$$OUT_PWD/../tcpserver/ -ltcpserver
+
+INCLUDEPATH += $$PWD/../tcpserver
+DEPENDPATH += $$PWD/../tcpserver
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../sqlserver/release/ -lsqlserver
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../sqlserver/debug/ -lsqlserver
+else:unix: LIBS += -L$$OUT_PWD/../sqlserver/ -lsqlserver
+
+INCLUDEPATH += $$PWD/../sqlserver
+DEPENDPATH += $$PWD/../sqlserver

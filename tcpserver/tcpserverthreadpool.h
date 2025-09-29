@@ -1,11 +1,12 @@
 #ifndef TCPSERVERTHREADPOOL_H
 #define TCPSERVERTHREADPOOL_H
 
+#include "tcpserver_global.h"
 #include "tcpserverhandler.h"
 #include <QObject>
 #include <QThreadPool>
 
-class TcpServerThreadPool : public QObject
+class TCPSERVER_EXPORT TcpServerThreadPool : public QObject
 {
     Q_OBJECT
 public:

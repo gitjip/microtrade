@@ -15,6 +15,13 @@ public:
     explicit WelcomeWidget(QWidget *parent = nullptr);
     ~WelcomeWidget();
 
+private slots:
+    void on_loginPushButton_clicked();
+
+    void on_registerPushButton_clicked();
+
+    void on_logoutPushButton_clicked();
+
 private:
     Ui::WelcomeWidget *ui;
 };

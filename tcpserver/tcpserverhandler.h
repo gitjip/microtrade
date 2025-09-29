@@ -1,12 +1,13 @@
 #ifndef TCPSERVERHANDLER_H
 #define TCPSERVERHANDLER_H
 
+#include "tcpserver_global.h"
 #include "tcprequest.h"
 #include "tcpresponse.h"
 #include <QObject>
 #include <QRunnable>
 
-class TcpServerHandler : public QObject
+class TCPSERVER_EXPORT TcpServerHandler : public QObject
 {
     Q_OBJECT
 public:

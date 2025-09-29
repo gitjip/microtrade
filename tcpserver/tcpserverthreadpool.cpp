@@ -5,7 +5,7 @@
 #include <QtConcurrent/QtConcurrentRun>
 
 TcpServerThreadPool::TcpServerThreadPool(QObject *parent)
-    : QObject{parent}, m_threadPool(new QThreadPool(this))
+    : QObject{parent}, m_threadPool(QThreadPool::globalInstance())
 {}
 
 void TcpServerThreadPool::setMaxThreadCount(int maxThreadCount) {
@@ -13,13 +13,18 @@ void TcpServerThreadPool::setMaxThreadCount(int maxThreadCount) {
 }
 
 TcpResponse TcpServerThreadPool::start(TcpServerHandler *handler, const TcpRequest &tcpRequest) {
+    qDebug() << "TcpServerThreadPool::start";
+    if(!handler){
+        qDebug() << "TcpServerThreadPool::start" << "handler is null";
+        return TcpResponse();
+    }
     QFuture<TcpResponse> future =
         QtConcurrent::run(m_threadPool, [handler, tcpRequest]() {
         return handler->handle(tcpRequest);
     });
     bool done = tcpRequest.timeout() != -1
-        ? m_threadPool->waitForDone(tcpRequest.timeout())
-        : m_threadPool->waitForDone(QDeadlineTimer::Forever);
+                    ? m_threadPool->waitForDone(tcpRequest.timeout())
+                    : m_threadPool->waitForDone(QDeadlineTimer::Forever);
     if (!done) {
         qDebug() << "TcpServerThreadPool::start: timeout";
         return TcpResponse();

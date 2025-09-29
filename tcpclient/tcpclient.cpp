@@ -1,13 +1,12 @@
 #include "tcpclient.h"
-#include <QTimer>
 #include <QJsonDocument>
+#include <QTimer>
 
 TcpClient::TcpClient(QObject *parent)
-    : QObject(parent), socket(new QTcpSocket(this))
-{}
+    : QObject(parent), m_socket(new QTcpSocket(this)) {}
 
 void TcpClient::connectToHost(const QHostAddress &hostAddress, qint64 port) {
-    socket->connectToHost(hostAddress, port);
+    m_socket->connectToHost(hostAddress, port);
 }
 
 /**
@@ -15,21 +14,34 @@ void TcpClient::connectToHost(const QHostAddress &hostAddress, qint64 port) {
  * @param tcpRequest
  * @param timeout disabled if equals to -1
  */
-void TcpClient::sendAsync(const TcpRequest &tcpRequest, qint64 timeout)
-{
-    if (!send(tcpRequest)) {
-        qDebug() << "TcpClient::sendAsync: failed";
-        return;
-    }
+void TcpClient::sendAsync(const TcpRequest &tcpRequest, qint64 timeout) {
+    QTimer *timer = new QTimer(this);
     if (timeout != -1) {
-        QTimer::singleShot(timeout, this, [=]() {
-            qDebug() << "TcpClient::sendAsync: timeout";
-            emit timedOut();
-            return;
-        });
+        timer->setInterval(timeout);
+        timer->setSingleShot(true);
+        timer->start();
     }
-    connect(socket, &QTcpSocket::readyRead, this, [=](){
-        emit readyRead(TcpResponse::fromSocket(socket));
+    connect(timer, &QTimer::timeout, this, [=]() {
+        qDebug() << "TcpClient::sendAsync: timeout";
+        emit timedOut();
+        deleteLater();
+    });
+    connect(m_socket, &QTcpSocket::connected, this, [=]() {
+        qDebug() << "socket state:" << m_socket->state();
+        if (timer->remainingTime() == 0) {
+            emit timedOut();
+            deleteLater();
+        } else {
+            if (!send(tcpRequest)) {
+                qDebug() << "TcpClient::sendAsync: failed";
+                deleteLater();
+            } else {
+                connect(m_socket, &QTcpSocket::readyRead, this, [=]() {
+                    emit readyRead(TcpResponse::fromSocket(m_socket));
+                    deleteLater();
+                });
+            }
+        }
     });
 }
 
@@ -38,14 +50,13 @@ void TcpClient::sendAsync(const TcpRequest &tcpRequest, qint64 timeout)
  * @param tcpRequest
  * @return return false if an error occurred
  */
-bool TcpClient::send(const TcpRequest &tcpRequest)
-{
-    if (!socket || !socket->isOpen()) {
+bool TcpClient::send(const TcpRequest &tcpRequest) {
+    if (!m_socket || !m_socket->isOpen()) {
         qDebug() << "TcpClient::send: socket not open";
         emit notOpened();
         return false;
     }
-    if (socket->write(tcpRequest) == -1) {
+    if (m_socket->write(tcpRequest) == -1) {
         qDebug() << "TcpClient::send: socket writing error";
         emit writtingErrorOccurred();
         return false;

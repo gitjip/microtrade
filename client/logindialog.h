@@ -15,6 +15,9 @@ public:
     explicit LoginDialog(QWidget *parent = nullptr);
     ~LoginDialog();
 
+private slots:
+    void accept() override;
+
 private:
     Ui::LoginDialog *ui;
 };

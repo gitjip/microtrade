@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -9,7 +9,9 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    authorizationmanager.cpp \
     cartwidget.cpp \
+    configure.cpp \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -18,10 +20,13 @@ SOURCES += \
     profilewidget.cpp \
     registerdialog.cpp \
     shopwidget.cpp \
+    tcploginclient.cpp \
     welcomewidget.cpp
 
 HEADERS += \
+    authorizationmanager.h \
     cartwidget.h \
+    configure.h \
     logindialog.h \
     mainwindow.h \
     notificationwidget.h \
@@ -29,6 +34,7 @@ HEADERS += \
     profilewidget.h \
     registerdialog.h \
     shopwidget.h \
+    tcploginclient.h \
     welcomewidget.h
 
 FORMS += \
@@ -46,3 +52,17 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../tcpinteraction/release/ -ltcpinteraction
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../tcpinteraction/debug/ -ltcpinteraction
+else:unix: LIBS += -L$$OUT_PWD/../tcpinteraction/ -ltcpinteraction
+
+INCLUDEPATH += $$PWD/../tcpinteraction
+DEPENDPATH += $$PWD/../tcpinteraction
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../tcpclient/release/ -ltcpclient
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../tcpclient/debug/ -ltcpclient
+else:unix: LIBS += -L$$OUT_PWD/../tcpclient/ -ltcpclient
+
+INCLUDEPATH += $$PWD/../tcpclient
+DEPENDPATH += $$PWD/../tcpclient

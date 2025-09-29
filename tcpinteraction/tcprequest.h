@@ -11,7 +11,7 @@ public:
     TcpRequest(bool isValid, const QDateTime &dateTime,
                const QHostAddress &hostAddress, quint64 port,
                const QString &authorizedToken, const QString &route,
-               qint64 timeout, const QJsonObject &body);
+               qint64 timeout, const QJsonObject &body = QJsonObject());
     TcpRequest(const QJsonObject &jsonObj);
     ~TcpRequest() override;
     operator QJsonObject() const override;

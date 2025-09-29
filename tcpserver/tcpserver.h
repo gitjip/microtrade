@@ -7,12 +7,12 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 
-class TCPSERVER_EXPORT TcpServer : public QObject
-{
+class TCPSERVER_EXPORT TcpServer : public QObject {
     Q_OBJECT
 public:
-    explicit TcpServer(QObject *parent = nullptr);
-    bool listen(const QHostAddress &hostAddress = QHostAddress::Any, qint64 port = 0);
+    static TcpServer *instance(TcpServerDistributor *distributor = nullptr);   // single instance
+    bool listen(const QHostAddress &hostAddress = QHostAddress::Any,
+                qint64 port = 0);
     void close();
 
 signals:
@@ -21,6 +21,11 @@ public slots:
     void onNewConnection();
     void onReadyRead();
     void onDisconnected();
+
+private:
+    explicit TcpServer(TcpServerDistributor *distributor, QObject *parent = nullptr);
+    TcpServer(const TcpServer &tcpServer) = delete;
+    TcpServer &operator=(const TcpServer &tcpServer) = delete;
 
 private:
     QTcpServer *m_server;

@@ -11,7 +11,7 @@ public:
     TcpResponse(bool isValid, const QDateTime &dateTime,
                 const QHostAddress &hostAddress, quint64 port, bool success,
                 const QString &statusType, const QString &statusDetail,
-                const QJsonObject &body);
+                const QJsonObject &body = QJsonObject());
     TcpResponse(const QJsonObject &jsonObj);
     ~TcpResponse() override;
     operator QJsonObject() const override;

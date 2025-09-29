@@ -12,15 +12,13 @@ CONFIG += c++17
 SOURCES += \
     tcpserver.cpp \
     tcpserverdistributor.cpp \
-    tcpserverhandler.cpp \
-    tcpserverthreadpool.cpp
+    tcpserverhandler.cpp
 
 HEADERS += \
     tcpserver_global.h \
     tcpserver.h \
     tcpserverdistributor.h \
-    tcpserverhandler.h \
-    tcpserverthreadpool.h
+    tcpserverhandler.h
 
 # Default rules for deployment.
 unix {

@@ -3,11 +3,16 @@
 SqlServer::SqlServer() {}
 
 bool SqlServer::open(const QString &databaseName) {
+    if (db.contains(QSqlDatabase::defaultConnection)) {
+        db = QSqlDatabase::database(QSqlDatabase::defaultConnection);
+    } else {
+        db = QSqlDatabase::addDatabase("QSQLITE", QSqlDatabase::defaultConnection);
+    }
     db.setDatabaseName(databaseName);
-    db.addDatabase(databaseName);
-    if(db.isOpen()) {
-        qDebug() << "SqlServer::open: database not open";
+    if (!db.open()) {
+        qDebug() << "SqlServer::open:" << "database not open";
         return false;
     }
+    qDebug() << "SqlServer::open:" << "successfully open" << db.databaseName();
     return true;
 }

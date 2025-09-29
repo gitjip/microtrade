@@ -12,7 +12,7 @@ public:
     SqlServer();
     bool open(const QString &databaseName);
 
-private:
+protected:
     QSqlDatabase db;
 };
 

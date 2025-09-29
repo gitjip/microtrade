@@ -4,7 +4,6 @@
 #include "tcpclient_global.h"
 #include "tcprequest.h"
 #include "tcpresponse.h"
-#include <QObject>
 #include <QTcpSocket>
 
 class TCPCLIENT_EXPORT TcpClient : public QObject
@@ -25,7 +24,7 @@ private:
     bool send(const TcpRequest &tcpRequest);
 
 private:
-    QTcpSocket *socket;
+    QTcpSocket *m_socket;
 };
 
 #endif // TCPCLIENT_H
