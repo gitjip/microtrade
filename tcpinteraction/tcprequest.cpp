@@ -11,26 +11,26 @@ TcpRequest::TcpRequest(bool isValid, const QDateTime &dateTime,
 
 TcpRequest::TcpRequest(const QJsonObject &jsonObj)
     : TcpInteraction(
-          jsonObj[toString(Attribute::IsValid)].toBool(),
-          QDateTime::fromString(jsonObj[toString(Attribute::DateTime)].toString()),
-          QHostAddress(jsonObj[toString(Attribute::HostAddress)].toString()),
-          jsonObj[toString(Attribute::Port)].toInteger(),
-          jsonObj[toString(Attribute::Body)].toObject()),
-    m_authorizedToken(jsonObj[toString(Attribute::AuthorizedToken)].toString()),
-    m_route(jsonObj[toString(Attribute::Route)].toString()),
-    m_timeout(jsonObj[toString(Attribute::Timeout)].toInteger()) {}
+          jsonObj[attributeToString(Attribute::IsValid)].toBool(),
+          QDateTime::fromString(jsonObj[attributeToString(Attribute::DateTime)].toString()),
+          QHostAddress(jsonObj[attributeToString(Attribute::HostAddress)].toString()),
+          jsonObj[attributeToString(Attribute::Port)].toInteger(),
+          jsonObj[attributeToString(Attribute::Body)].toObject()),
+    m_authorizedToken(jsonObj[attributeToString(Attribute::AuthorizedToken)].toString()),
+    m_route(jsonObj[attributeToString(Attribute::Route)].toString()),
+    m_timeout(jsonObj[attributeToString(Attribute::Timeout)].toInteger()) {}
 
 TcpRequest::~TcpRequest() {}
 
 TcpRequest::operator QJsonObject() const {
-    return QJsonObject({{toString(Attribute::IsValid), m_isValid},
-                        {toString(Attribute::DateTime), m_dateTime.toString()},
-                        {toString(Attribute::HostAddress), m_hostAddress.toString()},
-                        {toString(Attribute::Port), qint64(m_port)},
-                        {toString(Attribute::Body), m_body},
-                        {toString(Attribute::AuthorizedToken), m_authorizedToken},
-                        {toString(Attribute::Route), m_route},
-                        {toString(Attribute::Timeout), m_timeout}});
+    return QJsonObject({{attributeToString(Attribute::IsValid), m_isValid},
+                        {attributeToString(Attribute::DateTime), m_dateTime.toString()},
+                        {attributeToString(Attribute::HostAddress), m_hostAddress.toString()},
+                        {attributeToString(Attribute::Port), qint64(m_port)},
+                        {attributeToString(Attribute::Body), m_body},
+                        {attributeToString(Attribute::AuthorizedToken), m_authorizedToken},
+                        {attributeToString(Attribute::Route), m_route},
+                        {attributeToString(Attribute::Timeout), m_timeout}});
 }
 
 TcpRequest TcpRequest::fromSocket(QTcpSocket *socket) {

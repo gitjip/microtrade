@@ -14,7 +14,7 @@ TcpServerLocalDistributor::distribute(const TcpRequest &tcpRequest) {
     } else {
         return TcpResponse(true, QDateTime::currentDateTime(),
                            QHostAddress(Configure::instance()->hostAddress()),
-                           Configure::instance()->port(), false, "unknown_request",
+                           Configure::instance()->port(), false, TcpResponse::StatusType::NotFound,
                            "");
     }
     return tcpServerHandler->handle(tcpRequest);

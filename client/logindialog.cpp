@@ -26,7 +26,7 @@ void LoginDialog::accept() {
                         responseBody["authorized_token"].toString());
         } else {
             qDebug() << "LoginDialog::accept:" << "error:"
-                     << tcpResponse.statusType()
+                     << TcpResponse::statusTypeToString(tcpResponse.statusType())
                      << tcpResponse.statusDetail();
         }
     });

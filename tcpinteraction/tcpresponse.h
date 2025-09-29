@@ -7,24 +7,37 @@
 
 class TCPINTERACTION_EXPORT TcpResponse : public TcpInteraction {
 public:
+    enum class StatusType {
+        Success,
+        NotFound,
+        Failed,
+        Unauthorized,
+        RuntimeError,
+        Timeout,
+        InvalidRequest
+    };
+
+public:
     TcpResponse();
     TcpResponse(bool isValid, const QDateTime &dateTime,
                 const QHostAddress &hostAddress, quint64 port, bool success,
-                const QString &statusType, const QString &statusDetail,
+                StatusType statusType, const QString &statusDetail,
                 const QJsonObject &body = QJsonObject());
     TcpResponse(const QJsonObject &jsonObj);
     ~TcpResponse() override;
     operator QJsonObject() const override;
     static TcpResponse fromSocket(QTcpSocket *socket);
+    static QString statusTypeToString(StatusType statusType);
+    static StatusType stringToStatusType(const QString &statusTypeString);
 
 public:
     bool success() const;
-    QString statusType() const;
+    StatusType statusType() const;
     QString statusDetail() const;
 
 private:
     bool m_success = false;
-    QString m_statusType;
+    StatusType m_statusType;
     QString m_statusDetail;
 };
 

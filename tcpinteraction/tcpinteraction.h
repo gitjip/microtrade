@@ -31,7 +31,7 @@ public:
     virtual ~TcpInteraction();
     virtual operator QJsonObject() const = 0;
     operator QByteArray() const;
-    static QString toString(Attribute data);
+    static QString attributeToString(Attribute data);
 
 public:
     bool isValid() const;

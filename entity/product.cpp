@@ -12,21 +12,21 @@ Product::Product(const QString &id, const QString &name,
     m_listedAt(listedAt), m_delistedAt(delistedAt), m_isDeleted(isDeleted) {}
 
 Product::Product(const QJsonObject &jsonObj)
-    : m_id(jsonObj[toString(Attribute::Id)].toString()),
-    m_name(jsonObj[toString(Attribute::Name)].toString()),
-    m_description(jsonObj[toString(Attribute::Description)].toString()),
-    m_price(jsonObj[toString(Attribute::Price)].toDouble()),
-    m_stock(jsonObj[toString(Attribute::Stock)].toInt()),
-    m_category(toCategory(
-          jsonObj[toString(Attribute::Category)].toString())),
-    m_imageUrl(QUrl(jsonObj[toString(Attribute::ImageUrl)].toString())),
+    : m_id(jsonObj[attributeToString(Attribute::Id)].toString()),
+    m_name(jsonObj[attributeToString(Attribute::Name)].toString()),
+    m_description(jsonObj[attributeToString(Attribute::Description)].toString()),
+    m_price(jsonObj[attributeToString(Attribute::Price)].toDouble()),
+    m_stock(jsonObj[attributeToString(Attribute::Stock)].toInt()),
+    m_category(stringToCategory(
+          jsonObj[attributeToString(Attribute::Category)].toString())),
+    m_imageUrl(QUrl(jsonObj[attributeToString(Attribute::ImageUrl)].toString())),
     m_listedAt(QDateTime::fromString(
-          jsonObj[toString(Attribute::ListedAt)].toString())),
+          jsonObj[attributeToString(Attribute::ListedAt)].toString())),
     m_delistedAt(QDateTime::fromString(
-          jsonObj[toString(Attribute::DelistedAt)].toString())),
-    m_isDeleted(jsonObj[toString(Attribute::IsDeleted)].toBool()) {}
+          jsonObj[attributeToString(Attribute::DelistedAt)].toString())),
+    m_isDeleted(jsonObj[attributeToString(Attribute::IsDeleted)].toBool()) {}
 
-QString Product::toString(Attribute attribute) {
+QString Product::attributeToString(Attribute attribute) {
     switch (attribute) {
     case Attribute::Id:
         return "id";
@@ -53,7 +53,7 @@ QString Product::toString(Attribute attribute) {
     }
 }
 
-QString Product::toString(Category category) {
+QString Product::categoryToString(Category category) {
     switch (category) {
     case Category::Clothes:
         return "clothes";
@@ -70,16 +70,16 @@ QString Product::toString(Category category) {
     }
 }
 
-Product::Category Product::toCategory(const QString &categoryStr) {
-    if (categoryStr == "food") {
+Product::Category Product::stringToCategory(const QString &categoryString) {
+    if (categoryString == "food") {
         return Category::Food;
-    } else if (categoryStr == "clothes") {
+    } else if (categoryString == "clothes") {
         return Category::Clothes;
-    } else if (categoryStr == "furniture") {
+    } else if (categoryString == "furniture") {
         return Category::Furniture;
-    } else if (categoryStr == "tool") {
+    } else if (categoryString == "tool") {
         return Category::Tool;
-    } else if (categoryStr == "electronic") {
+    } else if (categoryString == "electronic") {
         return Category::Electronic;
     } else {
         return Category::Food; // default
@@ -87,16 +87,16 @@ Product::Category Product::toCategory(const QString &categoryStr) {
 }
 
 Product::operator QJsonObject() const {
-    return QJsonObject{{toString(Attribute::Id), m_id},
-                       {toString(Attribute::Name), m_name},
-                       {toString(Attribute::Description), m_description},
-                       {toString(Attribute::Price), m_price},
-                       {toString(Attribute::Stock), m_stock},
-                       {toString(Attribute::Category), toString(m_category)},
-                       {toString(Attribute::ImageUrl), m_imageUrl.toString()},
-                       {toString(Attribute::ListedAt), m_listedAt.toString()},
-                       {toString(Attribute::DelistedAt), m_delistedAt.toString()},
-                       {toString(Attribute::IsDeleted), m_isDeleted}};
+    return QJsonObject{{attributeToString(Attribute::Id), m_id},
+                       {attributeToString(Attribute::Name), m_name},
+                       {attributeToString(Attribute::Description), m_description},
+                       {attributeToString(Attribute::Price), m_price},
+                       {attributeToString(Attribute::Stock), m_stock},
+                       {attributeToString(Attribute::Category), categoryToString(m_category)},
+                       {attributeToString(Attribute::ImageUrl), m_imageUrl.toString()},
+                       {attributeToString(Attribute::ListedAt), m_listedAt.toString()},
+                       {attributeToString(Attribute::DelistedAt), m_delistedAt.toString()},
+                       {attributeToString(Attribute::IsDeleted), m_isDeleted}};
 }
 
 QString Product::id() const { return m_id; }

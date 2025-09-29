@@ -17,10 +17,10 @@ public:
 
 private slots:
     void on_loginPushButton_clicked();
-
     void on_registerPushButton_clicked();
-
     void on_logoutPushButton_clicked();
+    void onLogin();
+    void onLogout();
 
 private:
     Ui::WelcomeWidget *ui;

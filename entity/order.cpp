@@ -10,18 +10,18 @@ Order::Order(const QString &id, const QString &userId, double cost,
     m_isDeleted(isDeleted) {}
 
 Order::Order(const QJsonObject &jsonObj)
-    : m_id(jsonObj[toString(Attribute::Id)].toString()),
-    m_userId(jsonObj[toString(Attribute::UserId)].toString()),
-    m_cost(jsonObj[toString(Attribute::Cost)].toDouble()),
+    : m_id(jsonObj[attributeToString(Attribute::Id)].toString()),
+    m_userId(jsonObj[attributeToString(Attribute::UserId)].toString()),
+    m_cost(jsonObj[attributeToString(Attribute::Cost)].toDouble()),
     m_status(
-          toStatus(jsonObj[toString(Attribute::Status)].toString())),
+          stringToStatus(jsonObj[attributeToString(Attribute::Status)].toString())),
     m_createdAt(QDateTime::fromString(
-          jsonObj[toString(Attribute::CreatedAt)].toString())),
+          jsonObj[attributeToString(Attribute::CreatedAt)].toString())),
     m_cancelledAt(QDateTime::fromString(
-          jsonObj[toString(Attribute::CancelledAt)].toString())),
-    m_isDeleted(jsonObj[toString(Attribute::IsDeleted)].toBool()) {}
+          jsonObj[attributeToString(Attribute::CancelledAt)].toString())),
+    m_isDeleted(jsonObj[attributeToString(Attribute::IsDeleted)].toBool()) {}
 
-QString Order::toString(Attribute attribute) {
+QString Order::attributeToString(Attribute attribute) {
     switch (attribute) {
     case Attribute::Id:
         return "id";
@@ -42,7 +42,7 @@ QString Order::toString(Attribute attribute) {
     }
 }
 
-QString Order::toString(Status status) {
+QString Order::statusToString(Status status) {
     switch (status) {
     case Status::Accepted:
         return "accepted";
@@ -59,16 +59,16 @@ QString Order::toString(Status status) {
     }
 }
 
-Order::Status Order::toStatus(const QString &statusStr) {
-    if (statusStr == "accepted") {
+Order::Status Order::stringToStatus(const QString &statusString) {
+    if (statusString == "accepted") {
         return Status::Accepted;
-    } else if (statusStr == "returned") {
+    } else if (statusString == "returned") {
         return Status::Returned;
-    } else if (statusStr == "cancelled") {
+    } else if (statusString == "cancelled") {
         return Status::Cancelled;
-    } else if (statusStr == "pending") {
+    } else if (statusString == "pending") {
         return Status::Pending;
-    } else if (statusStr == "unaccepted") {
+    } else if (statusString == "unaccepted") {
         return Status::Unaccepted;
     } else {
         return Status::Pending; // default
@@ -77,13 +77,13 @@ Order::Status Order::toStatus(const QString &statusStr) {
 
 Order::operator QJsonObject() const {
     return QJsonObject{
-                       {toString(Attribute::Id), m_id},
-        {toString(Attribute::UserId), m_userId},
-        {toString(Attribute::Cost), m_cost},
-        {toString(Attribute::Status), toString(m_status)},
-        {toString(Attribute::CreatedAt), m_createdAt.toString()},
-        {toString(Attribute::CancelledAt), m_cancelledAt.toString()},
-        {toString(Attribute::IsDeleted), m_isDeleted}};
+        {attributeToString(Attribute::Id), m_id},
+        {attributeToString(Attribute::UserId), m_userId},
+        {attributeToString(Attribute::Cost), m_cost},
+        {attributeToString(Attribute::Status), statusToString(m_status)},
+        {attributeToString(Attribute::CreatedAt), m_createdAt.toString()},
+        {attributeToString(Attribute::CancelledAt), m_cancelledAt.toString()},
+        {attributeToString(Attribute::IsDeleted), m_isDeleted}};
 }
 
 QString Order::id() const { return m_id; }

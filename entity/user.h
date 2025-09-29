@@ -4,7 +4,7 @@
 #include "entity.h"
 #include <QDateTime>
 
-class User : public Entity {
+class ENTITY_EXPORT User : public Entity {
 public:
     enum class Attribute {
         Id,
@@ -22,7 +22,7 @@ public:
          const QUrl &avatarUrl, const QDateTime &registeredAt,
          const QDateTime &unregisteredAt, bool isDeleted = false);
     User(const QJsonObject &jsonObj);
-    static QString toString(Attribute attribute);
+    static QString attributeToString(Attribute attribute);
     operator QJsonObject() const override;
 
 public:

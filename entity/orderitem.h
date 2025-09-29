@@ -3,7 +3,7 @@
 
 #include "entity.h"
 
-class OrderItem : public Entity {
+class ENTITY_EXPORT OrderItem : public Entity {
 public:
     enum class Attribute { Id, OrderId, ProductId, Quantity, Cost, IsDeleted };
 
@@ -12,7 +12,7 @@ public:
     OrderItem(const QString &id, const QString &orderId, const QString &productId,
               qint64 quantity, double cost, bool isDeleted = false);
     OrderItem(const QJsonObject &jsonObj);
-    static QString toString(Attribute attribute);
+    static QString attributeToString(Attribute attribute);
     operator QJsonObject() const override;
 
 public:

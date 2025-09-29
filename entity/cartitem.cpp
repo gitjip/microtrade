@@ -8,13 +8,13 @@ CartItem::CartItem(const QString &id, const QString &cartId, const QString &prod
     m_quantity(quantity), m_isDeleted(isDeleted) {}
 
 CartItem::CartItem(const QJsonObject &jsonObj)
-    : m_id(jsonObj[toString(Attribute::Id)].toString()),
-    m_cartId(jsonObj[toString(Attribute::CartId)].toString()),
-    m_productId(jsonObj[toString(Attribute::ProductId)].toString()),
-    m_quantity(jsonObj[toString(Attribute::Quantity)].toInt()),
-    m_isDeleted(jsonObj[toString(Attribute::IsDeleted)].toBool()) {}
+    : m_id(jsonObj[attributeToString(Attribute::Id)].toString()),
+    m_cartId(jsonObj[attributeToString(Attribute::CartId)].toString()),
+    m_productId(jsonObj[attributeToString(Attribute::ProductId)].toString()),
+    m_quantity(jsonObj[attributeToString(Attribute::Quantity)].toInt()),
+    m_isDeleted(jsonObj[attributeToString(Attribute::IsDeleted)].toBool()) {}
 
-QString CartItem::toString(Attribute attribute) {
+QString CartItem::attributeToString(Attribute attribute) {
     switch (attribute) {
     case Attribute::Id:
         return "id";
@@ -32,11 +32,11 @@ QString CartItem::toString(Attribute attribute) {
 }
 
 CartItem::operator QJsonObject() const {
-    return QJsonObject{{toString(Attribute::Id), m_id},
-                       {toString(Attribute::CartId), m_cartId},
-                       {toString(Attribute::ProductId), m_productId},
-                       {toString(Attribute::Quantity), m_quantity},
-                       {toString(Attribute::IsDeleted), m_isDeleted}};
+    return QJsonObject{{attributeToString(Attribute::Id), m_id},
+                       {attributeToString(Attribute::CartId), m_cartId},
+                       {attributeToString(Attribute::ProductId), m_productId},
+                       {attributeToString(Attribute::Quantity), m_quantity},
+                       {attributeToString(Attribute::IsDeleted), m_isDeleted}};
 }
 
 QString CartItem::id() const { return m_id; }

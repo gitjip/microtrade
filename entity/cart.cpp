@@ -8,15 +8,15 @@ Cart::Cart(const QString &id, const QString &userId, const QDateTime &createdAt,
     m_deletedAt(deletedAt), m_isDeleted(isDeleted) {}
 
 Cart::Cart(const QJsonObject &jsonObj)
-    : m_id(jsonObj[toString(Attribute::Id)].toString()),
-    m_userId(jsonObj[toString(Attribute::UserId)].toString()),
+    : m_id(jsonObj[attributeToString(Attribute::Id)].toString()),
+    m_userId(jsonObj[attributeToString(Attribute::UserId)].toString()),
     m_createdAt(QDateTime::fromString(
-          jsonObj[toString(Attribute::CreatedAt)].toString())),
+          jsonObj[attributeToString(Attribute::CreatedAt)].toString())),
     m_deletedAt(QDateTime::fromString(
-          jsonObj[toString(Attribute::DeletedAt)].toString())),
-    m_isDeleted(jsonObj[toString(Attribute::IsDeleted)].toBool()) {}
+          jsonObj[attributeToString(Attribute::DeletedAt)].toString())),
+    m_isDeleted(jsonObj[attributeToString(Attribute::IsDeleted)].toBool()) {}
 
-QString Cart::toString(Attribute attribute) {
+QString Cart::attributeToString(Attribute attribute) {
     switch (attribute) {
     case Attribute::Id:
         return "id";
@@ -34,11 +34,11 @@ QString Cart::toString(Attribute attribute) {
 }
 
 Cart::operator QJsonObject() const {
-    return QJsonObject{{toString(Attribute::Id), m_id},
-                       {toString(Attribute::UserId), m_userId},
-                       {toString(Attribute::CreatedAt), m_createdAt.toString()},
-                       {toString(Attribute::DeletedAt), m_deletedAt.toString()},
-                       {toString(Attribute::IsDeleted), m_isDeleted}};
+    return QJsonObject{{attributeToString(Attribute::Id), m_id},
+                       {attributeToString(Attribute::UserId), m_userId},
+                       {attributeToString(Attribute::CreatedAt), m_createdAt.toString()},
+                       {attributeToString(Attribute::DeletedAt), m_deletedAt.toString()},
+                       {attributeToString(Attribute::IsDeleted), m_isDeleted}};
 }
 
 QString Cart::id() const { return m_id; }

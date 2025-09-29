@@ -74,3 +74,10 @@ else:unix: LIBS += -L$$OUT_PWD/../sqlserver/ -lsqlserver
 
 INCLUDEPATH += $$PWD/../sqlserver
 DEPENDPATH += $$PWD/../sqlserver
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../entity/release/ -lentity
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../entity/debug/ -lentity
+else:unix: LIBS += -L$$OUT_PWD/../entity/ -lentity
+
+INCLUDEPATH += $$PWD/../entity
+DEPENDPATH += $$PWD/../entity

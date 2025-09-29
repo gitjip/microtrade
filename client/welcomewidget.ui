@@ -14,37 +14,57 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="tipLabel">
+   <item row="7" column="0">
+    <widget class="QPushButton" name="logoutPushButton">
      <property name="text">
-      <string>Click button below to login if you already have an account,otherwise register first.</string>
+      <string>logout</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="welcomeLabel">
+     <property name="text">
+      <string>Welcome to Microtrade!</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QPushButton" name="loginPushButton">
-     <property name="text">
-      <string>login</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
+   <item row="6" column="0">
     <widget class="QPushButton" name="registerPushButton">
      <property name="text">
       <string>register</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QPushButton" name="logoutPushButton">
+   <item row="5" column="0">
+    <widget class="QPushButton" name="loginPushButton">
      <property name="text">
-      <string>logout</string>
+      <string>login</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="statusLabel">
+     <property name="text">
+      <string>Status: not login.</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="tipLabel">
+     <property name="text">
+      <string>You can login if you already have an account, otherwise you should register first.</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

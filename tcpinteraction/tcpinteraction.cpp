@@ -16,7 +16,7 @@ TcpInteraction::operator QByteArray() const {
     return toFixedBytes(bytes.length()) + bytes;
 }
 
-QString TcpInteraction::toString(Attribute data) {
+QString TcpInteraction::attributeToString(Attribute data) {
     switch (data) {
     case Attribute::IsValid:
         return "is_valid";

@@ -4,7 +4,7 @@
 #include "entity.h"
 #include <QDateTime>
 
-class Notification : public Entity
+class ENTITY_EXPORT Notification : public Entity
 {
 public:
     enum class Attribute { Id, UserId, Content, CreatedAt, DeletedAt, IsDeleted };
@@ -14,7 +14,7 @@ public:
     Notification(const QString &id, const QString &userId, const QString &content,
                  const QDateTime &createdAt, const QDateTime &deletedAt, bool isDeleted = false);
     Notification(const QJsonObject &jsonObj);
-    static QString toString(Attribute attribute);
+    static QString attributeToString(Attribute attribute);
     operator QJsonObject() const override;
 
 public:

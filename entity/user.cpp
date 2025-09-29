@@ -10,17 +10,17 @@ User::User(const QString &id, const QString &username, const QString &password,
     m_unregisteredAt(unregisteredAt), m_isDeleted(isDeleted) {}
 
 User::User(const QJsonObject &jsonObj)
-    : m_id(jsonObj[toString(Attribute::Id)].toString()),
-    m_username(jsonObj[toString(Attribute::Username)].toString()),
-    m_password(jsonObj[toString(Attribute::Password)].toString()),
-    m_avatarUrl(QUrl(jsonObj[toString(Attribute::AvatarUrl)].toString())),
+    : m_id(jsonObj[attributeToString(Attribute::Id)].toString()),
+    m_username(jsonObj[attributeToString(Attribute::Username)].toString()),
+    m_password(jsonObj[attributeToString(Attribute::Password)].toString()),
+    m_avatarUrl(QUrl(jsonObj[attributeToString(Attribute::AvatarUrl)].toString())),
     m_registeredAt(QDateTime::fromString(
-          jsonObj[toString(Attribute::RegisteredAt)].toString())),
+          jsonObj[attributeToString(Attribute::RegisteredAt)].toString())),
     m_unregisteredAt(QDateTime::fromString(
-          jsonObj[toString(Attribute::UnregisteredAt)].toString())),
-    m_isDeleted(jsonObj[toString(Attribute::IsDeleted)].toBool()) {}
+          jsonObj[attributeToString(Attribute::UnregisteredAt)].toString())),
+    m_isDeleted(jsonObj[attributeToString(Attribute::IsDeleted)].toBool()) {}
 
-QString User::toString(Attribute attribute) {
+QString User::attributeToString(Attribute attribute) {
     switch (attribute) {
     case Attribute::Id:
         return "id";
@@ -43,13 +43,13 @@ QString User::toString(Attribute attribute) {
 
 User::operator QJsonObject() const {
     return QJsonObject{
-                       {toString(Attribute::Id), m_id},
-        {toString(Attribute::Username), m_username},
-        {toString(Attribute::Password), m_password},
-        {toString(Attribute::AvatarUrl), m_avatarUrl.toString()},
-        {toString(Attribute::RegisteredAt), m_registeredAt.toString()},
-        {toString(Attribute::UnregisteredAt), m_unregisteredAt.toString()},
-        {toString(Attribute::IsDeleted), m_isDeleted}};
+                       {attributeToString(Attribute::Id), m_id},
+        {attributeToString(Attribute::Username), m_username},
+        {attributeToString(Attribute::Password), m_password},
+        {attributeToString(Attribute::AvatarUrl), m_avatarUrl.toString()},
+        {attributeToString(Attribute::RegisteredAt), m_registeredAt.toString()},
+        {attributeToString(Attribute::UnregisteredAt), m_unregisteredAt.toString()},
+        {attributeToString(Attribute::IsDeleted), m_isDeleted}};
 }
 
 QString User::id() const { return m_id; }

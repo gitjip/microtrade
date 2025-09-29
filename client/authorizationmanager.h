@@ -14,6 +14,8 @@ public:
     bool isLoggedin() const;
 
 signals:
+    void loggedin();
+    void loggedout();
     void updated();
 
 public slots:

@@ -9,14 +9,14 @@ OrderItem::OrderItem(const QString &id, const QString &orderId,
     m_quantity(quantity), m_cost(cost), m_isDeleted(isDeleted) {}
 
 OrderItem::OrderItem(const QJsonObject &jsonObj)
-    : m_id(jsonObj[toString(Attribute::Id)].toString()),
-    m_orderId(jsonObj[toString(Attribute::OrderId)].toString()),
-    m_productId(jsonObj[toString(Attribute::ProductId)].toString()),
-    m_quantity(jsonObj[toString(Attribute::Quantity)].toInt()),
-    m_cost(jsonObj[toString(Attribute::Cost)].toDouble()),
-    m_isDeleted(jsonObj[toString(Attribute::IsDeleted)].toBool()) {}
+    : m_id(jsonObj[attributeToString(Attribute::Id)].toString()),
+    m_orderId(jsonObj[attributeToString(Attribute::OrderId)].toString()),
+    m_productId(jsonObj[attributeToString(Attribute::ProductId)].toString()),
+    m_quantity(jsonObj[attributeToString(Attribute::Quantity)].toInt()),
+    m_cost(jsonObj[attributeToString(Attribute::Cost)].toDouble()),
+    m_isDeleted(jsonObj[attributeToString(Attribute::IsDeleted)].toBool()) {}
 
-QString OrderItem::toString(Attribute attribute) {
+QString OrderItem::attributeToString(Attribute attribute) {
     switch (attribute) {
     case Attribute::Id:
         return "id";
@@ -36,12 +36,12 @@ QString OrderItem::toString(Attribute attribute) {
 }
 
 OrderItem::operator QJsonObject() const {
-    return QJsonObject{{toString(Attribute::Id), m_id},
-                       {toString(Attribute::OrderId), m_orderId},
-                       {toString(Attribute::ProductId), m_productId},
-                       {toString(Attribute::Quantity), m_quantity},
-                       {toString(Attribute::Cost), m_cost},
-                       {toString(Attribute::IsDeleted), m_isDeleted}};
+    return QJsonObject{{attributeToString(Attribute::Id), m_id},
+                       {attributeToString(Attribute::OrderId), m_orderId},
+                       {attributeToString(Attribute::ProductId), m_productId},
+                       {attributeToString(Attribute::Quantity), m_quantity},
+                       {attributeToString(Attribute::Cost), m_cost},
+                       {attributeToString(Attribute::IsDeleted), m_isDeleted}};
 }
 
 QString OrderItem::id() const { return m_id; }

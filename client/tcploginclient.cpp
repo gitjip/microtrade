@@ -1,6 +1,7 @@
 #include "tcploginclient.h"
 #include "authorizationmanager.h"
 #include "configure.h"
+#include "user.h"
 
 TcpLoginClient::TcpLoginClient(QObject *parent) : TcpClient{parent} {
     connectToHost(QHostAddress(Configure::instance()->hostAddress()),
@@ -15,7 +16,8 @@ void TcpLoginClient::sendAsync(const QString &username, const QString &password,
                    Configure::instance()->port(),
                    AuthorizationManager::instance()->authorizedToken(), "/login",
                    Configure::instance()->timeout(),
-                   {{"username", username}, {"password", password}}),
+                   {{User::attributeToString(User::Attribute::Username), username},
+                    {User::attributeToString(User::Attribute::Password), password}}),
         timeout);
     qDebug() << "TcpLoginClient::sendAsync:" << "username:" << username;
     qDebug() << "TcpLoginClient::sendAsync:" << "password:" << password;
