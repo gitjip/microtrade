@@ -30,7 +30,7 @@ TcpResponse TcpServerLoginHandler::handle(const TcpRequest &tcpRequest) {
                            "failed to generate authorized_token");
     }
     qDebug() << "TcpServerLoginHandler::handle:"
-             << "successfully generate token" + token;
+             << "successfully generate token:" << token;
     return TcpResponse(true, QDateTime::currentDateTime(),
                        QHostAddress(Configure::instance()->hostAddress()),
                        Configure::instance()->port(), true, TcpResponse::StatusType::Success,

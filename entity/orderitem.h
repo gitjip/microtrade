@@ -22,6 +22,7 @@ public:
     qint64 quantity() const;
     double cost() const;
     bool isDeleted() const;
+    bool isValid() const;
 
 private:
     QString m_id;

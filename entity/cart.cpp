@@ -50,3 +50,5 @@ QDateTime Cart::createdAt() const { return m_createdAt; }
 QDateTime Cart::deletedAt() const { return m_deletedAt; }
 
 bool Cart::isDeleted() const { return m_isDeleted; }
+
+bool Cart::isValid() const { return !m_id.isEmpty(); }

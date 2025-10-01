@@ -21,6 +21,7 @@ public:
     QString productId() const;
     qint64 quantity() const;
     bool isDeleted() const;
+    bool isValid() const;
 
 private:
     QString m_id;

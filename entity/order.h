@@ -36,6 +36,7 @@ public:
     QDateTime createdAt() const;
     QDateTime cancelledAt() const;
     bool isDeleted() const;
+    bool isValid() const;
 
 private:
     QString m_id;

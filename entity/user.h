@@ -33,6 +33,7 @@ public:
     QDateTime registeredAt() const;
     QDateTime unregisteredAt() const;
     bool isDeleted() const;
+    bool isValid() const;
 
 private:
     QString m_id;

@@ -65,3 +65,5 @@ QDateTime User::registeredAt() const { return m_registeredAt; }
 QDateTime User::unregisteredAt() const { return m_unregisteredAt; }
 
 bool User::isDeleted() const { return m_isDeleted; }
+
+bool User::isValid() const { return !m_id.isEmpty(); }

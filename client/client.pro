@@ -17,10 +17,13 @@ SOURCES += \
     mainwindow.cpp \
     notificationwidget.cpp \
     orderwidget.cpp \
+    paymentdialog.cpp \
     profilewidget.cpp \
     registerdialog.cpp \
     shopwidget.cpp \
     tcploginclient.cpp \
+    tcpproductclient.cpp \
+    tcpproductlistclient.cpp \
     welcomewidget.cpp
 
 HEADERS += \
@@ -31,10 +34,13 @@ HEADERS += \
     mainwindow.h \
     notificationwidget.h \
     orderwidget.h \
+    paymentdialog.h \
     profilewidget.h \
     registerdialog.h \
     shopwidget.h \
     tcploginclient.h \
+    tcpproductclient.h \
+    tcpproductlistclient.h \
     welcomewidget.h
 
 FORMS += \
@@ -43,6 +49,7 @@ FORMS += \
     mainwindow.ui \
     notificationwidget.ui \
     orderwidget.ui \
+    paymentdialog.ui \
     profilewidget.ui \
     registerdialog.ui \
     shopwidget.ui \

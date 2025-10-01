@@ -23,10 +23,13 @@ void LoginDialog::accept() {
         if (tcpResponse.success()) {
                     QJsonObject responseBody = tcpResponse.body();
             AuthorizationManager::instance()->login(
-                        responseBody["authorized_token"].toString());
+                        responseBody[TcpResponse::attributeToString(
+                                         TcpResponse::Attribute::AuthorizedToken)]
+                            .toString());
         } else {
             qDebug() << "LoginDialog::accept:" << "error:"
-                     << TcpResponse::statusTypeToString(tcpResponse.statusType())
+                     << TcpResponse::statusTypeToString(
+                            tcpResponse.statusType())
                      << tcpResponse.statusDetail();
         }
     });

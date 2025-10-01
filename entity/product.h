@@ -43,6 +43,7 @@ public:
     QDateTime listedAt() const;
     QDateTime delistedAt() const;
     bool isDeleted() const;
+    bool isValid() const;
 
 private:
     QString m_id;

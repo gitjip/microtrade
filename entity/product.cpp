@@ -118,3 +118,5 @@ QDateTime Product::listedAt() const { return m_listedAt; }
 QDateTime Product::delistedAt() const { return m_delistedAt; }
 
 bool Product::isDeleted() const { return m_isDeleted; }
+
+bool Product::isValid() const { return !m_id.isEmpty(); }

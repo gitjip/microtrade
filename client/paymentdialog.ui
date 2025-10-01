@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ShopWidget</class>
- <widget class="QWidget" name="ShopWidget">
+ <class>PaymentDialog</class>
+ <widget class="QDialog" name="PaymentDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,34 +11,46 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="0">
+    <widget class="QPushButton" name="payPushButton">
+     <property name="text">
+      <string>pay</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
     <widget class="QTableWidget" name="tableWidget">
-     <column>
+     <row>
       <property name="text">
        <string>image</string>
       </property>
-     </column>
-     <column>
+     </row>
+     <row>
       <property name="text">
        <string>name</string>
       </property>
-     </column>
-     <column>
+     </row>
+     <row>
       <property name="text">
        <string>price</string>
       </property>
-     </column>
-     <column>
+     </row>
+     <row>
       <property name="text">
        <string>stock</string>
       </property>
-     </column>
+     </row>
+     <row>
+      <property name="text">
+       <string>description</string>
+      </property>
+     </row>
      <column>
       <property name="text">
-       <string>view</string>
+       <string>content</string>
       </property>
      </column>
     </widget>

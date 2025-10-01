@@ -99,3 +99,5 @@ QDateTime Order::createdAt() const { return m_createdAt; }
 QDateTime Order::cancelledAt() const { return m_cancelledAt; }
 
 bool Order::isDeleted() const { return m_isDeleted; }
+
+bool Order::isValid() const { return !m_id.isEmpty(); }

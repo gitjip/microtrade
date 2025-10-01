@@ -17,10 +17,14 @@ SOURCES += \
     productwidget.cpp \
     promotionwidget.cpp \
     serverwidget.cpp \
+    sqlproductfinder.cpp \
+    sqlproductlistfinder.cpp \
     sqltokengenerator.cpp \
     sqluseridfinder.cpp \
     tcpserverlocaldistributor.cpp \
     tcpserverloginhandler.cpp \
+    tcpserverproducthandler.cpp \
+    tcpserverproductlisthandler.cpp \
     userwidget.cpp \
     welcomewidget.cpp
 
@@ -32,10 +36,14 @@ HEADERS += \
     productwidget.h \
     promotionwidget.h \
     serverwidget.h \
+    sqlproductfinder.h \
+    sqlproductlistfinder.h \
     sqltokengenerator.h \
     sqluseridfinder.h \
     tcpserverlocaldistributor.h \
     tcpserverloginhandler.h \
+    tcpserverproducthandler.h \
+    tcpserverproductlisthandler.h \
     userwidget.h \
     welcomewidget.h
 

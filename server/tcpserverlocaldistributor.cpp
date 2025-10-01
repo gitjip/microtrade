@@ -1,6 +1,8 @@
 #include "tcpserverlocaldistributor.h"
 #include "configure.h"
 #include "tcpserverloginhandler.h"
+#include "tcpserverproducthandler.h"
+#include "tcpserverproductlisthandler.h"
 
 TcpServerLocalDistributor::TcpServerLocalDistributor(QObject *parent)
     : TcpServerDistributor{parent} {}
@@ -8,14 +10,23 @@ TcpServerLocalDistributor::TcpServerLocalDistributor(QObject *parent)
 TcpResponse
 TcpServerLocalDistributor::distribute(const TcpRequest &tcpRequest) {
     TcpServerHandler *tcpServerHandler = nullptr;
+    qDebug() << "TcpServerLocalDistributor::distribute:" << tcpRequest.route();
     if (tcpRequest.route() == "/login") {
-        qDebug() << "TcpServerLocalDistributor::distribute" << "/login";
+        // qDebug() << "TcpServerLocalDistributor::distribute" << "/login";
         tcpServerHandler = new TcpServerLoginHandler(this);
+    } else if (tcpRequest.route() == "/product") {
+        // qDebug() << "TcpServerLocalDistributor::distribute" << "/product";
+        tcpServerHandler = new TcpServerProductHandler(this);
+    } else if (tcpRequest.route() == "/product_list") {
+        // qDebug() << "TcpServerLocalDistributor::distribute:" << "/product_list";
+        tcpServerHandler = new TcpServerProductListHandler(this);
     } else {
         return TcpResponse(true, QDateTime::currentDateTime(),
                            QHostAddress(Configure::instance()->hostAddress()),
-                           Configure::instance()->port(), false, TcpResponse::StatusType::NotFound,
-                           "");
+                           Configure::instance()->port(), false,
+                           TcpResponse::StatusType::InvalidRequest,
+                           QString("request of route \"%1\" not supported")
+                               .arg(tcpRequest.route()));
     }
     return tcpServerHandler->handle(tcpRequest);
 }

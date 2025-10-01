@@ -23,6 +23,7 @@ public:
     QDateTime createdAt() const;
     QDateTime deletedAt() const;
     bool isDeleted() const;
+    bool isValid() const;
 
 private:
     QString m_id;

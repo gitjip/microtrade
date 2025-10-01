@@ -55,3 +55,5 @@ qint64 OrderItem::quantity() const { return m_quantity; }
 double OrderItem::cost() const { return m_cost; }
 
 bool OrderItem::isDeleted() const { return m_isDeleted; }
+
+bool OrderItem::isValid() const { return !m_id.isEmpty(); }

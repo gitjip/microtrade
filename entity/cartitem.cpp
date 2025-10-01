@@ -48,3 +48,5 @@ QString CartItem::productId() const { return m_productId; }
 qint64 CartItem::quantity() const { return m_quantity; }
 
 bool CartItem::isDeleted() const { return m_isDeleted; }
+
+bool CartItem::isValid() const {return !m_id.isEmpty();}
