@@ -5,6 +5,8 @@
 TcpLocalServer::TcpLocalServer(QObject *parent) : TcpServer{parent} {
     m_server->listen(QHostAddress(Config::instance()->hostAddress()),
                      Config::instance()->port());
+    qDebug() << "TcpServer::listen:" << Config::instance()->hostAddress()
+             << Config::instance()->port();
 }
 
 TcpLocalServer *TcpLocalServer::instance() {
