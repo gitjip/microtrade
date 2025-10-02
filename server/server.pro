@@ -96,5 +96,4 @@ else:unix: LIBS += -L$$OUT_PWD/../entity/ -lentity
 INCLUDEPATH += $$PWD/../entity
 DEPENDPATH += $$PWD/../entity
 
-DISTFILES += \
-    microtrade.db
+DISTFILES +=
