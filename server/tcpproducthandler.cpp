@@ -1,11 +1,11 @@
-#include "tcpserverproducthandler.h"
-#include "configure.h"
+#include "tcpproducthandler.h"
+#include "config.h"
 #include "sqlproductfinder.h"
 
-TcpServerProductHandler::TcpServerProductHandler(QObject *parent)
-    : TcpServerHandler{parent} {}
+TcpProductHandler::TcpProductHandler(QObject *parent)
+    : TcpHandler{parent} {}
 
-TcpResponse TcpServerProductHandler::handle(const TcpRequest &tcpRequest) {
+TcpResponse TcpProductHandler::handle(const TcpRequest &tcpRequest) {
     SqlProductFinder sqlProductFinder;
     QJsonObject requestBody = tcpRequest.body();
     Product product = sqlProductFinder.exec(
@@ -14,8 +14,8 @@ TcpResponse TcpServerProductHandler::handle(const TcpRequest &tcpRequest) {
     if (!product.isValid()) {
         qDebug() << "TcpServerProductHandler::handle:" << "product not found";
         return TcpResponse(true, QDateTime::currentDateTime(),
-                           QHostAddress(Configure::instance()->hostAddress()),
-                           Configure::instance()->port(), false,
+                           QHostAddress(Config::instance()->hostAddress()),
+                           Config::instance()->port(), false,
                            TcpResponse::StatusType::NotFound, "product not found");
     }
     qDebug() << "TcpServerProductHandler::handle:"
@@ -23,8 +23,8 @@ TcpResponse TcpServerProductHandler::handle(const TcpRequest &tcpRequest) {
     QJsonObject responseBody;
     responseBody["product"] = QJsonObject(product);
     return TcpResponse(true, QDateTime::currentDateTime(),
-                       QHostAddress(Configure::instance()->hostAddress()),
-                       Configure::instance()->port(), true,
+                       QHostAddress(Config::instance()->hostAddress()),
+                       Config::instance()->port(), true,
                        TcpResponse::StatusType::Success,
                        "successfully find product", responseBody);
 }

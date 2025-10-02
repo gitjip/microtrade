@@ -1,9 +1,9 @@
 #include "sqlproductlistfinder.h"
-#include "configure.h"
+#include "config.h"
 #include <QSqlError>
 
 SqlProductListFinder::SqlProductListFinder() {
-    if (SqlServer::open(Configure::instance()->databaseName())) {
+    if (SqlServer::open(Config::instance()->databaseName())) {
         qDebug() << "SqlProductListFinder::SqlProductListFinder:"
                  << "successfully open database";
     }

@@ -11,7 +11,7 @@ CONFIG += c++17
 SOURCES += \
     authorizationmanager.cpp \
     cartwidget.cpp \
-    configure.cpp \
+    config.cpp \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -30,7 +30,7 @@ SOURCES += \
 HEADERS += \
     authorizationmanager.h \
     cartwidget.h \
-    configure.h \
+    config.h \
     logindialog.h \
     mainwindow.h \
     notificationwidget.h \

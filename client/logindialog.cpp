@@ -1,6 +1,6 @@
 #include "logindialog.h"
 #include "authorizationmanager.h"
-#include "configure.h"
+#include "config.h"
 #include "tcploginclient.h"
 #include "ui_logindialog.h"
 
@@ -15,7 +15,7 @@ void LoginDialog::accept() {
     TcpLoginClient *tcpLoginClient = new TcpLoginClient(this);
     tcpLoginClient->sendAsync(ui->usernameLineEdit->text(),
                               ui->passwordLineEdit->text(),
-                              Configure::instance()->timeout());
+                              Config::instance()->timeout());
     connect(tcpLoginClient, &TcpLoginClient::readyRead, this,
             [=](const TcpResponse &tcpResponse) {
                 qDebug() << "LoginDialog::accept:"

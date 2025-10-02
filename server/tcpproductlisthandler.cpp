@@ -1,12 +1,12 @@
-#include "tcpserverproductlisthandler.h"
-#include "configure.h"
+#include "tcpproductlisthandler.h"
+#include "config.h"
 #include "sqlproductlistfinder.h"
 #include <QJsonArray>
 
-TcpServerProductListHandler::TcpServerProductListHandler(QObject *parent)
-    : TcpServerHandler{parent} {}
+TcpProductListHandler::TcpProductListHandler(QObject *parent)
+    : TcpHandler{parent} {}
 
-TcpResponse TcpServerProductListHandler::handle(const TcpRequest &tcpRequest) {
+TcpResponse TcpProductListHandler::handle(const TcpRequest &tcpRequest) {
     Q_UNUSED(tcpRequest);
     SqlProductListFinder sqlProductListFinder;
     QList<Product> productList = sqlProductListFinder.exec();
@@ -17,8 +17,8 @@ TcpResponse TcpServerProductListHandler::handle(const TcpRequest &tcpRequest) {
     }
     responseBody["product_list"] = responseBodyProductList;
     return TcpResponse(true, QDateTime::currentDateTime(),
-                       QHostAddress(Configure::instance()->hostAddress()),
-                       Configure::instance()->port(), true,
+                       QHostAddress(Config::instance()->hostAddress()),
+                       Config::instance()->port(), true,
                        TcpResponse::StatusType::Success,
                        "successfully find product list", responseBody);
 }

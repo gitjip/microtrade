@@ -1,5 +1,5 @@
 #include "paymentdialog.h"
-#include "configure.h"
+#include "config.h"
 #include "product.h"
 #include "tcpproductclient.h"
 #include "ui_paymentdialog.h"
@@ -29,7 +29,7 @@ void PaymentDialog::setRow(int row){
 
 void PaymentDialog::update() {
     TcpProductClient *tcpProductClient = new TcpProductClient(this);
-    tcpProductClient->sendAsync(m_productId, Configure::instance()->timeout());
+    tcpProductClient->sendAsync(m_productId, Config::instance()->timeout());
     connect(tcpProductClient, &TcpProductClient::readyRead, this,
             [=](const TcpResponse &tcpResponse) {
                 qDebug() << "PaymentDialog::update:" << "response fetched:"
@@ -85,7 +85,7 @@ void PaymentDialog::on_payPushButton_clicked()
 {
     qDebug()<<"PaymentDialog::on_payPushButton_clicked";
     TcpPaymentClient *paymentClient = new TcpPaymentClient(this);
-    paymentClient->sendAsync(m_productId, Configure::instance()->timeout());
+    paymentClient->sendAsync(m_productId, Config::instance()->timeout());
     connect(paymentClient, &TcpProductClient::readyRead, this,
             [=](const TcpResponse &tcpResponse) {
                 qDebug() << "PaymentDialog::on_payPushButton_clicked:" << "response fetched:"

@@ -1,13 +1,13 @@
-#include "tcpserverloginhandler.h"
-#include "configure.h"
+#include "tcploginhandler.h"
+#include "config.h"
 #include "sqltokengenerator.h"
 #include "sqluseridfinder.h"
 #include "user.h"
 
-TcpServerLoginHandler::TcpServerLoginHandler(QObject *parent)
-    : TcpServerHandler{parent} {}
+TcpLoginHandler::TcpLoginHandler(QObject *parent)
+    : TcpHandler{parent} {}
 
-TcpResponse TcpServerLoginHandler::handle(const TcpRequest &tcpRequest) {
+TcpResponse TcpLoginHandler::handle(const TcpRequest &tcpRequest) {
     SqlUserIdFinder sqlUserIdFinder;
     QJsonObject requestBody = tcpRequest.body();
     QString userId = sqlUserIdFinder.exec(requestBody[User::attributeToString(User::Attribute::Username)].toString(),
@@ -15,8 +15,8 @@ TcpResponse TcpServerLoginHandler::handle(const TcpRequest &tcpRequest) {
     if (userId.isEmpty()) {
         qDebug() << "TcpServerLoginHandler::handle:" << "user not found";
         return TcpResponse(true, QDateTime::currentDateTime(),
-                           QHostAddress(Configure::instance()->hostAddress()),
-                           Configure::instance()->port(), false, TcpResponse::StatusType::NotFound,
+                           QHostAddress(Config::instance()->hostAddress()),
+                           Config::instance()->port(), false, TcpResponse::StatusType::NotFound,
                            "user not found");
     }
     SqlTokenGenerator sqlTokenGenerator;
@@ -25,15 +25,15 @@ TcpResponse TcpServerLoginHandler::handle(const TcpRequest &tcpRequest) {
         qDebug() << "TcpServerLoginHandler::handle:"
                  << "failed to generate authorized_token";
         return TcpResponse(true, QDateTime::currentDateTime(),
-                           QHostAddress(Configure::instance()->hostAddress()),
-                           Configure::instance()->port(), false, TcpResponse::StatusType::Failed,
+                           QHostAddress(Config::instance()->hostAddress()),
+                           Config::instance()->port(), false, TcpResponse::StatusType::Failed,
                            "failed to generate authorized_token");
     }
     qDebug() << "TcpServerLoginHandler::handle:"
              << "successfully generate token:" << token;
     return TcpResponse(true, QDateTime::currentDateTime(),
-                       QHostAddress(Configure::instance()->hostAddress()),
-                       Configure::instance()->port(), true, TcpResponse::StatusType::Success,
+                       QHostAddress(Config::instance()->hostAddress()),
+                       Config::instance()->port(), true, TcpResponse::StatusType::Success,
                        "successfully generate token",
                        {{TcpResponse::attributeToString(TcpResponse::Attribute::AuthorizedToken), token}});
 }

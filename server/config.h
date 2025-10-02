@@ -1,13 +1,13 @@
-#ifndef CONFIGURE_H
-#define CONFIGURE_H
+#ifndef CONFIG_H
+#define CONFIG_H
 
 #include <QObject>
 #include <QSettings>
 
-class Configure : public QObject {
+class Config : public QObject {
     Q_OBJECT
 public:
-    static Configure* instance();
+    static Config* instance();
 
 public:
     // NetWork
@@ -22,12 +22,12 @@ public:
 signals:
 
 private:
-    explicit Configure(QObject *parent = nullptr);
-    Configure(const Configure &configure) = delete;
-    Configure &operator=(const Configure &configure) = delete;
+    explicit Config(QObject *parent = nullptr);
+    Config(const Config &configure) = delete;
+    Config &operator=(const Config &configure) = delete;
 
 private:
     QSettings *m_settings;
 };
 
-#endif // CONFIGURE_H
+#endif // CONFIG_H

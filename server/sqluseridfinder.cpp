@@ -1,10 +1,10 @@
 #include "sqluseridfinder.h"
-#include "configure.h"
+#include "config.h"
 #include <QSqlError>
 #include <QSqlQuery>
 
 SqlUserIdFinder::SqlUserIdFinder() {
-    if (SqlServer::open(Configure::instance()->databaseName())) {
+    if (SqlServer::open(Config::instance()->databaseName())) {
         qDebug() << "SqlUserIdFinder::SqlUserIdFinder:"
                  << "successfully open database";
     }

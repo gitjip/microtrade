@@ -9,7 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    configure.cpp \
+    config.cpp \
     logwidget.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -22,16 +22,17 @@ SOURCES += \
     sqlproductlistfinder.cpp \
     sqltokengenerator.cpp \
     sqluseridfinder.cpp \
-    tcpserverlocaldistributor.cpp \
-    tcpserverloginhandler.cpp \
-    tcpserverpaymenthandler.cpp \
-    tcpserverproducthandler.cpp \
-    tcpserverproductlisthandler.cpp \
+    tcplocaldistributor.cpp \
+    tcplocalserver.cpp \
+    tcploginhandler.cpp \
+    tcppaymenthandler.cpp \
+    tcpproducthandler.cpp \
+    tcpproductlisthandler.cpp \
     userwidget.cpp \
     welcomewidget.cpp
 
 HEADERS += \
-    configure.h \
+    config.h \
     logwidget.h \
     mainwindow.h \
     notificationwidget.h \
@@ -43,11 +44,12 @@ HEADERS += \
     sqlproductlistfinder.h \
     sqltokengenerator.h \
     sqluseridfinder.h \
-    tcpserverlocaldistributor.h \
-    tcpserverloginhandler.h \
-    tcpserverpaymenthandler.h \
-    tcpserverproducthandler.h \
-    tcpserverproductlisthandler.h \
+    tcplocaldistributor.h \
+    tcplocalserver.h \
+    tcploginhandler.h \
+    tcppaymenthandler.h \
+    tcpproducthandler.h \
+    tcpproductlisthandler.h \
     userwidget.h \
     welcomewidget.h
 

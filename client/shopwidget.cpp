@@ -1,5 +1,5 @@
 #include "shopwidget.h"
-#include "configure.h"
+#include "config.h"
 #include "paymentdialog.h"
 #include "tcpproductlistclient.h"
 #include "ui_shopwidget.h"
@@ -29,7 +29,7 @@ ShopWidget::~ShopWidget() { delete ui; }
 
 void ShopWidget::update() {
     TcpProductListClient *tcpProductListClient = new TcpProductListClient(this);
-    tcpProductListClient->sendAsync(Configure::instance()->timeout());
+    tcpProductListClient->sendAsync(Config::instance()->timeout());
     connect(tcpProductListClient, &TcpProductListClient::readyRead, this,
             [=](const TcpResponse &tcpResponse) {
                 qDebug() << "ShopWidget::update:" << "response fetched:"

@@ -1,6 +1,6 @@
-#include "tcpserverdistributor.h"
+#include "tcpdistributor.h"
 
-TcpServerDistributor::TcpServerDistributor(QObject *parent)
+TcpDistributor::TcpDistributor(QObject *parent)
     : QObject{parent}
 {}
 

@@ -2,19 +2,10 @@
 #include "tcprequest.h"
 #include <QTimer>
 
-TcpServer::TcpServer(TcpServerDistributor *distributor, QObject *parent)
-    : QObject(parent), m_server(new QTcpServer(this)),
-    m_distributor(distributor) {
+TcpServer::TcpServer(QObject *parent)
+    : QObject(parent), m_server(new QTcpServer(this)) {
     connect(m_server, &QTcpServer::newConnection, this,
             &TcpServer::onNewConnection);
-}
-
-TcpServer *TcpServer::instance(TcpServerDistributor *distributor) {
-    static TcpServer tcpServer(distributor);
-    if (!tcpServer.m_distributor) {
-        qDebug() << "TcpServer::instance:" << "distributor is null";
-    }
-    return &tcpServer;
 }
 
 bool TcpServer::listen(const QHostAddress &hostAddress, qint64 port) {

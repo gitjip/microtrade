@@ -1,4 +1,4 @@
-QT += core network concurrent
+QT += core network
 
 TEMPLATE = lib
 DEFINES += TCPSERVER_LIBRARY
@@ -10,15 +10,15 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    tcpserver.cpp \
-    tcpserverdistributor.cpp \
-    tcpserverhandler.cpp
+    tcpdistributor.cpp \
+    tcphandler.cpp \
+    tcpserver.cpp
 
 HEADERS += \
+    tcpdistributor.h \
+    tcphandler.h \
     tcpserver_global.h \
-    tcpserver.h \
-    tcpserverdistributor.h \
-    tcpserverhandler.h
+    tcpserver.h
 
 # Default rules for deployment.
 unix {

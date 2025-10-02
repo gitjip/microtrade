@@ -1,9 +1,9 @@
 #include "sqlpayer.h"
-#include "configure.h"
+#include "config.h"
 #include <QSqlError>
 
 SqlPayer::SqlPayer() {
-    if (SqlServer::open(Configure::instance()->databaseName())) {
+    if (SqlServer::open(Config::instance()->databaseName())) {
         qDebug() << "SqlPayer::SqlPayer:"
                  << "successfully open database";
     }

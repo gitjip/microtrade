@@ -1,5 +1,5 @@
-#ifndef TCPSERVERDISTRIBUTOR_H
-#define TCPSERVERDISTRIBUTOR_H
+#ifndef TCPDISTRIBUTOR_H
+#define TCPDISTRIBUTOR_H
 
 #include "tcpserver_global.h"
 #include "tcprequest.h"
@@ -7,11 +7,11 @@
 // #include "tcpserverthreadpool.h"
 #include <QObject>
 
-class TCPSERVER_EXPORT TcpServerDistributor : public QObject
+class TCPSERVER_EXPORT TcpDistributor : public QObject
 {
     Q_OBJECT
 public:
-    explicit TcpServerDistributor(QObject *parent = nullptr);
+    explicit TcpDistributor(QObject *parent = nullptr);
     virtual TcpResponse distribute(const TcpRequest &tcpRequest) = 0;
     // void setMaxThreadCount(int maxThreadCount);
 
@@ -21,4 +21,4 @@ protected:
     // TcpServerThreadPool *m_threadPool;
 };
 
-#endif // TCPSERVERDISTRIBUTOR_H
+#endif // TCPDISTRIBUTOR_H

@@ -1,6 +1,6 @@
-#include "configure.h"
+#include "config.h"
 
-Configure::Configure(QObject *parent)
+Config::Config(QObject *parent)
     : QObject(parent),
     m_settings(new QSettings("client.ini", QSettings::IniFormat, this)) {
     qDebug() << "Configure::Configure:" << "fileName:" << m_settings->fileName();
@@ -9,8 +9,8 @@ Configure::Configure(QObject *parent)
     qDebug() << "Configure::Configure:" << "timeout" << timeout();
 }
 
-Configure *Configure::instance() {
-    static Configure config;
+Config *Config::instance() {
+    static Config config;
     return &config;
 }
 
@@ -18,7 +18,7 @@ Configure *Configure::instance() {
  * @brief from Network
  * @return hostAddress to QHostAddress
  */
-QString Configure::hostAddress() const {
+QString Config::hostAddress() const {
     return m_settings->value("Network/host_address").toString();
 }
 
@@ -26,7 +26,7 @@ QString Configure::hostAddress() const {
  * @brief from Network
  * @return port
  */
-quint64 Configure::port() const {
+quint64 Config::port() const {
     return m_settings->value("Network/port").toULongLong();
 }
 
@@ -34,6 +34,6 @@ quint64 Configure::port() const {
  * @brief from Network
  * @return timeout
  */
-qint64 Configure::timeout() const {
+qint64 Config::timeout() const {
     return m_settings->value("Network/timeout").toLongLong();
 }

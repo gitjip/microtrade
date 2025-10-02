@@ -1,11 +1,11 @@
 #include "sqltokengenerator.h"
-#include "configure.h"
+#include "config.h"
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QSqlError>
 
 SqlTokenGenerator::SqlTokenGenerator() {
-    SqlServer::open(Configure::instance()->databaseName());
+    SqlServer::open(Config::instance()->databaseName());
 }
 
 QString SqlTokenGenerator::exec(const QString &userId) {
