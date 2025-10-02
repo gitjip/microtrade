@@ -14,12 +14,17 @@ public:
     explicit PaymentDialog(QWidget *parent = nullptr);
     ~PaymentDialog();
     void setProductId(const QString &productId);
+    void setRow(int row);
+
+signals:
+    void paid();
 
 public slots:
     void update();
+    void on_payPushButton_clicked();
 
 private:
-    enum class RowName { Image, Name, Price, Stock, Description };
+    enum class RowName { Row, Image, Name, Price, Stock, Description };
 
 private:
     void setImage(const QUrl &imageUrl);

@@ -22,6 +22,7 @@ SOURCES += \
     registerdialog.cpp \
     shopwidget.cpp \
     tcploginclient.cpp \
+    tcppaymentclient.cpp \
     tcpproductclient.cpp \
     tcpproductlistclient.cpp \
     welcomewidget.cpp
@@ -39,6 +40,7 @@ HEADERS += \
     registerdialog.h \
     shopwidget.h \
     tcploginclient.h \
+    tcppaymentclient.h \
     tcpproductclient.h \
     tcpproductlistclient.h \
     welcomewidget.h

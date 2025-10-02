@@ -3,10 +3,13 @@
 #include "product.h"
 #include "tcpproductclient.h"
 #include "ui_paymentdialog.h"
+#include "tcppaymentclient.h"
 
 PaymentDialog::PaymentDialog(QWidget *parent)
     : QDialog(parent), ui(new Ui::PaymentDialog) {
     ui->setupUi(this);
+
+    setAttribute(Qt::WA_DeleteOnClose);
 
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(
         QHeaderView::Stretch);
@@ -17,6 +20,11 @@ PaymentDialog::~PaymentDialog() { delete ui; }
 void PaymentDialog::setProductId(const QString &productId) {
     m_productId = productId;
     qDebug() << "PaymentDialog::setProductId:" << productId;
+}
+
+void PaymentDialog::setRow(int row){
+    ui->tableWidget->setItem(int(RowName::Row), 0,
+                             new QTableWidgetItem(QString::number(row + 1)));
 }
 
 void PaymentDialog::update() {
@@ -72,3 +80,31 @@ void PaymentDialog::setDescription(const QString &description) {
     ui->tableWidget->setItem(int(RowName::Description), 0,
                              new QTableWidgetItem(description));
 }
+
+void PaymentDialog::on_payPushButton_clicked()
+{
+    qDebug()<<"PaymentDialog::on_payPushButton_clicked";
+    TcpPaymentClient *paymentClient = new TcpPaymentClient(this);
+    paymentClient->sendAsync(m_productId, Configure::instance()->timeout());
+    connect(paymentClient, &TcpProductClient::readyRead, this,
+            [=](const TcpResponse &tcpResponse) {
+                qDebug() << "PaymentDialog::on_payPushButton_clicked:" << "response fetched:"
+                         << QJsonObject(tcpResponse);
+                if (tcpResponse.success()) {
+                    QJsonObject responseBody = tcpResponse.body();
+                    Product product = responseBody["product"].toObject();
+                    setImage(product.imageUrl());
+                    setName(product.name());
+                    setPrice(product.price());
+                    setStock(product.stock());
+                    setDescription(product.description());
+                } else {
+                    qDebug() << "PaymentDialog::on_payPushButton_clicked:" << "error:"
+                             << TcpResponse::statusTypeToString(
+                                    tcpResponse.statusType())
+                             << tcpResponse.statusDetail();
+                }
+            });
+    emit paid();
+}
+

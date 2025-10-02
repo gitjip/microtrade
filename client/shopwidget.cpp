@@ -37,9 +37,10 @@ void ShopWidget::update() {
         if (tcpResponse.success()) {
                     QJsonObject responseBody = tcpResponse.body();
             QJsonArray productList = responseBody["product_list"].toArray();
-                    for (qsizetype i = 0; i < productList.count(); ++i) {
-                addProduct(productList[i].toObject());
-                    }
+            ui->tableWidget->setRowCount(productList.count());
+            for (qsizetype i = 0; i < productList.count(); ++i) {
+                setProduct(i, productList[i].toObject());
+            }
         } else {
             qDebug() << "ShopWidget::update:" << "error:"
                      << TcpResponse::statusTypeToString(
@@ -52,14 +53,18 @@ void ShopWidget::update() {
 void ShopWidget::addProduct(const Product &product) {
     int row = ui->tableWidget->rowCount();
     ui->tableWidget->insertRow(row);
-    addImage(row, product.imageUrl());
-    addName(row, product.name());
-    addPrice(row, product.price());
-    addStock(row, product.stock());
-    addView(row, product.id());
+    setProduct(row, product);
 }
 
-void ShopWidget::addImage(int row, const QUrl &imageUrl) {
+void ShopWidget::setProduct(int row, const Product &product) {
+    setImage(row, product.imageUrl());
+    setName(row, product.name());
+    setPrice(row, product.price());
+    setStock(row, product.stock());
+    setView(row, product.id());
+}
+
+void ShopWidget::setImage(int row, const QUrl &imageUrl) {
     QPixmap pixmap;
     if (!pixmap.load(imageUrl.toString())) {
         ui->tableWidget->setItem(row, int(ColomnName::Image),
@@ -72,22 +77,22 @@ void ShopWidget::addImage(int row, const QUrl &imageUrl) {
     }
 }
 
-void ShopWidget::addName(int row, const QString &productName) {
+void ShopWidget::setName(int row, const QString &productName) {
     ui->tableWidget->setItem(row, int(ColomnName::Name),
                              new QTableWidgetItem(productName));
 }
 
-void ShopWidget::addPrice(int row, double price) {
+void ShopWidget::setPrice(int row, double price) {
     ui->tableWidget->setItem(row, int(ColomnName::Price),
                              new QTableWidgetItem(QString::number(price)));
 }
 
-void ShopWidget::addStock(int row, qint64 stock) {
+void ShopWidget::setStock(int row, qint64 stock) {
     ui->tableWidget->setItem(row, int(ColomnName::Stock),
                              new QTableWidgetItem(QString::number(stock)));
 }
 
-void ShopWidget::addView(int row, const QString &productId) {
+void ShopWidget::setView(int row, const QString &productId) {
     QLabel *viewLink =
         new QLabel("<a href='#' style='color: green;'>view details</a>");
     viewLink->setOpenExternalLinks(false);
@@ -96,7 +101,12 @@ void ShopWidget::addView(int row, const QString &productId) {
         qDebug() << "ShopWidget::addView:" << "QLabel::linkActivated";
         PaymentDialog *paymentDialog = new PaymentDialog(this);
         paymentDialog->setProductId(productId);
+        paymentDialog->setRow(row);
         paymentDialog->update();
-        paymentDialog->open();
+        connect(paymentDialog, &PaymentDialog::paid, this, [=]() {
+            qDebug() << "ShopWidget::addView:" << "onPaid";
+            update();
+        });
+        paymentDialog->show();
     });
 }

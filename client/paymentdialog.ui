@@ -25,6 +25,11 @@
     <widget class="QTableWidget" name="tableWidget">
      <row>
       <property name="text">
+       <string>row</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
        <string>image</string>
       </property>
      </row>

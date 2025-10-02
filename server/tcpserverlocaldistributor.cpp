@@ -1,6 +1,7 @@
 #include "tcpserverlocaldistributor.h"
 #include "configure.h"
 #include "tcpserverloginhandler.h"
+#include "tcpserverpaymenthandler.h"
 #include "tcpserverproducthandler.h"
 #include "tcpserverproductlisthandler.h"
 
@@ -12,14 +13,13 @@ TcpServerLocalDistributor::distribute(const TcpRequest &tcpRequest) {
     TcpServerHandler *tcpServerHandler = nullptr;
     qDebug() << "TcpServerLocalDistributor::distribute:" << tcpRequest.route();
     if (tcpRequest.route() == "/login") {
-        // qDebug() << "TcpServerLocalDistributor::distribute" << "/login";
         tcpServerHandler = new TcpServerLoginHandler(this);
     } else if (tcpRequest.route() == "/product") {
-        // qDebug() << "TcpServerLocalDistributor::distribute" << "/product";
         tcpServerHandler = new TcpServerProductHandler(this);
     } else if (tcpRequest.route() == "/product_list") {
-        // qDebug() << "TcpServerLocalDistributor::distribute:" << "/product_list";
         tcpServerHandler = new TcpServerProductListHandler(this);
+    } else if (tcpRequest.route() == "/pay") {
+        tcpServerHandler = new TcpServerPaymentHandler(this);
     } else {
         return TcpResponse(true, QDateTime::currentDateTime(),
                            QHostAddress(Configure::instance()->hostAddress()),

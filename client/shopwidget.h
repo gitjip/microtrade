@@ -21,11 +21,12 @@ private:
 
 private:
     void addProduct(const Product &product);
-    void addImage(int row, const QUrl &imageUrl);
-    void addName(int row, const QString &productName);
-    void addPrice(int row, double price);
-    void addStock(int row, qint64 stock);
-    void addView(int row, const QString &productId);
+    void setProduct(int row, const Product &product);
+    void setImage(int row, const QUrl &imageUrl);
+    void setName(int row, const QString &productName);
+    void setPrice(int row, double price);
+    void setStock(int row, qint64 stock);
+    void setView(int row, const QString &productId);
 
 private:
     Ui::ShopWidget *ui;
