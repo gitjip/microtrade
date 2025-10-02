@@ -16,7 +16,7 @@ TcpRequest::TcpRequest(const QJsonObject &jsonObj)
           QHostAddress(jsonObj[attributeToString(Attribute::HostAddress)].toString()),
           jsonObj[attributeToString(Attribute::Port)].toInteger(),
           jsonObj[attributeToString(Attribute::Body)].toObject()),
-    m_authorizedToken(jsonObj[attributeToString(Attribute::AuthorizedToken)].toString()),
+    m_authorizedToken(jsonObj[attributeToString(Attribute::Authorization)].toString()),
     m_route(jsonObj[attributeToString(Attribute::Route)].toString()),
     m_timeout(jsonObj[attributeToString(Attribute::Timeout)].toInteger()) {}
 
@@ -28,7 +28,7 @@ TcpRequest::operator QJsonObject() const {
                         {attributeToString(Attribute::HostAddress), m_hostAddress.toString()},
                         {attributeToString(Attribute::Port), qint64(m_port)},
                         {attributeToString(Attribute::Body), m_body},
-                        {attributeToString(Attribute::AuthorizedToken), m_authorizedToken},
+                        {attributeToString(Attribute::Authorization), m_authorizedToken},
                         {attributeToString(Attribute::Route), m_route},
                         {attributeToString(Attribute::Timeout), m_timeout}});
 }

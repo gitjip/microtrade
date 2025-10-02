@@ -1,14 +1,14 @@
-#include "sqltokengenerator.h"
+#include "sqlauthorizer.h"
 #include "config.h"
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QSqlError>
 
-SqlTokenGenerator::SqlTokenGenerator() {
+SqlAuthorizer::SqlAuthorizer() {
     SqlServer::open(Config::instance()->databaseName());
 }
 
-QString SqlTokenGenerator::exec(const QString &userId) {
+QString SqlAuthorizer::exec(const QString &userId) {
     QSqlQuery query(db);
     QDateTime current = QDateTime::currentDateTime();
     QString token = QCryptographicHash::hash(
@@ -20,7 +20,7 @@ QString SqlTokenGenerator::exec(const QString &userId) {
     query.bindValue(":user_id", userId);
     query.bindValue(":loggedin_at", current);
     if (!query.exec()) {
-        qDebug() << "SqlTokenGenerator::exec:" << "executing error -"
+        qDebug() << "SqlTokenGenerator::exec:" << "executing error:"
                  << query.lastError().text();
         return "";
     }

@@ -24,7 +24,7 @@ void LoginDialog::accept() {
                     QJsonObject responseBody = tcpResponse.body();
             AuthorizationManager::instance()->login(
                         responseBody[TcpResponse::attributeToString(
-                                         TcpResponse::Attribute::AuthorizedToken)]
+                                         TcpResponse::Attribute::Authorization)]
                             .toString());
         } else {
             qDebug() << "LoginDialog::accept:" << "error:"

@@ -17,11 +17,11 @@ SOURCES += \
     productwidget.cpp \
     promotionwidget.cpp \
     serverwidget.cpp \
+    sqlauthenticator.cpp \
+    sqlauthorizer.cpp \
     sqlpayer.cpp \
     sqlproductfinder.cpp \
     sqlproductlistfinder.cpp \
-    sqltokengenerator.cpp \
-    sqluseridfinder.cpp \
     tcplocaldistributor.cpp \
     tcplocalserver.cpp \
     tcploginhandler.cpp \
@@ -39,11 +39,11 @@ HEADERS += \
     productwidget.h \
     promotionwidget.h \
     serverwidget.h \
+    sqlauthenticator.h \
+    sqlauthorizer.h \
     sqlpayer.h \
     sqlproductfinder.h \
     sqlproductlistfinder.h \
-    sqltokengenerator.h \
-    sqluseridfinder.h \
     tcplocaldistributor.h \
     tcplocalserver.h \
     tcploginhandler.h \
@@ -95,3 +95,6 @@ else:unix: LIBS += -L$$OUT_PWD/../entity/ -lentity
 
 INCLUDEPATH += $$PWD/../entity
 DEPENDPATH += $$PWD/../entity
+
+DISTFILES += \
+    microtrade.db

@@ -1,13 +1,13 @@
 #include "tcploginhandler.h"
 #include "config.h"
-#include "sqltokengenerator.h"
-#include "sqluseridfinder.h"
+#include "sqlauthorizer.h"
+#include "sqlauthenticator.h"
 #include "user.h"
 
 TcpLoginHandler::TcpLoginHandler(QObject *parent) : TcpHandler{parent} {}
 
 TcpResponse TcpLoginHandler::handle(const TcpRequest &tcpRequest) {
-    SqlUserIdFinder sqlUserIdFinder;
+    SqlAuthenticator sqlUserIdFinder;
     QJsonObject requestBody = tcpRequest.body();
     QString userId = sqlUserIdFinder.exec(
         requestBody[User::attributeToString(User::Attribute::Username)]
@@ -21,7 +21,7 @@ TcpResponse TcpLoginHandler::handle(const TcpRequest &tcpRequest) {
                            Config::instance()->port(), false,
                            TcpResponse::StatusType::NotFound, "user not found");
     }
-    SqlTokenGenerator sqlTokenGenerator;
+    SqlAuthorizer sqlTokenGenerator;
     QString token = sqlTokenGenerator.exec(userId);
     if (userId.isEmpty()) {
         qDebug() << "TcpServerLoginHandler::handle:"
@@ -39,6 +39,6 @@ TcpResponse TcpLoginHandler::handle(const TcpRequest &tcpRequest) {
         QHostAddress(Config::instance()->hostAddress()),
         Config::instance()->port(), true, TcpResponse::StatusType::Success,
         "successfully generate token",
-        {{TcpResponse::attributeToString(TcpResponse::Attribute::AuthorizedToken),
+        {{TcpResponse::attributeToString(TcpResponse::Attribute::Authorization),
           token}});
 }

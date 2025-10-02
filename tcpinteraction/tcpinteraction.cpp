@@ -28,7 +28,7 @@ QString TcpInteraction::attributeToString(Attribute data) {
         return "host_address";
     case Attribute::Port:
         return "port";
-    case Attribute::AuthorizedToken:
+    case Attribute::Authorization:
         return "authorized_token";
     case Attribute::Route:
         return "route";

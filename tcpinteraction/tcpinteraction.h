@@ -15,7 +15,7 @@ public:
         HostAddress,    // QHostAddress String
         Port,           // quint64      Integer
         Body,           // QJsonObject  Object
-        AuthorizedToken,// QString      String
+        Authorization,  // QString      String
         Route,          // QString      String
         Timeout,        // qint64       Integer
         Success,        // bool         Bool

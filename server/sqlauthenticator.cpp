@@ -1,16 +1,16 @@
-#include "sqluseridfinder.h"
+#include "sqlauthenticator.h"
 #include "config.h"
 #include <QSqlError>
 #include <QSqlQuery>
 
-SqlUserIdFinder::SqlUserIdFinder() {
+SqlAuthenticator::SqlAuthenticator() {
     if (SqlServer::open(Config::instance()->databaseName())) {
         qDebug() << "SqlUserIdFinder::SqlUserIdFinder:"
                  << "successfully open database";
     }
 }
 
-QString SqlUserIdFinder::exec(const QString &username,
+QString SqlAuthenticator::exec(const QString &username,
                               const QString &password) {
     QSqlQuery query(db);
     query.prepare("SELECT * FROM users WHERE username=:username AND "
