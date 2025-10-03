@@ -3,24 +3,25 @@
 
 SqlUserFinder::SqlUserFinder() {}
 
-User SqlUserFinder::exec(const QString &userId) {
+User SqlUserFinder::exec(const User &user) {
     QSqlQuery query(db);
-    query.prepare("SELECT * FROM users WHERE id=:id AND is_deleted=0");
-    query.bindValue(":id", userId);
+    query.prepare("SELECT * FROM users WHERE id=:id AND removed_at=NULL");
+    query.bindValue(":id", user.id());
     if (!query.exec()) {
-        qDebug() << "SqlUserFinder::exec:" << query.lastError().text();
+        qDebug() << "SqlUserFinder::exec:" << query.lastError().type()
+                 << query.lastError().text();
         return {};
     }
     if (!query.next()) {
         qDebug() << "SqlUserFinder::exec:" << "not found";
         return {};
     }
-    User user{query.value("id").toString(),
-              query.value("username").toString(),
-              query.value("password").toString(),
-              QUrl(query.value("avatar_url").toString()),
-              query.value("registered_at").toDateTime(),
-              query.value("unregistered_at").toDateTime()};
-    qDebug() << "SqlUserFinder::exec:" << "find user:" << QJsonObject(user);
+    User returned{query.value("id").toLongLong(),
+                  query.value("created_at").toDateTime(),
+                  query.value("removed_at").toDateTime(),
+                  query.value("username").toString(),
+                  query.value("password_hash").toString(),
+                  QUrl(query.value("avatar_url").toString())};
+    qDebug() << "SqlUserFinder::exec:" << "find user:" << returned.toJson();
     return user;
 }

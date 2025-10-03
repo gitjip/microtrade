@@ -1,22 +1,9 @@
 #include "tcpproductclient.h"
-#include "authorizationmanager.h"
-#include "config.h"
-#include "product.h"
 
-TcpProductClient::TcpProductClient(QObject *parent) : TcpClient{parent} {
-    connectToHost(QHostAddress(Config::instance()->hostAddress()),
-                  Config::instance()->port());
-}
+TcpProductClient::TcpProductClient(QObject *parent) : TcpLocalClient{parent} {}
 
-void TcpProductClient::sendAsync(const QString &productId, qint64 timeout) {
-    QJsonObject requestBody;
-    requestBody[Product::attributeToString(Product::Attribute::Id)] = productId;
-    TcpClient::sendAsync(
-        TcpRequest(true, QDateTime::currentDateTime(),
-                   QHostAddress(Config::instance()->hostAddress()),
-                   Config::instance()->port(),
-                   AuthorizationManager::instance()->m_token(),
-                   "/product", timeout, requestBody),
-        timeout);
-    qDebug() << "TcpProductClient::sendAsync:" << "productId:" << productId;
+void TcpProductClient::sendAsync(const Product &product) {
+    QJsonObject body;
+    body["product"] = product.toJson();
+    TcpLocalClient::sendAsync("/product", body);
 }

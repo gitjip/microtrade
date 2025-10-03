@@ -2,13 +2,13 @@
 #define SQLPRODUCTFINDER_H
 
 #include "product.h"
-#include "sqlserver.h"
+#include "sqllocalserver.h"
 
-class SqlProductFinder : public SqlServer
+class SqlProductFinder : public SqlLocalServer
 {
 public:
     SqlProductFinder();
-    Product exec(const QString &productId);
+    Product exec(const Product &product);
 };
 
 #endif // SQLPRODUCTFINDER_H

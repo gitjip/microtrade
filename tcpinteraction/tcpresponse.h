@@ -19,10 +19,10 @@ public:
 
 public:
     TcpResponse();
-    TcpResponse(const QDateTime &dateTime,
-                const QHostAddress &hostAddress, quint64 port, bool success,
-                StatusType statusType, const QString &statusDetail,
-                const QJsonObject &body = QJsonObject());
+    TcpResponse(bool success, StatusType statusType,
+                const QString &statusDetail, const QDateTime &dateTime,
+                const QHostAddress &hostAddress, quint64 port,
+                const QJsonObject &body = {});
     ~TcpResponse() override;
     static TcpResponse fromJson(const QJsonObject &json);
     static TcpResponse fromSocket(QTcpSocket *socket);

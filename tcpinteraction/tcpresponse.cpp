@@ -3,10 +3,10 @@
 
 TcpResponse::TcpResponse() {}
 
-TcpResponse::TcpResponse(const QDateTime &dateTime,
+TcpResponse::TcpResponse(bool success, StatusType statusType,
+                         const QString &statusDetail, const QDateTime &dateTime,
                          const QHostAddress &hostAddress, quint64 port,
-                         bool success, StatusType statusType,
-                         const QString &statusDetail, const QJsonObject &body)
+                         const QJsonObject &body)
     : TcpInteraction(dateTime, hostAddress, port, body), m_success(success),
     m_statusType(statusType), m_statusDetail(statusDetail) {}
 

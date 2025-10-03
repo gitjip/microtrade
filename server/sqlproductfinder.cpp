@@ -1,21 +1,15 @@
 #include "sqlproductfinder.h"
-#include "config.h"
 #include <QSqlError>
 
-SqlProductFinder::SqlProductFinder() {
-    if (SqlServer::open(Config::instance()->databaseName())) {
-        qDebug() << "SqlProductFinder::SqlProductFinder:"
-                 << "successfully open database";
-    }
-}
+SqlProductFinder::SqlProductFinder() {}
 
-Product SqlProductFinder::exec(const QString &productId) {
-    qDebug() << "SqlProductFinder::exec:" << "productId:" << productId;
+Product SqlProductFinder::exec(const Product &product) {
+    qDebug() << "SqlProductFinder::exec:" << "productId:" << product.id();
     QSqlQuery query(db);
-    query.prepare("SELECT * FROM products WHERE id=:id AND is_deleted=0");
-    query.bindValue(":id", productId);
+    query.prepare("SELECT * FROM products WHERE id=:id AND removed_at=NULL");
+    query.bindValue(":id", product.id());
     if (!query.exec()) {
-        qDebug() << "SqlProductFinder::exec:" << "executing error:"
+        qDebug() << "SqlProductFinder::exec:" << query.lastError().type()
                  << query.lastError().text();
         return {};
     }
@@ -23,12 +17,15 @@ Product SqlProductFinder::exec(const QString &productId) {
         qDebug() << "SqlProductFinder::exec:" << "not found";
         return {};
     }
-    return Product(query.value("id").toLongLong(),
-                   query.value("created_at").toDateTime(),
-                   query.value("removed_at").toDateTime(), query.value("name").toString(),
-                   query.value("description").toString(),
-                   query.value("price").toDouble(),
-                   query.value("stock").toLongLong(),
-                   Product::stringToCategory(query.value("category").toString()),
-                   QUrl(query.value("image_url").toString()));
+    Product returned{
+        query.value("id").toLongLong(),
+        query.value("created_at").toDateTime(),
+        query.value("removed_at").toDateTime(),
+        query.value("name").toString(),
+        query.value("description").toString(),
+        query.value("price").toDouble(),
+        query.value("stock").toLongLong(),
+        Product::stringToCategory(query.value("category").toString()),
+        QUrl(query.value("image_url").toString())};
+    return returned;
 }

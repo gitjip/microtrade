@@ -1,37 +1,36 @@
 #include "tcplocaldistributor.h"
 #include "config.h"
-#include "tcploginhandler.h"
 #include "tcpaddtocarthandler.h"
+#include "tcploginhandler.h"
 #include "tcpproducthandler.h"
 #include "tcpproductlisthandler.h"
 
 TcpLocalDistributor::TcpLocalDistributor(QObject *parent)
     : TcpDistributor{parent} {}
 
-TcpLocalDistributor *TcpLocalDistributor::instance(){
+TcpLocalDistributor *TcpLocalDistributor::instance() {
     static TcpLocalDistributor distributor;
     return &distributor;
 }
 
-TcpResponse
-TcpLocalDistributor::distribute(const TcpRequest &tcpRequest) {
-    TcpHandler *tcpServerHandler = nullptr;
-    qDebug() << "TcpServerLocalDistributor::distribute:" << tcpRequest.route();
-    if (tcpRequest.route() == "/login") {
-        tcpServerHandler = new TcpLoginHandler(this);
-    } else if (tcpRequest.route() == "/product") {
-        tcpServerHandler = new TcpProductHandler(this);
-    } else if (tcpRequest.route() == "/product_list") {
-        tcpServerHandler = new TcpProductListHandler(this);
-    } else if (tcpRequest.route() == "/pay") {
-        tcpServerHandler = new TcpAddToCartHandler(this);
+TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
+    TcpHandler *handler = nullptr;
+    qDebug() << "TcpLocalDistributor::distribute:" << request.route();
+    if (request.route() == "/login") {
+        handler = new TcpLoginHandler(this);
+    } else if (request.route() == "/product") {
+        handler = new TcpProductHandler(this);
+    } else if (request.route() == "/product_list") {
+        handler = new TcpProductListHandler(this);
+    } else if (request.route() == "/pay") {
+        handler = new TcpAddToCartHandler(this);
     } else {
-        return TcpResponse(true, QDateTime::currentDateTime(),
-                           QHostAddress(Config::instance()->hostAddress()),
-                           Config::instance()->port(), false,
-                           TcpResponse::StatusType::InvalidRequest,
-                           QString("request of route \"%1\" not supported")
-                               .arg(tcpRequest.route()));
+        return TcpResponse(
+            false, TcpResponse::StatusType::InvalidRequest,
+            QString("route %1 not supported").arg(request.route()),
+            QDateTime::currentDateTime(),
+            QHostAddress(Config::instance()->hostAddress()),
+            Config::instance()->port());
     }
-    return tcpServerHandler->handle(tcpRequest);
+    return handler->handle(request);
 }

@@ -2,9 +2,9 @@
 
 TcpRequest::TcpRequest() {}
 
-TcpRequest::TcpRequest(const QDateTime &dateTime,
+TcpRequest::TcpRequest(const QString &route, qint64 timeout,
+                       const QDateTime &dateTime,
                        const QHostAddress &hostAddress, quint64 port,
-                       const QString &route, qint64 timeout,
                        const QJsonObject &body)
     : TcpInteraction(dateTime, hostAddress, port, body), m_route(route),
     m_timeout(timeout) {}

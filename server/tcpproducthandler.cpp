@@ -1,30 +1,26 @@
 #include "tcpproducthandler.h"
-#include "config.h"
 #include "sqlproductfinder.h"
+#include "tcplocalresponse.h"
 
-TcpProductHandler::TcpProductHandler(QObject *parent)
-    : TcpHandler{parent} {}
+TcpProductHandler::TcpProductHandler(QObject *parent) : TcpHandler{parent} {}
 
-TcpResponse TcpProductHandler::handle(const TcpRequest &tcpRequest) {
+TcpResponse TcpProductHandler::handle(const TcpRequest &request) {
+    QJsonObject requestBody = request.body();
     SqlProductFinder sqlProductFinder;
-    QJsonObject requestBody = tcpRequest.body();
     Product product = sqlProductFinder.exec(
-        requestBody[Product::attributeToString(Product::Attribute::Id)]
-            .toString());
-    if (!product.isValid()) {
+        Product::fromJson(requestBody["product"].toObject()));
+    if (product.isNull()) {
         qDebug() << "TcpServerProductHandler::handle:" << "product not found";
-        return TcpResponse(true, QDateTime::currentDateTime(),
-                           QHostAddress(Config::instance()->hostAddress()),
-                           Config::instance()->port(), false,
-                           TcpResponse::StatusType::NotFound, "product not found");
+        TcpResponse response = TcpLocalResponse::make(
+            false, TcpResponse::StatusType::NotFound, "product not found");
+        qDebug() << "TcpProductHandler::handle" << response.toJson();
+        return response;
     }
-    qDebug() << "TcpServerProductHandler::handle:"
-             << "successfully find product";
     QJsonObject responseBody;
-    responseBody["product"] = QJsonObject(product);
-    return TcpResponse(true, QDateTime::currentDateTime(),
-                       QHostAddress(Config::instance()->hostAddress()),
-                       Config::instance()->port(), true,
-                       TcpResponse::StatusType::Success,
-                       "successfully find product", responseBody);
+    responseBody["product"] = product.toJson();
+    TcpResponse response =
+        TcpLocalResponse::make(true, TcpResponse::StatusType::Success,
+            "successfully find product", responseBody);
+    qDebug() << "TcpProductHandler::handle:" << response.toJson();
+    return response;
 }

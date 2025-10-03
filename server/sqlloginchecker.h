@@ -1,13 +1,14 @@
 #ifndef SQLLOGINCHECKER_H
 #define SQLLOGINCHECKER_H
 
-#include "sqlserver.h"
+#include "sqllocalserver.h"
+#include "user.h"
 
-class SqlLoginChecker : public SqlServer
+class SqlLoginChecker : public SqlLocalServer
 {
 public:
     SqlLoginChecker();
-    QString exec(const QString &username, const QString &password);
+    User exec(const User &user);
 };
 
 #endif // SQLLOGINCHECKER_H

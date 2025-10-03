@@ -1,33 +1,29 @@
 #include "sqlproductlistfinder.h"
-#include "config.h"
 #include <QSqlError>
 
-SqlProductListFinder::SqlProductListFinder() {
-    if (SqlServer::open(Config::instance()->databaseName())) {
-        qDebug() << "SqlProductListFinder::SqlProductListFinder:"
-                 << "successfully open database";
-    }
-}
+SqlProductListFinder::SqlProductListFinder() {}
 
 QList<Product> SqlProductListFinder::exec() {
     QSqlQuery query(db);
-    query.prepare("SELECT * FROM products");
+    query.prepare("SELECT * FROM products WHERE removed_at=NULL");
     if (!query.exec()) {
-        qDebug() << "SqlProductListFinder::exec:" << "executing error:"
+        qDebug() << "SqlProductListFinder::exec:" << query.lastError().type()
                  << query.lastError().text();
         return {};
     }
     QList<Product> productList;
     while (query.next()) {
-        productList.append(Product(
-            query.value("id").toString(), query.value("name").toString(),
-            query.value("description").toString(), query.value("price").toDouble(),
+        Product product{
+            query.value("id").toLongLong(),
+            query.value("created_at").toDateTime(),
+            query.value("removed_at").toDateTime(),
+            query.value("name").toString(),
+            query.value("description").toString(),
+            query.value("price").toDouble(),
             query.value("stock").toLongLong(),
             Product::stringToCategory(query.value("category").toString()),
-            QUrl(query.value("image_url").toString()),
-            query.value("listed_at").toDateTime(),
-            query.value("delisted_at").toDateTime(),
-            query.value("is_deleted").toBool()));
+            QUrl(query.value("image_url").toString())};
+        productList.append(product);
     }
     return productList;
 }

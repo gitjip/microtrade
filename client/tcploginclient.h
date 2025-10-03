@@ -1,15 +1,14 @@
 #ifndef TCPLOGINCLIENT_H
 #define TCPLOGINCLIENT_H
 
-#include "tcpclient.h"
-#include <QObject>
+#include "tcplocalclient.h"
+#include "user.h"
 
-class TcpLoginClient : public TcpClient {
+class TcpLoginClient : public TcpLocalClient {
     Q_OBJECT
 public:
     explicit TcpLoginClient(QObject *parent = nullptr);
-    void sendAsync(const QString &username, const QString &password,
-                   qint64 timeout = -1);
+    void sendAsync(const User &user);
 };
 
 #endif // TCPLOGINCLIENT_H

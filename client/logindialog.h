@@ -1,6 +1,7 @@
 #ifndef LOGINDIALOG_H
 #define LOGINDIALOG_H
 
+#include "tcpresponse.h"
 #include <QDialog>
 
 namespace Ui {
@@ -17,6 +18,7 @@ public:
 
 private slots:
     void accept() override;
+    void login(const TcpResponse &response);
 
 private:
     Ui::LoginDialog *ui;

@@ -11,7 +11,7 @@ class TcpLocalDistributor : public TcpDistributor
     Q_OBJECT
 public:
     static TcpLocalDistributor *instance();
-    TcpResponse distribute(const TcpRequest &tcpRequest) override;
+    TcpResponse distribute(const TcpRequest &request) override;
 
 private:
     explicit TcpLocalDistributor(QObject *parent = nullptr);

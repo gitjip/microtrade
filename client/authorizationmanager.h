@@ -1,6 +1,7 @@
 #ifndef AUTHORIZATIONMANAGER_H
 #define AUTHORIZATIONMANAGER_H
 
+#include "authorization.h"
 #include <QObject>
 
 class AuthorizationManager : public QObject
@@ -8,8 +9,10 @@ class AuthorizationManager : public QObject
     Q_OBJECT
 public:
     static AuthorizationManager *instance(); // single instance
+    void login(const Authorization &authorization);
     void login(const QString &token);
     void logout();
+    Authorization authorization() const;
     QString token() const;
     bool isLoggedin() const;
 
@@ -27,7 +30,7 @@ private:
     AuthorizationManager &operator=(const AuthorizationManager &authorizationManager) = delete;
 
 private:
-    QString m_token; // empty if not loggedin
+    Authorization m_authorization;    // Null if not login
 };
 
 #endif // AUTHORIZATIONMANAGER_H

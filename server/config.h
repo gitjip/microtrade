@@ -1,8 +1,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include <QObject>
 #include <QSettings>
+#include <QHostAddress>
 
 class Config : public QObject {
     Q_OBJECT
@@ -11,7 +11,7 @@ public:
 
 public:
     // NetWork
-    QString hostAddress() const;
+    QHostAddress hostAddress() const;
     quint64 port() const;
     qint64 timeout() const;
     // ThreadPool

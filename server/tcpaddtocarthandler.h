@@ -1,7 +1,6 @@
 #ifndef TCPADDTOCARTHANDLER_H
 #define TCPADDTOCARTHANDLER_H
 
-#include <QObject>
 #include <tcphandler.h>
 
 class TcpAddToCartHandler : public TcpHandler

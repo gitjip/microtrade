@@ -2,6 +2,7 @@
 #define CONFIG_H
 
 #include <QSettings>
+#include <QHostAddress>
 
 class Config : public QObject {
     Q_OBJECT
@@ -9,7 +10,7 @@ public:
     static Config *instance();
 
 public:
-    QString hostAddress() const;
+    QHostAddress hostAddress() const;
     quint64 port() const;
     qint64 timeout() const;
 

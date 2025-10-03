@@ -8,8 +8,8 @@
 class TCPINTERACTION_EXPORT TcpRequest : public TcpInteraction {
 public:
     TcpRequest();
-    TcpRequest(const QDateTime &dateTime, const QHostAddress &hostAddress,
-               quint64 port, const QString &route, qint64 timeout,
+    TcpRequest(const QString &route, qint64 timeout, const QDateTime &dateTime,
+               const QHostAddress &hostAddress, quint64 port,
                const QJsonObject &body = QJsonObject());
     ~TcpRequest() override;
     static TcpRequest fromJson(const QJsonObject &json);

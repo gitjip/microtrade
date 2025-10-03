@@ -19,13 +19,15 @@ SOURCES += \
     serverwidget.cpp \
     sqlauthenticator.cpp \
     sqlauthorizer.cpp \
+    sqllocalserver.cpp \
     sqlloginchecker.cpp \
-    sqlpayer.cpp \
     sqlproductfinder.cpp \
     sqlproductlistfinder.cpp \
+    sqlproductreducer.cpp \
     sqluserfinder.cpp \
     tcpaddtocarthandler.cpp \
     tcplocaldistributor.cpp \
+    tcplocalresponse.cpp \
     tcplocalserver.cpp \
     tcploginhandler.cpp \
     tcpproducthandler.cpp \
@@ -43,13 +45,15 @@ HEADERS += \
     serverwidget.h \
     sqlauthenticator.h \
     sqlauthorizer.h \
+    sqllocalserver.h \
     sqlloginchecker.h \
-    sqlpayer.h \
     sqlproductfinder.h \
     sqlproductlistfinder.h \
+    sqlproductreducer.h \
     sqluserfinder.h \
     tcpaddtocarthandler.h \
     tcplocaldistributor.h \
+    tcplocalresponse.h \
     tcplocalserver.h \
     tcploginhandler.h \
     tcpproducthandler.h \

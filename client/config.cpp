@@ -4,7 +4,7 @@ Config::Config(QObject *parent)
     : QObject(parent),
     m_settings(new QSettings("client.ini", QSettings::IniFormat, this)) {
     qDebug() << "Configure::Configure:" << "fileName:" << m_settings->fileName();
-    qDebug() << "Configure::Configure:" << "host_address" << hostAddress();
+    qDebug() << "Configure::Configure:" << "host_address" << hostAddress().toString();
     qDebug() << "Configure::Configure:" << "port" << port();
     qDebug() << "Configure::Configure:" << "timeout" << timeout();
 }
@@ -18,8 +18,8 @@ Config *Config::instance() {
  * @brief from Network
  * @return hostAddress to QHostAddress
  */
-QString Config::hostAddress() const {
-    return m_settings->value("Network/host_address").toString();
+QHostAddress Config::hostAddress() const {
+    return QHostAddress(m_settings->value("Network/host_address").toString());
 }
 
 /**

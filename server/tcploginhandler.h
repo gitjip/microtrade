@@ -1,7 +1,6 @@
 #ifndef TCPLOGINHANDLER_H
 #define TCPLOGINHANDLER_H
 
-#include <QObject>
 #include "tcphandler.h"
 
 class TcpLoginHandler : public TcpHandler

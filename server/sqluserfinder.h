@@ -1,14 +1,14 @@
 #ifndef SQLUSERFINDER_H
 #define SQLUSERFINDER_H
 
-#include <sqlserver.h>
+#include "sqllocalserver.h"
 #include "user.h"
 
-class SqlUserFinder : public SqlServer
+class SqlUserFinder : public SqlLocalServer
 {
 public:
     SqlUserFinder();
-    User exec(const QString &userId);
+    User exec(const User &user);
 };
 
 #endif // SQLUSERFINDER_H

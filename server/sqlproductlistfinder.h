@@ -1,10 +1,10 @@
 #ifndef SQLPRODUCTLISTFINDER_H
 #define SQLPRODUCTLISTFINDER_H
 
-#include <sqlserver.h>
 #include "product.h"
+#include "sqllocalserver.h"
 
-class SqlProductListFinder : public SqlServer
+class SqlProductListFinder : public SqlLocalServer
 {
 public:
     SqlProductListFinder();

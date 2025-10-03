@@ -1,32 +1,25 @@
 #include "sqlloginchecker.h"
-#include "config.h"
 #include <QSqlError>
 #include <QSqlQuery>
 
-SqlLoginChecker::SqlLoginChecker() {
-    if (SqlServer::open(Config::instance()->databaseName())) {
-        qDebug() << "SqlUserIdFinder::SqlUserIdFinder:"
-                 << "successfully open database";
-    }
-}
+SqlLoginChecker::SqlLoginChecker() {}
 
-QString SqlLoginChecker::exec(const QString &username,
-                              const QString &password) {
+User SqlLoginChecker::exec(const User &user) {
     QSqlQuery query(db);
     query.prepare("SELECT * FROM users WHERE username=:username AND "
-                  "password=:password AND is_deleted=0");
-    query.bindValue(":username", username);
-    query.bindValue(":password", password);
+                  "password_hash=:password_hash AND removed_at=NULL");
+    query.bindValue(":username", user.username());
+    query.bindValue(":password_hash", user.passwordHash());
     if (!query.exec()) {
-        qDebug() << "SqlUserIdFinder::exec:" << "executing error:"
+        qDebug() << "SqlUserIdFinder::exec:" << query.lastError().type()
                  << query.lastError().text();
-        return "";
+        return {};
     }
     if (!query.next()) {
         qDebug() << "SqlUserIdFinder::exec:" << "not found";
-        return "";
+        return {};
     }
-    QString userId = query.value("id").toString();
-    qDebug() << "SqlUserIdFinder::exec:" << "user_id:" << userId;
-    return userId;
+    User returned(query.value("id").toLongLong(), {}, {}, "", "");
+    qDebug() << "SqlUserIdFinder::exec:" << "user_id:" << returned.id();
+    return returned;
 }

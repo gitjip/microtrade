@@ -1,13 +1,15 @@
 #ifndef SQLAUTHENTICATOR_H
 #define SQLAUTHENTICATOR_H
 
-#include <sqlserver.h>
+#include "sqllocalserver.h"
+#include "authorization.h"
+#include "user.h"
 
-class SqlAuthenticator : public SqlServer
+class SqlAuthenticator : public SqlLocalServer
 {
 public:
     SqlAuthenticator();
-    QString exec(const QString &authorization);
+    User exec(const Authorization &authorization);
 };
 
 #endif // SQLAUTHENTICATOR_H

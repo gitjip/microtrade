@@ -11,10 +11,10 @@ void TcpClient::connectToHost(const QHostAddress &hostAddress, qint64 port) {
 
 /**
  * @brief TcpClient::sendAsync
- * @param tcpRequest
+ * @param request
  * @param timeout disabled if equals to -1
  */
-void TcpClient::sendAsync(const TcpRequest &tcpRequest, qint64 timeout) {
+void TcpClient::sendAsync(const TcpRequest &request, qint64 timeout) {
     QTimer *timer = new QTimer(this);
     if (timeout != -1) {
         timer->setInterval(timeout);
@@ -32,12 +32,14 @@ void TcpClient::sendAsync(const TcpRequest &tcpRequest, qint64 timeout) {
             emit timedOut();
             deleteLater();
         } else {
-            if (!send(tcpRequest)) {
+            if (!send(request)) {
                 qDebug() << "TcpClient::sendAsync: failed";
                 deleteLater();
             } else {
                 connect(m_socket, &QTcpSocket::readyRead, this, [=]() {
                     emit readyRead(TcpResponse::fromSocket(m_socket));
+                    qDebug() << "TcpClient::sendAsync:" << "request:"
+                             << request.toJson();
                     deleteLater();
                 });
             }
@@ -47,16 +49,16 @@ void TcpClient::sendAsync(const TcpRequest &tcpRequest, qint64 timeout) {
 
 /**
  * @brief TcpClient::send
- * @param tcpRequest
+ * @param request
  * @return return false if an error occurred
  */
-bool TcpClient::send(const TcpRequest &tcpRequest) {
+bool TcpClient::send(const TcpRequest &request) {
     if (!m_socket || !m_socket->isOpen()) {
         qDebug() << "TcpClient::send: socket not open";
         emit notOpened();
         return false;
     }
-    if (m_socket->write(tcpRequest.toBytes()) == -1) {
+    if (m_socket->write(request.toBytes()) == -1) {
         qDebug() << "TcpClient::send: socket writing error";
         emit writtingErrorOccurred();
         return false;

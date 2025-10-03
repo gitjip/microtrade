@@ -17,11 +17,13 @@ SOURCES += \
     mainwindow.cpp \
     notificationwidget.cpp \
     orderwidget.cpp \
+    passwordhasher.cpp \
     paymentdialog.cpp \
     profilewidget.cpp \
     registerdialog.cpp \
     shopwidget.cpp \
     tcpaddtocartclient.cpp \
+    tcplocalclient.cpp \
     tcploginclient.cpp \
     tcpproductclient.cpp \
     tcpproductlistclient.cpp \
@@ -35,11 +37,13 @@ HEADERS += \
     mainwindow.h \
     notificationwidget.h \
     orderwidget.h \
+    passwordhasher.h \
     paymentdialog.h \
     profilewidget.h \
     registerdialog.h \
     shopwidget.h \
     tcpaddtocartclient.h \
+    tcplocalclient.h \
     tcploginclient.h \
     tcpproductclient.h \
     tcpproductlistclient.h \

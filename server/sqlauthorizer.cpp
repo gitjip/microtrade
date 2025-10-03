@@ -1,29 +1,28 @@
 #include "sqlauthorizer.h"
-#include "config.h"
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QSqlError>
 
-SqlAuthorizer::SqlAuthorizer() {
-    SqlServer::open(Config::instance()->databaseName());
-}
+SqlAuthorizer::SqlAuthorizer() {}
 
-QString SqlAuthorizer::exec(const QString &userId) {
+Authorization SqlAuthorizer::exec(const User &user) {
     QSqlQuery query(db);
     QDateTime current = QDateTime::currentDateTime();
-    QString token = QCryptographicHash::hash(
-        (userId + current.toString()).toUtf8(), QCryptographicHash::Sha256).toHex();
-    query.prepare("INSERT INTO login_records "
-                  "(authorized_token,user_id,loggedin_at,is_deleted) VALUES "
-                  "(:authorized_token,:user_id,:loggedin_at,0)");
+    QByteArray bytes = (QString::number(user.id()) + current.toString()).toUtf8();
+    QString token =
+        QCryptographicHash::hash(bytes, QCryptographicHash::Sha256).toHex();
+    query.prepare("INSERT INTO authorizations "
+                  "(created_at,token,user_id) VALUES "
+                  "(:created_at,:token,:user_id)");
+    query.bindValue(":created_at", current);
     query.bindValue(":authorized_token", token);
-    query.bindValue(":user_id", userId);
-    query.bindValue(":loggedin_at", current);
+    query.bindValue(":user_id", user.id());
     if (!query.exec()) {
-        qDebug() << "SqlTokenGenerator::exec:" << "executing error:"
+        qDebug() << "SqlTokenGenerator::exec" << query.lastError().type()
                  << query.lastError().text();
-        return "";
+        return {};
     }
-    qDebug() << "SqlTokenGenerator::exec:" << "token:" << token;
-    return token;
+    Authorization authorization{-1, {}, {}, -1, token};
+    qDebug() << "SqlTokenGenerator::exec" << "success" << authorization.toJson();
+    return authorization;
 }
