@@ -5,7 +5,12 @@
 
 class ENTITY_EXPORT Log : public Entity {
 public:
-    enum class Type { Info, Warning, Error };
+    enum class Type {
+        Null = 0,
+        Info,
+        Warning,
+        Error
+    };
 
     Log();
     Log(const qint64 &id, const QDateTime &createdAt, const QDateTime &removedAt,
@@ -23,7 +28,7 @@ private:
     void initFromJson(const QJsonObject &json) override;
 
 private:
-    Type m_type = Type::Info;
+    Type m_type = Type::Null;
     QString m_text;
 };
 

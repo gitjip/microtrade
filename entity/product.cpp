@@ -1,4 +1,5 @@
 #include "product.h"
+#include <QtGlobal>
 
 Product::Product() {}
 
@@ -16,14 +17,26 @@ Product Product::fromJson(const QJsonObject &json) {
 
 QJsonObject Product::toJson() const {
     QJsonObject json = Entity::toJson();
-    json["name"] = m_name;
-    json["description"] = m_description;
-    json["price"] = m_price;
-    json["stock"] = m_stock;
-    json["category"] = categoryToString(m_category);
+
+    if (!m_name.isEmpty()) {
+        json["name"] = m_name;
+    }
+    if (!m_description.isEmpty()) {
+        json["description"] = m_description;
+    }
+    if (!qIsNaN(m_price)) {
+        json["price"] = m_price;
+    }
+    if (m_stock != -1) {
+        json["stock"] = m_stock;
+    }
+    if (m_category != Category::Null) {
+        json["category"] = categoryToString(m_category);
+    }
     if (!m_imageUrl.isEmpty()) {
         json["imageUrl"] = m_imageUrl.toString();
     }
+
     return json;
 }
 
@@ -31,30 +44,32 @@ void Product::initFromJson(const QJsonObject &json) {
     Entity::initFromJson(json);
     m_name = json["name"].toString();
     m_description = json["description"].toString();
-    m_price = json["price"].toDouble();
-    m_stock = json["stock"].toInteger();
+    m_price = json["price"].toDouble(qQNaN());
+    m_stock = json["stock"].toInteger(-1);
     m_category = stringToCategory(json["category"].toString());
     m_imageUrl = QUrl(json["imageUrl"].toString());
 }
 
 QString Product::categoryToString(Category category) {
     switch (category) {
+    case Category::Null: return "null";
     case Category::Clothes: return "clothes";
     case Category::Electronic: return "electronic";
     case Category::Food: return "food";
     case Category::Furniture: return "furniture";
     case Category::Tool: return "tool";
-    default: return "food";
+    default: return "null";
     }
 }
 
 Product::Category Product::stringToCategory(const QString &categoryString) {
-    if (categoryString == "food") return Category::Food;
+    if (categoryString == "null" || categoryString.isEmpty()) return Category::Null;
+    else if (categoryString == "food") return Category::Food;
     else if (categoryString == "clothes") return Category::Clothes;
     else if (categoryString == "furniture") return Category::Furniture;
     else if (categoryString == "tool") return Category::Tool;
     else if (categoryString == "electronic") return Category::Electronic;
-    else return Category::Clothes;
+    else return Category::Null;
 }
 
 QString Product::name() const { return m_name; }

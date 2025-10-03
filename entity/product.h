@@ -6,7 +6,14 @@
 
 class ENTITY_EXPORT Product : public Entity {
 public:
-    enum class Category { Food, Clothes, Furniture, Tool, Electronic };
+    enum class Category {
+        Null = 0,
+        Food,
+        Clothes,
+        Furniture,
+        Tool,
+        Electronic
+    };
 
     Product();
     Product(const qint64 &id, const QDateTime &createdAt, const QDateTime &removedAt,
@@ -31,9 +38,9 @@ private:
 private:
     QString m_name;
     QString m_description;
-    double m_price = 0;
-    qint64 m_stock = 0;
-    Category m_category = Category::Clothes;
+    double m_price = qQNaN();
+    qint64 m_stock = -1;
+    Category m_category = Category::Null;
     QUrl m_imageUrl;
 };
 

@@ -19,9 +19,9 @@ public:
     qint64 quantity() const;
 
 private:
-    qint64 m_cartId = 0;
-    qint64 m_productId = 0;
-    qint64 m_quantity = 0;
+    qint64 m_cartId = -1;
+    qint64 m_productId = -1;
+    qint64 m_quantity = -1;
 };
 
 #endif // CARTITEM_H

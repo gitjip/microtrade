@@ -19,7 +19,7 @@ private:
     void initFromJson(const QJsonObject &json) override;
 
 private:
-    qint64 m_userId = 0;
+    qint64 m_userId = -1;
 };
 
 #endif // CART_H

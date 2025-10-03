@@ -22,7 +22,7 @@ public:
 
 private:
     void initFromJson(const QJsonObject &json) override;
-    void initFromSocket(QTcpSocket *socket) override;
+    // void initFromSocket(QTcpSocket *socket) override;
 
 private:
     QString m_route;

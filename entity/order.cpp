@@ -1,4 +1,5 @@
 #include "order.h"
+#include <QtGlobal>
 
 Order::Order() {}
 
@@ -14,37 +15,47 @@ Order Order::fromJson(const QJsonObject &json) {
 
 QJsonObject Order::toJson() const {
     QJsonObject json = Entity::toJson();
-    json["userId"] = m_userId;
-    json["cost"] = m_cost;
-    json["status"] = statusToString(m_status);
+
+    if (m_userId != -1) {
+        json["userId"] = m_userId;
+    }
+    if (!qIsNaN(m_cost)) {
+        json["cost"] = m_cost;
+    }
+    if (m_status != Status::Null) {
+        json["status"] = statusToString(m_status);
+    }
+
     return json;
 }
 
 void Order::initFromJson(const QJsonObject &json) {
     Entity::initFromJson(json);
-    m_userId = json["userId"].toInteger();
-    m_cost = json["cost"].toDouble();
+    m_userId = json["userId"].toInteger(-1);
+    m_cost = json["cost"].toDouble(qQNaN());
     m_status = stringToStatus(json["status"].toString());
 }
 
 QString Order::statusToString(Status status) {
     switch (status) {
+    case Status::Null: return "null";
     case Status::Accepted: return "accepted";
     case Status::Returned: return "returned";
     case Status::Cancelled: return "cancelled";
     case Status::Pending: return "pending";
     case Status::Unaccepted: return "unaccepted";
-    default: return "pending";
+    default: return "null";
     }
 }
 
 Order::Status Order::stringToStatus(const QString &statusString) {
-    if (statusString == "accepted") return Status::Accepted;
+    if (statusString == "null" || statusString.isEmpty()) return Status::Null;
+    else if (statusString == "accepted") return Status::Accepted;
     else if (statusString == "returned") return Status::Returned;
     else if (statusString == "cancelled") return Status::Cancelled;
     else if (statusString == "pending") return Status::Pending;
     else if (statusString == "unaccepted") return Status::Unaccepted;
-    else return Status::Pending;
+    else return Status::Null;
 }
 
 qint64 Order::userId() const { return m_userId; }

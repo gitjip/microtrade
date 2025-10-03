@@ -1,4 +1,5 @@
 #include "entity.h"
+#include <cmath>
 
 Entity::Entity() {}
 
@@ -17,14 +18,20 @@ Entity Entity::fromJson(const QJsonObject &json) {
 
 QJsonObject Entity::toJson() const {
     QJsonObject json;
-    json["id"] = m_id;
-    json["createdAt"] = m_createdAt.toString();
-    json["removedAt"] = m_removedAt.toString();
+    if (m_id != -1) {
+        json["id"] = m_id;
+    }
+    if (m_createdAt.isValid()) {
+        json["createdAt"] = m_createdAt.toString();
+    }
+    if (m_removedAt.isValid()) {
+        json["removedAt"] = m_removedAt.toString();
+    }
     return json;
 }
 
 void Entity::initFromJson(const QJsonObject &json) {
-    m_id = json["id"].toInteger();
+    m_id = json["id"].toInteger(-1);
     m_createdAt = QDateTime::fromString(json["createdAt"].toString());
     m_removedAt = QDateTime::fromString(json["removedAt"].toString());
 }

@@ -18,9 +18,8 @@ TcpRequest TcpRequest::fromJson(const QJsonObject &json) {
 }
 
 TcpRequest TcpRequest::fromSocket(QTcpSocket *socket) {
-    TcpRequest request;
-    request.initFromSocket(socket);
-    return request;
+    qint64 length = bytesToValue(socket->read(8));
+    return fromJson(QJsonDocument::fromJson(socket->read(length)).object());
 }
 
 QJsonObject TcpRequest::toJson() const {
@@ -36,10 +35,10 @@ void TcpRequest::initFromJson(const QJsonObject &json) {
     m_timeout = json["timeout"].toInteger();
 }
 
-void TcpRequest::initFromSocket(QTcpSocket *socket) {
-    qint64 length = bytesToValue(socket->read(8));
-    initFromJson(QJsonDocument::fromJson(socket->read(length)).object());
-}
+// void TcpRequest::initFromSocket(QTcpSocket *socket) {
+//     qint64 length = bytesToValue(socket->read(8));
+//     initFromJson(QJsonDocument::fromJson(socket->read(length)).object());
+// }
 
 QString TcpRequest::route() const { return m_route; }
 

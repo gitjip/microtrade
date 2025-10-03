@@ -14,8 +14,14 @@ Notification Notification::fromJson(const QJsonObject &json) {
 
 QJsonObject Notification::toJson() const {
     QJsonObject json = Entity::toJson();
-    json["userId"] = m_userId;
-    json["content"] = m_content;
+
+    if (m_userId != -1) {
+        json["userId"] = m_userId;
+    }
+    if (!m_content.isEmpty()) {
+        json["content"] = m_content;
+    }
+
     return json;
 }
 

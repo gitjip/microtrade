@@ -22,7 +22,7 @@ protected:
     virtual void initFromJson(const QJsonObject &json);
 
 protected:
-    qint64 m_id = 0;
+    qint64 m_id = -1;
     QDateTime m_createdAt;
     QDateTime m_removedAt;
     bool m_isNull = true;

@@ -14,8 +14,14 @@ Log Log::fromJson(const QJsonObject &json) {
 
 QJsonObject Log::toJson() const {
     QJsonObject json = Entity::toJson();
-    json["type"] = typeToString(m_type);
-    json["text"] = m_text;
+
+    if (m_type != Type::Null) {
+        json["type"] = typeToString(m_type);
+    }
+    if (!m_text.isEmpty()) {
+        json["text"] = m_text;
+    }
+
     return json;
 }
 
@@ -27,18 +33,20 @@ void Log::initFromJson(const QJsonObject &json) {
 
 QString Log::typeToString(Type type) {
     switch (type) {
+    case Type::Null: return "null";
     case Type::Info: return "info";
     case Type::Warning: return "warning";
     case Type::Error: return "error";
-    default: return "info";
+    default: return "null";
     }
 }
 
 Log::Type Log::stringToType(const QString &typeString) {
-    if (typeString == "info") return Type::Info;
+    if (typeString == "null" || typeString.isEmpty()) return Type::Null;
+    else if (typeString == "info") return Type::Info;
     else if (typeString == "warning") return Type::Warning;
     else if (typeString == "error") return Type::Error;
-    else return Type::Info;
+    else return Type::Null;
 }
 
 Log::Type Log::type() const { return m_type; }

@@ -1,4 +1,5 @@
 #include "orderitem.h"
+#include <QtGlobal>
 
 OrderItem::OrderItem() {}
 
@@ -16,19 +17,29 @@ OrderItem OrderItem::fromJson(const QJsonObject &json) {
 
 QJsonObject OrderItem::toJson() const {
     QJsonObject json = Entity::toJson();
-    json["orderId"] = m_orderId;
-    json["productId"] = m_productId;
-    json["quantity"] = m_quantity;
-    json["cost"] = m_cost;
+
+    if (m_orderId != -1) {
+        json["orderId"] = m_orderId;
+    }
+    if (m_productId != -1) {
+        json["productId"] = m_productId;
+    }
+    if (m_quantity != -1) {
+        json["quantity"] = m_quantity;
+    }
+    if (!qIsNaN(m_cost)) {
+        json["cost"] = m_cost;
+    }
+
     return json;
 }
 
 void OrderItem::initFromJson(const QJsonObject &json) {
     Entity::initFromJson(json);
-    m_orderId = json["orderId"].toInteger();
-    m_productId = json["productId"].toInteger();
-    m_quantity = json["quantity"].toInteger();
-    m_cost = json["cost"].toDouble();
+    m_orderId = json["orderId"].toInteger(-1);
+    m_productId = json["productId"].toInteger(-1);
+    m_quantity = json["quantity"].toInteger(-1);
+    m_cost = json["cost"].toDouble(qQNaN());
 }
 
 qint64 OrderItem::orderId() const { return m_orderId; }

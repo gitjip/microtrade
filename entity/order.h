@@ -5,7 +5,14 @@
 
 class ENTITY_EXPORT Order : public Entity {
 public:
-    enum class Status { Pending, Cancelled, Accepted, Unaccepted, Returned };
+    enum class Status {
+        Null = 0,
+        Pending,
+        Cancelled,
+        Accepted,
+        Unaccepted,
+        Returned
+    };
 
     Order();
     Order(const qint64 &id, const QDateTime &createdAt, const QDateTime &removedAt,
@@ -24,9 +31,9 @@ private:
     void initFromJson(const QJsonObject &json) override;
 
 private:
-    qint64 m_userId = 0;
-    double m_cost = 0;
-    Status m_status = Status::Pending;
+    qint64 m_userId = -1;
+    double m_cost = qQNaN();
+    Status m_status = Status::Null;
 };
 
 #endif // ORDER_H

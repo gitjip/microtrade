@@ -29,9 +29,9 @@ void TcpServer::onReadyRead() {
     QTimer::singleShot(0, this, [this, socket]() {
         TcpResponse response =
             m_distributor->distribute(TcpRequest::fromSocket(socket));
-        socket->write(response);
-        qDebug() << "response sent:" << QJsonObject(response)
-                 << "size:" << QByteArray(response).size();
+        socket->write(response.toBytes());
+        qDebug() << "response sent:" << response.toJson()
+                 << "size:" << response.toJson().size();
     });
 }
 

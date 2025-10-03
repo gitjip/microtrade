@@ -15,11 +15,17 @@ User User::fromJson(const QJsonObject &json) {
 
 QJsonObject User::toJson() const {
     QJsonObject json = Entity::toJson();
-    json["username"] = m_username;
-    json["passwordHash"] = m_passwordHash;
+
+    if (!m_username.isEmpty()) {
+        json["username"] = m_username;
+    }
+    if (!m_passwordHash.isEmpty()) {
+        json["passwordHash"] = m_passwordHash;
+    }
     if (!m_avatarUrl.isEmpty()) {
         json["avatarUrl"] = m_avatarUrl.toString();
     }
+
     return json;
 }
 

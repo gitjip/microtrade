@@ -13,9 +13,17 @@ CartItem CartItem::fromJson(const QJsonObject &json) {
 
 QJsonObject CartItem::toJson() const {
     QJsonObject json = Entity::toJson();
-    json["cartId"] = m_cartId;
-    json["productId"] = m_productId;
-    json["quantity"] = m_quantity;
+
+    if (m_cartId != -1) {
+        json["cartId"] = m_cartId;
+    }
+    if (m_productId != -1) {
+        json["productId"] = m_productId;
+    }
+    if (m_quantity != -1) {
+        json["quantity"] = m_quantity;
+    }
+
     return json;
 }
 
@@ -27,7 +35,5 @@ void CartItem::initFromJson(const QJsonObject &json) {
 }
 
 qint64 CartItem::cartId() const { return m_cartId; }
-
 qint64 CartItem::productId() const { return m_productId; }
-
 qint64 CartItem::quantity() const { return m_quantity; }

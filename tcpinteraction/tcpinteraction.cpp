@@ -17,11 +17,11 @@ TcpInteraction TcpInteraction::fromJson(const QJsonObject &json) {
     return interaction;
 }
 
-TcpInteraction TcpInteraction::fromSocket(QTcpSocket *socket) {
-    TcpInteraction interaction;
-    interaction.initFromSocket(socket);
-    return interaction;
-}
+// TcpInteraction TcpInteraction::fromSocket(QTcpSocket *socket) {
+//     TcpInteraction interaction;
+//     interaction.initFromSocket(socket);
+//     return interaction;
+// }
 
 QJsonObject TcpInteraction::toJson() const {
     QJsonObject json;
@@ -44,10 +44,10 @@ void TcpInteraction::initFromJson(const QJsonObject &json) {
     m_body = json["body"].toObject();
 }
 
-void TcpInteraction::initFromSocket(QTcpSocket *socket) {
-    qint64 length = bytesToValue(socket->read(8));
-    initFromJson(QJsonDocument::fromJson(socket->read(length)).object());
-}
+// void TcpInteraction::initFromSocket(QTcpSocket *socket) {
+//     qint64 length = bytesToValue(socket->read(8));
+//     initFromJson(QJsonDocument::fromJson(socket->read(length)).object());
+// }
 
 QByteArray TcpInteraction::valueToBytes(qint64 value) {
     QByteArray bytes;

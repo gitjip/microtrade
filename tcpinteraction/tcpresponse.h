@@ -37,7 +37,7 @@ public:
 
 private:
     void initFromJson(const QJsonObject &json) override;
-    void initFromSocket(QTcpSocket *socket) override;
+    // void initFromSocket(QTcpSocket *socket) override;
 
 private:
     bool m_success = false;

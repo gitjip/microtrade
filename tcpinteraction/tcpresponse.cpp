@@ -19,9 +19,8 @@ TcpResponse TcpResponse::fromJson(const QJsonObject &json) {
 }
 
 TcpResponse TcpResponse::fromSocket(QTcpSocket *socket) {
-    TcpResponse response;
-    response.initFromSocket(socket);
-    return response;
+    qint64 length = bytesToValue(socket->read(8));
+    return fromJson(QJsonDocument::fromJson(socket->read(length)).object());
 }
 
 QJsonObject TcpResponse::toJson() const {
@@ -39,10 +38,10 @@ void TcpResponse::initFromJson(const QJsonObject &json) {
     m_statusDetail = json["statusDetail"].toString();
 }
 
-void TcpResponse::initFromSocket(QTcpSocket *socket) {
-    qint64 length = bytesToValue(socket->read(8));
-    initFromJson(QJsonDocument::fromJson(socket->read(length)).object());
-}
+// void TcpResponse::initFromSocket(QTcpSocket *socket) {
+//     qint64 length = bytesToValue(socket->read(8));
+//     initFromJson(QJsonDocument::fromJson(socket->read(length)).object());
+// }
 
 QString TcpResponse::statusTypeToString(StatusType statusType) {
     switch (statusType) {

@@ -28,7 +28,7 @@ void AuthorizationManager::logout() {
     }
 }
 
-QString AuthorizationManager::m_token() const {
+QString AuthorizationManager::token() const {
     return m_token;
 }
 

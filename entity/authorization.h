@@ -6,8 +6,9 @@
 class ENTITY_EXPORT Authorization : public Entity {
 public:
     Authorization();
-    Authorization(const qint64 &id, const QDateTime &createdAt, const QDateTime &removedAt,
-                  const qint64 &userId, const QString &token);
+    Authorization(const qint64 &id, const QDateTime &createdAt,
+                  const QDateTime &removedAt, const qint64 &userId,
+                  const QString &token);
     static Authorization fromJson(const QJsonObject &json);
     QJsonObject toJson() const override;
 
@@ -19,7 +20,7 @@ private:
     void initFromJson(const QJsonObject &json) override;
 
 private:
-    qint64 m_userId = 0;
+    qint64 m_userId = -1;
     QString m_token;
 };
 

@@ -14,7 +14,11 @@ Cart Cart::fromJson(const QJsonObject &json) {
 
 QJsonObject Cart::toJson() const {
     QJsonObject json = Entity::toJson();
-    json["userId"] = m_userId;
+
+    if (m_userId != -1) {
+        json["userId"] = m_userId;
+    }
+
     return json;
 }
 

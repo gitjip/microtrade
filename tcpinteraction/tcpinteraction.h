@@ -14,7 +14,7 @@ public:
                    quint64 port, const QJsonObject &body = QJsonObject());
     virtual ~TcpInteraction();
     static TcpInteraction fromJson(const QJsonObject &json);
-    static TcpInteraction fromSocket(QTcpSocket *socket);
+    // static TcpInteraction fromSocket(QTcpSocket *socket);
     virtual QJsonObject toJson() const;
     QByteArray toBytes() const;
 
@@ -27,7 +27,7 @@ public:
 
 protected:
     virtual void initFromJson(const QJsonObject &json);
-    virtual void initFromSocket(QTcpSocket *socket);
+    // virtual void initFromSocket(QTcpSocket *socket);
     static QByteArray valueToBytes(qint64 value);
     static qint64 bytesToValue(QByteArray bytes);
 

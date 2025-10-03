@@ -6,8 +6,9 @@
 class ENTITY_EXPORT Notification : public Entity {
 public:
     Notification();
-    Notification(const qint64 &id, const QDateTime &createdAt, const QDateTime &removedAt,
-                 const qint64 &userId, const QString &content);
+    Notification(const qint64 &id, const QDateTime &createdAt,
+                 const QDateTime &removedAt, const qint64 &userId,
+                 const QString &content);
     static Notification fromJson(const QJsonObject &json);
     QJsonObject toJson() const override;
 
@@ -19,7 +20,7 @@ private:
     void initFromJson(const QJsonObject &json) override;
 
 private:
-    qint64 m_userId = 0;
+    qint64 m_userId = -1;
     QString m_content;
 };
 

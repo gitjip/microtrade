@@ -15,8 +15,14 @@ Authorization Authorization::fromJson(const QJsonObject &json) {
 
 QJsonObject Authorization::toJson() const {
     QJsonObject json = Entity::toJson();
-    json["userId"] = m_userId;
-    json["token"] = m_token;
+
+    if (m_userId != -1) {
+        json["userId"] = m_userId;
+    }
+    if (!m_token.isEmpty()) {
+        json["token"] = m_token;
+    }
+
     return json;
 }
 
