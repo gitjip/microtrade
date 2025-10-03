@@ -1,13 +1,13 @@
 #include "tcploginhandler.h"
 #include "config.h"
 #include "sqlauthorizer.h"
-#include "sqlauthenticator.h"
+#include "sqlloginchecker.h"
 #include "user.h"
 
 TcpLoginHandler::TcpLoginHandler(QObject *parent) : TcpHandler{parent} {}
 
 TcpResponse TcpLoginHandler::handle(const TcpRequest &tcpRequest) {
-    SqlAuthenticator sqlUserIdFinder;
+    SqlLoginChecker sqlUserIdFinder;
     QJsonObject requestBody = tcpRequest.body();
     QString userId = sqlUserIdFinder.exec(
         requestBody[User::attributeToString(User::Attribute::Username)]

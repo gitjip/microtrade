@@ -20,27 +20,6 @@ User::User(const QJsonObject &jsonObj)
           jsonObj[attributeToString(Attribute::UnregisteredAt)].toString())),
     m_isDeleted(jsonObj[attributeToString(Attribute::IsDeleted)].toBool()) {}
 
-QString User::attributeToString(Attribute attribute) {
-    switch (attribute) {
-    case Attribute::Id:
-        return "id";
-    case Attribute::Username:
-        return "username";
-    case Attribute::Password:
-        return "password";
-    case Attribute::AvatarUrl:
-        return "avatar_url";
-    case Attribute::RegisteredAt:
-        return "registered_at";
-    case Attribute::UnregisteredAt:
-        return "unregistered_at";
-    case Attribute::IsDeleted:
-        return "is_deleted";
-    default:
-        return "";
-    }
-}
-
 User::operator QJsonObject() const {
     return QJsonObject{
                        {attributeToString(Attribute::Id), m_id},

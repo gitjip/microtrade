@@ -3,7 +3,7 @@
 #include "product.h"
 #include "tcpproductclient.h"
 #include "ui_paymentdialog.h"
-#include "tcppaymentclient.h"
+#include "tcpaddtocartclient.h"
 
 PaymentDialog::PaymentDialog(QWidget *parent)
     : QDialog(parent), ui(new Ui::PaymentDialog) {
@@ -84,7 +84,7 @@ void PaymentDialog::setDescription(const QString &description) {
 void PaymentDialog::on_payPushButton_clicked()
 {
     qDebug()<<"PaymentDialog::on_payPushButton_clicked";
-    TcpPaymentClient *paymentClient = new TcpPaymentClient(this);
+    TcpAddToCartClient *paymentClient = new TcpAddToCartClient(this);
     paymentClient->sendAsync(m_productId, Config::instance()->timeout());
     connect(paymentClient, &TcpProductClient::readyRead, this,
             [=](const TcpResponse &tcpResponse) {

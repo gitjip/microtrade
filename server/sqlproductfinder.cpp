@@ -17,11 +17,11 @@ Product SqlProductFinder::exec(const QString &productId) {
     if (!query.exec()) {
         qDebug() << "SqlProductFinder::exec:" << "executing error:"
                  << query.lastError().text();
-        return Product();
+        return {};
     }
     if (!query.next()) {
         qDebug() << "SqlProductFinder::exec:" << "not found";
-        return Product();
+        return {};
     }
     return Product(query.value("id").toString(), query.value("name").toString(),
                    query.value("description").toString(),

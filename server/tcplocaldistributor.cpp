@@ -1,7 +1,7 @@
 #include "tcplocaldistributor.h"
 #include "config.h"
 #include "tcploginhandler.h"
-#include "tcppaymenthandler.h"
+#include "tcpaddtocarthandler.h"
 #include "tcpproducthandler.h"
 #include "tcpproductlisthandler.h"
 
@@ -24,7 +24,7 @@ TcpLocalDistributor::distribute(const TcpRequest &tcpRequest) {
     } else if (tcpRequest.route() == "/product_list") {
         tcpServerHandler = new TcpProductListHandler(this);
     } else if (tcpRequest.route() == "/pay") {
-        tcpServerHandler = new TcpPaymentHandler(this);
+        tcpServerHandler = new TcpAddToCartHandler(this);
     } else {
         return TcpResponse(true, QDateTime::currentDateTime(),
                            QHostAddress(Config::instance()->hostAddress()),

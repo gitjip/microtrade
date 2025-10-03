@@ -12,6 +12,6 @@ SqlPayer::SqlPayer() {
 bool SqlPayer::exec(const QString &productId){
     qDebug() << "SqlPayer::exec:" << "productId:" << productId;
     QSqlQuery query(db);
-    query.prepare("UPDATE products SET stock = stock - 1 WHERE id=:id");
+
     return false;
 }

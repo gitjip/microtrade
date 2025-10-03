@@ -6,23 +6,11 @@
 
 class ENTITY_EXPORT User : public Entity {
 public:
-    enum class Attribute {
-        Id,
-        Username,
-        Password,
-        AvatarUrl,
-        RegisteredAt,
-        UnregisteredAt,
-        IsDeleted
-    };
-
-public:
     User();
     User(const QString &id, const QString &username, const QString &password,
          const QUrl &avatarUrl, const QDateTime &registeredAt,
          const QDateTime &unregisteredAt, bool isDeleted = false);
     User(const QJsonObject &jsonObj);
-    static QString attributeToString(Attribute attribute);
     operator QJsonObject() const override;
 
 public:
