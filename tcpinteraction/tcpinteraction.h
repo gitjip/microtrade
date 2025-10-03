@@ -8,46 +8,30 @@
 
 class TCPINTERACTION_EXPORT TcpInteraction {
 public:
-    enum class Attribute {
-                        // Qt           QJsonValue
-        IsValid,        // bool         Bool
-        DateTime,       // QDateTime    String
-        HostAddress,    // QHostAddress String
-        Port,           // quint64      Integer
-        Body,           // QJsonObject  Object
-        Authorization,  // QString      String
-        Route,          // QString      String
-        Timeout,        // qint64       Integer
-        Success,        // bool         Bool
-        StatusType,     // QString      String
-        StatusDetail    // QString      String
-    };
-
-public:
     TcpInteraction();
-    TcpInteraction(bool isValid, const QDateTime &dateTime,
+    TcpInteraction(const QDateTime &dateTime,
                    const QHostAddress &hostAddress, quint64 port,
                    const QJsonObject &body = QJsonObject());
+    TcpInteraction(const QJsonObject &body);
     virtual ~TcpInteraction();
     virtual operator QJsonObject() const = 0;
     operator QByteArray() const;
-    static QString attributeToString(Attribute data);
 
 public:
-    bool isValid() const;
+    bool isNull() const;
     QDateTime dateTime() const;
     QHostAddress hostAddress() const;
     quint64 port() const;
     QJsonObject body() const;
 
 protected:
-    static QByteArray toFixedBytes(qint64 value);
-    static qint64 toValue(QByteArray bytes);
+    static QByteArray valueToBytes(qint64 value);
+    static qint64 bytesToValue(QByteArray bytes);
 
 protected:
     bool m_isValid = false;
     QDateTime m_dateTime = QDateTime::currentDateTime();
-    QHostAddress m_hostAddress;
+    QHostAddress m_hostAddress = QHostAddress("127.0.0.1");
     quint64 m_port = 0;
     QJsonObject m_body;
 

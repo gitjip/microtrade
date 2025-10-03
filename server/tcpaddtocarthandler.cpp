@@ -10,7 +10,7 @@ TcpResponse TcpAddToCartHandler::handle(const TcpRequest &request) {
     SqlUserFinder userFinder;
     QJsonObject requestBody = request.body();
     User user = userFinder.exec(requestBody["user_id"].toString());
-    if (!user.isValid()) {
+    if (!user.isNull()) {
         qDebug() << "TcpAddToCartHandler::handle:" << "unauthorized";
         return TcpResponse{true,
                            QDateTime::currentDateTime(),

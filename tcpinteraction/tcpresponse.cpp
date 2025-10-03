@@ -3,45 +3,35 @@
 
 TcpResponse::TcpResponse() {}
 
-TcpResponse::TcpResponse(bool isValid, const QDateTime &dateTime,
+TcpResponse::TcpResponse(const QDateTime &dateTime,
                          const QHostAddress &hostAddress, quint64 port,
-                         bool success, StatusType statusType, const QString &statusDetail,
-                         const QJsonObject &body)
-    : TcpInteraction(isValid, dateTime, hostAddress, port, body),
-    m_success(success), m_statusType(statusType),
-    m_statusDetail(statusDetail) {}
+                         bool success, StatusType statusType,
+                         const QString &statusDetail, const QJsonObject &body)
+    : TcpInteraction(dateTime, hostAddress, port, body), m_success(success),
+    m_statusType(statusType), m_statusDetail(statusDetail) {}
 
 TcpResponse::TcpResponse(const QJsonObject &jsonObj)
-    : TcpInteraction(
-          jsonObj[attributeToString(Attribute::IsValid)].toBool(),
-          QDateTime::fromString(
-              jsonObj[attributeToString(Attribute::DateTime)].toString()),
-          QHostAddress(
-              jsonObj[attributeToString(Attribute::HostAddress)].toString()),
-          jsonObj[attributeToString(Attribute::Port)].toInteger(),
-          jsonObj[attributeToString(Attribute::Body)].toObject()),
-    m_success(jsonObj[attributeToString(Attribute::Success)].toBool()),
-    m_statusType(
-          stringToStatusType(jsonObj[attributeToString(Attribute::StatusType)].toString())),
-    m_statusDetail(
-          jsonObj[attributeToString(Attribute::StatusDetail)].toString()) {}
+    : TcpInteraction(QDateTime::fromString(jsonObj["dateTime"].toString()),
+                     QHostAddress(jsonObj["hostAddress"].toString()),
+                     jsonObj["port"].toInteger(), jsonObj["body"].toObject()),
+    m_success(jsonObj["success"].toBool()),
+    m_statusType(stringToStatusType(jsonObj["statusType"].toString())),
+    m_statusDetail(jsonObj["statusDetail"].toString()) {}
 
 TcpResponse::~TcpResponse() {}
 
 TcpResponse::operator QJsonObject() const {
-    return QJsonObject(
-        {{attributeToString(Attribute::IsValid), m_isValid},
-         {attributeToString(Attribute::DateTime), m_dateTime.toString()},
-         {attributeToString(Attribute::HostAddress), m_hostAddress.toString()},
-         {attributeToString(Attribute::Port), qint64(m_port)},
-         {attributeToString(Attribute::Body), m_body},
-         {attributeToString(Attribute::Success), m_success},
-         {attributeToString(Attribute::StatusType), statusTypeToString(m_statusType)},
-         {attributeToString(Attribute::StatusDetail), m_statusDetail}});
+    return QJsonObject({{"dateTime", m_dateTime.toString()},
+                        {"hostAddress", m_hostAddress.toString()},
+                        {"port", qint64(m_port)},
+                        {"body", m_body},
+                        {"success", m_success},
+                        {"statusType", statusTypeToString(m_statusType)},
+                        {"statusDetail", m_statusDetail}});
 }
 
 TcpResponse TcpResponse::fromSocket(QTcpSocket *socket) {
-    qint64 length = toValue(socket->read(8));
+    qint64 length = bytesToValue(socket->read(8));
     return TcpResponse(QJsonDocument::fromJson(socket->read(length)).object());
 }
 
@@ -50,17 +40,17 @@ QString TcpResponse::statusTypeToString(StatusType statusType) {
     case StatusType::Success:
         return "success";
     case StatusType::NotFound:
-        return "not_found";
+        return "notFound";
     case StatusType::Failed:
         return "failed";
     case StatusType::Unauthorized:
         return "unauthorized";
     case StatusType::RuntimeError:
-        return "runtime_error";
+        return "runtimeError";
     case StatusType::Timeout:
         return "timeout";
     case StatusType::InvalidRequest:
-        return "invalid_status";
+        return "invalidStatus";
     default:
         return "";
     }
@@ -70,20 +60,20 @@ TcpResponse::StatusType
 TcpResponse::stringToStatusType(const QString &statusTypeString) {
     if (statusTypeString == "success") {
         return StatusType::Success;
-    } else if (statusTypeString == "not_found") {
+    } else if (statusTypeString == "notFound") {
         return StatusType::NotFound;
     } else if (statusTypeString == "failed") {
         return StatusType::Failed;
     } else if (statusTypeString == "unauthorized") {
         return StatusType::Unauthorized;
-    } else if (statusTypeString == "runtime_error") {
+    } else if (statusTypeString == "runtimeError") {
         return StatusType::RuntimeError;
     } else if (statusTypeString == "timeout") {
         return StatusType::Timeout;
-    } else if (statusTypeString == "invalid_status") {
+    } else if (statusTypeString == "invalidStatus") {
         return StatusType::InvalidRequest;
     } else {
-        return StatusType::InvalidRequest;   // default
+        return StatusType::InvalidRequest; // default
     }
 }
 

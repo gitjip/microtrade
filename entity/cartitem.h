@@ -5,30 +5,23 @@
 
 class ENTITY_EXPORT CartItem : public Entity {
 public:
-    enum class Attribute { Id, CartId, ProductId, Quantity, IsDeleted };
-
-public:
     CartItem();
-    CartItem(const QString &id, const QString &cartId, const QString &productId,
-             qint64 quantity, bool isDeleted = false);
-    CartItem(const QJsonObject &jsonObj);
-    static QString attributeToString(Attribute attribute);
-    operator QJsonObject() const override;
-
-public:
-    QString id() const;
-    QString cartId() const;
-    QString productId() const;
-    qint64 quantity() const;
-    bool isDeleted() const;
-    bool isValid() const;
+    CartItem(qint64 cartId, qint64 productId, qint64 quantity);
+    static CartItem fromJson(const QJsonObject &json);
+    QJsonObject toJson() const override;
 
 private:
-    QString m_id;
-    QString m_cartId;
-    QString m_productId;
+    void initFromJson(const QJsonObject &json) override;
+
+public:
+    qint64 cartId() const;
+    qint64 productId() const;
+    qint64 quantity() const;
+
+private:
+    qint64 m_cartId;
+    qint64 m_productId;
     qint64 m_quantity = 0;
-    bool m_isDeleted = false;
 };
 
 #endif // CARTITEM_H

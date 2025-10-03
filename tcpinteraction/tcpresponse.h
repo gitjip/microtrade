@@ -19,7 +19,7 @@ public:
 
 public:
     TcpResponse();
-    TcpResponse(bool isValid, const QDateTime &dateTime,
+    TcpResponse(const QDateTime &dateTime,
                 const QHostAddress &hostAddress, quint64 port, bool success,
                 StatusType statusType, const QString &statusDetail,
                 const QJsonObject &body = QJsonObject());

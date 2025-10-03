@@ -13,6 +13,7 @@ SOURCES += \
     cart.cpp \
     cartitem.cpp \
     entity.cpp \
+    log.cpp \
     notification.cpp \
     order.cpp \
     orderitem.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     cartitem.h \
     entity_global.h \
     entity.h \
+    log.h \
     notification.h \
     order.h \
     orderitem.h \

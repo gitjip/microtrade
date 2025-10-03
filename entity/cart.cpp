@@ -2,53 +2,25 @@
 
 Cart::Cart() {}
 
-Cart::Cart(const QString &id, const QString &userId, const QDateTime &createdAt,
-           const QDateTime &deletedAt, bool isDeleted)
-    : m_id(id), m_userId(userId), m_createdAt(createdAt),
-    m_deletedAt(deletedAt), m_isDeleted(isDeleted) {}
+Cart::Cart(const qint64 &id, const QDateTime &createdAt,
+           const QDateTime &removedAt, const qint64 &userId)
+    : Entity(id, createdAt, removedAt), m_userId(userId) {}
 
-Cart::Cart(const QJsonObject &jsonObj)
-    : m_id(jsonObj[attributeToString(Attribute::Id)].toString()),
-    m_userId(jsonObj[attributeToString(Attribute::UserId)].toString()),
-    m_createdAt(QDateTime::fromString(
-          jsonObj[attributeToString(Attribute::CreatedAt)].toString())),
-    m_deletedAt(QDateTime::fromString(
-          jsonObj[attributeToString(Attribute::DeletedAt)].toString())),
-    m_isDeleted(jsonObj[attributeToString(Attribute::IsDeleted)].toBool()) {}
-
-QString Cart::attributeToString(Attribute attribute) {
-    switch (attribute) {
-    case Attribute::Id:
-        return "id";
-    case Attribute::UserId:
-        return "user_id";
-    case Attribute::CreatedAt:
-        return "created_at";
-    case Attribute::DeletedAt:
-        return "deleted_at";
-    case Attribute::IsDeleted:
-        return "is_deleted";
-    default:
-        return "";
-    }
+Cart Cart::fromJson(const QJsonObject &json) {
+    Cart cart;
+    cart.initFromJson(json);
+    return cart;
 }
 
-Cart::operator QJsonObject() const {
-    return QJsonObject{{attributeToString(Attribute::Id), m_id},
-                       {attributeToString(Attribute::UserId), m_userId},
-                       {attributeToString(Attribute::CreatedAt), m_createdAt.toString()},
-                       {attributeToString(Attribute::DeletedAt), m_deletedAt.toString()},
-                       {attributeToString(Attribute::IsDeleted), m_isDeleted}};
+QJsonObject Cart::toJson() const {
+    QJsonObject json = Entity::toJson();
+    json["userId"] = m_userId;
+    return json;
 }
 
-QString Cart::id() const { return m_id; }
+void Cart::initFromJson(const QJsonObject &json) {
+    Entity::initFromJson(json);
+    m_userId = json["userId"].toInteger();
+}
 
-QString Cart::userId() const { return m_userId; }
-
-QDateTime Cart::createdAt() const { return m_createdAt; }
-
-QDateTime Cart::deletedAt() const { return m_deletedAt; }
-
-bool Cart::isDeleted() const { return m_isDeleted; }
-
-bool Cart::isValid() const { return !m_id.isEmpty(); }
+qint64 Cart::userId() const { return m_userId; }

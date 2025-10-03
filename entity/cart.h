@@ -4,33 +4,22 @@
 #include "entity.h"
 #include <QDateTime>
 
-class ENTITY_EXPORT Cart : public Entity
-{
-public:
-    enum class Attribute { Id, UserId, CreatedAt, DeletedAt, IsDeleted };
-
+class ENTITY_EXPORT Cart : public Entity {
 public:
     Cart();
-    Cart(const QString &id, const QString &userId, const QDateTime &createdAt,
-         const QDateTime &deletedAt, bool isDeleted = false);
-    Cart(const QJsonObject &jsonObj);
-    static QString attributeToString(Attribute attribute);
-    operator QJsonObject() const override;
+    Cart(const qint64 &id, const QDateTime &createdAt, const QDateTime &removedAt,
+         const qint64 &userId);
+    static Cart fromJson(const QJsonObject &json);
+    QJsonObject toJson() const override;
 
 public:
-    QString id() const;
-    QString userId() const;
-    QDateTime createdAt() const;
-    QDateTime deletedAt() const;
-    bool isDeleted() const;
-    bool isValid() const;
+    qint64 userId() const;
 
 private:
-    QString m_id;
-    QString m_userId;
-    QDateTime m_createdAt;
-    QDateTime m_deletedAt;
-    bool m_isDeleted = false;
+    void initFromJson(const QJsonObject &json) override;
+
+private:
+    qint64 m_userId = 0;
 };
 
 #endif // CART_H

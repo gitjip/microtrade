@@ -7,30 +7,31 @@
 class ENTITY_EXPORT User : public Entity {
 public:
     User();
-    User(const QString &id, const QString &username, const QString &password,
-         const QUrl &avatarUrl, const QDateTime &registeredAt,
-         const QDateTime &unregisteredAt, bool isDeleted = false);
+    User(const qint64 &id, const QString &username, const QString &passwordHash,
+         const QUrl &avatarUrl, const QDateTime &createdAt,
+         const QDateTime &removedAt, bool isDeleted = false);
     User(const QJsonObject &jsonObj);
     operator QJsonObject() const override;
 
 public:
-    QString id() const;
+    qint64 id() const;
     QString username() const;
-    QString password() const;
+    QString passwordHash() const;
     QUrl avatarUrl() const;
-    QDateTime registeredAt() const;
-    QDateTime unregisteredAt() const;
-    bool isDeleted() const;
+    QDateTime createdAt() const;
+    QDateTime removedAt() const;
+    bool isRemoved() const;
     bool isValid() const;
 
 private:
-    QString m_id;
+    qint64 m_id;
     QString m_username;
-    QString m_password;
+    QString m_passwordHash;
     QUrl m_avatarUrl;
-    QDateTime m_registeredAt;
-    QDateTime m_unregisteredAt;
-    bool m_isDeleted = false;
+    QDateTime m_createdAt;
+    QDateTime m_removedAt;
+    bool m_isRemoved = false;
+    bool m_isValid = false;
 };
 
 #endif // USER_H

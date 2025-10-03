@@ -2,47 +2,44 @@
 
 User::User() {}
 
-User::User(const QString &id, const QString &username, const QString &password,
+User::User(const qint64 &id, const QString &username, const QString &password,
            const QUrl &avatarUrl, const QDateTime &registeredAt,
            const QDateTime &unregisteredAt, bool isDeleted)
-    : m_id(id), m_username(username), m_password(password),
-    m_avatarUrl(avatarUrl), m_registeredAt(registeredAt),
-    m_unregisteredAt(unregisteredAt), m_isDeleted(isDeleted) {}
+    : m_id(id), m_username(username), m_passwordHash(password),
+    m_avatarUrl(avatarUrl), m_createdAt(registeredAt),
+    m_removedAt(unregisteredAt), m_isRemoved(isDeleted) {}
 
 User::User(const QJsonObject &jsonObj)
-    : m_id(jsonObj[attributeToString(Attribute::Id)].toString()),
-    m_username(jsonObj[attributeToString(Attribute::Username)].toString()),
-    m_password(jsonObj[attributeToString(Attribute::Password)].toString()),
-    m_avatarUrl(QUrl(jsonObj[attributeToString(Attribute::AvatarUrl)].toString())),
-    m_registeredAt(QDateTime::fromString(
-          jsonObj[attributeToString(Attribute::RegisteredAt)].toString())),
-    m_unregisteredAt(QDateTime::fromString(
-          jsonObj[attributeToString(Attribute::UnregisteredAt)].toString())),
-    m_isDeleted(jsonObj[attributeToString(Attribute::IsDeleted)].toBool()) {}
+    : m_id(jsonObj["id"].toInteger()),
+    m_username(jsonObj["username"].toString()),
+    m_passwordHash(jsonObj["password_hash"].toString()),
+    m_avatarUrl(QUrl(jsonObj["avatar_url"].toString())),
+    m_createdAt(QDateTime::fromString(jsonObj["created_at"].toString())),
+    m_removedAt(QDateTime::fromString(jsonObj["removed_at"].toString())),
+    m_isRemoved(jsonObj["is_removed"].toBool()) {}
 
 User::operator QJsonObject() const {
-    return QJsonObject{
-                       {attributeToString(Attribute::Id), m_id},
-        {attributeToString(Attribute::Username), m_username},
-        {attributeToString(Attribute::Password), m_password},
-        {attributeToString(Attribute::AvatarUrl), m_avatarUrl.toString()},
-        {attributeToString(Attribute::RegisteredAt), m_registeredAt.toString()},
-        {attributeToString(Attribute::UnregisteredAt), m_unregisteredAt.toString()},
-        {attributeToString(Attribute::IsDeleted), m_isDeleted}};
+    return QJsonObject{{"id", m_id},
+                       {"username", m_username},
+                       {"password_hash", m_passwordHash},
+                       {"avatar_url", m_avatarUrl.toString()},
+                       {"created_at", m_createdAt.toString()},
+                       {"removed_at", m_removedAt.toString()},
+                       {"is_removed", m_isRemoved}};
 }
 
-QString User::id() const { return m_id; }
+qint64 User::id() const { return m_id; }
 
 QString User::username() const { return m_username; }
 
-QString User::password() const { return m_password; }
+QString User::passwordHash() const { return m_passwordHash; }
 
 QUrl User::avatarUrl() const { return m_avatarUrl; }
 
-QDateTime User::registeredAt() const { return m_registeredAt; }
+QDateTime User::createdAt() const { return m_createdAt; }
 
-QDateTime User::unregisteredAt() const { return m_unregisteredAt; }
+QDateTime User::removedAt() const { return m_removedAt; }
 
-bool User::isDeleted() const { return m_isDeleted; }
+bool User::isRemoved() const { return m_isRemoved; }
 
-bool User::isValid() const { return !m_id.isEmpty(); }
+bool User::isValid() const { return m_isValid; }
