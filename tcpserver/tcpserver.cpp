@@ -31,7 +31,7 @@ void TcpServer::onReadyRead() {
             m_distributor->distribute(TcpRequest::fromSocket(socket));
         socket->write(response.toBytes());
         qDebug() << "response sent:" << response.toJson()
-                 << "size:" << response.toJson().size();
+                 << "size:" << response.toBytes().size();
     });
 }
 

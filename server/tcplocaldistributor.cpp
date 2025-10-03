@@ -20,9 +20,9 @@ TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
         handler = new TcpLoginHandler(this);
     } else if (request.route() == "/product") {
         handler = new TcpProductHandler(this);
-    } else if (request.route() == "/product_list") {
+    } else if (request.route() == "/product-list") {
         handler = new TcpProductListHandler(this);
-    } else if (request.route() == "/pay") {
+    } else if (request.route() == "/add-to-cart") {
         handler = new TcpAddToCartHandler(this);
     } else {
         return TcpResponse(

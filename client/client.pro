@@ -27,6 +27,7 @@ SOURCES += \
     tcploginclient.cpp \
     tcpproductclient.cpp \
     tcpproductlistclient.cpp \
+    tcpregisterclient.cpp \
     welcomewidget.cpp
 
 HEADERS += \
@@ -47,6 +48,7 @@ HEADERS += \
     tcploginclient.h \
     tcpproductclient.h \
     tcpproductlistclient.h \
+    tcpregisterclient.h \
     welcomewidget.h
 
 FORMS += \

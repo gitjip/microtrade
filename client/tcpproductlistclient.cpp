@@ -4,5 +4,5 @@ TcpProductListClient::TcpProductListClient(QObject *parent)
     : TcpLocalClient{parent} {}
 
 void TcpProductListClient::sendAsync() {
-    TcpLocalClient::sendAsync("/productList");
+    TcpLocalClient::sendAsync("/product-list");
 }

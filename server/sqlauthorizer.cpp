@@ -15,14 +15,16 @@ Authorization SqlAuthorizer::exec(const User &user) {
                   "(created_at,token,user_id) VALUES "
                   "(:created_at,:token,:user_id)");
     query.bindValue(":created_at", current);
-    query.bindValue(":authorized_token", token);
+    query.bindValue(":token", token);
     query.bindValue(":user_id", user.id());
+    qDebug() << "SqlAuthorizer::exec" << query.boundValueNames();
+    qDebug() << "SqlAuthorizer::exec" << query.boundValues();
     if (!query.exec()) {
-        qDebug() << "SqlTokenGenerator::exec" << query.lastError().type()
+        qDebug() << "SqlAuthorizer::exec" << query.lastError().type()
                  << query.lastError().text();
         return {};
     }
     Authorization authorization{-1, {}, {}, -1, token};
-    qDebug() << "SqlTokenGenerator::exec" << "success" << authorization.toJson();
+    qDebug() << "SqlAuthorizer::exec" << "success" << authorization.toJson();
     return authorization;
 }

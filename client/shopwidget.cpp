@@ -1,5 +1,4 @@
 #include "shopwidget.h"
-#include "config.h"
 #include "paymentdialog.h"
 #include "tcpproductlistclient.h"
 #include "ui_shopwidget.h"
@@ -22,38 +21,32 @@ ShopWidget::ShopWidget(QWidget *parent)
         int(ColomnName::View), QHeaderView::ResizeToContents);
 
     ui->tableWidget->setColumnWidth(int(ColomnName::Image), 80);
-    ui->tableWidget->setColumnWidth(int(ColomnName::View), 120);
 }
 
 ShopWidget::~ShopWidget() { delete ui; }
 
 void ShopWidget::update() {
     TcpProductListClient *tcpProductListClient = new TcpProductListClient(this);
-    tcpProductListClient->sendAsync(Config::instance()->timeout());
-    connect(tcpProductListClient, &TcpProductListClient::readyRead, this,
-            [=](const TcpResponse &tcpResponse) {
-                qDebug() << "ShopWidget::update:" << "response fetched:"
-                 << QJsonObject(tcpResponse);
-        if (tcpResponse.success()) {
-                    QJsonObject responseBody = tcpResponse.body();
-            QJsonArray productList = responseBody["product_list"].toArray();
-            ui->tableWidget->setRowCount(productList.count());
-            for (qsizetype i = 0; i < productList.count(); ++i) {
-                setProduct(i, productList[i].toObject());
-            }
-        } else {
-            qDebug() << "ShopWidget::update:" << "error:"
-                     << TcpResponse::statusTypeToString(
-                            tcpResponse.statusType())
-                     << tcpResponse.statusDetail();
-        }
-    });
+    tcpProductListClient->sendAsync();
+    connect(tcpProductListClient, &TcpProductListClient::readyRead, this, &ShopWidget::tryUpdate);
 }
 
-void ShopWidget::addProduct(const Product &product) {
-    int row = ui->tableWidget->rowCount();
-    ui->tableWidget->insertRow(row);
-    setProduct(row, product);
+void ShopWidget::tryUpdate(const TcpResponse &tcpResponse){
+    qDebug() << "ShopWidget::update:" << "response fetched:"
+             << tcpResponse.toJson();
+    if (tcpResponse.success()) {
+        QJsonObject responseBody = tcpResponse.body();
+        QJsonArray productList = responseBody["productList"].toArray();
+        ui->tableWidget->setRowCount(productList.count());
+        for (qsizetype i = 0; i < productList.count(); ++i) {
+            setProduct(i, Product::fromJson(productList[i].toObject()));
+        }
+    } else {
+        qDebug() << "ShopWidget::update:" << "error:"
+                 << TcpResponse::statusTypeToString(
+                        tcpResponse.statusType())
+                 << tcpResponse.statusDetail();
+    }
 }
 
 void ShopWidget::setProduct(int row, const Product &product) {
@@ -92,7 +85,7 @@ void ShopWidget::setStock(int row, qint64 stock) {
                              new QTableWidgetItem(QString::number(stock)));
 }
 
-void ShopWidget::setView(int row, const QString &productId) {
+void ShopWidget::setView(int row, qint64 productId) {
     QLabel *viewLink =
         new QLabel("<a href='#' style='color: green;'>view details</a>");
     viewLink->setOpenExternalLinks(false);

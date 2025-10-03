@@ -5,7 +5,7 @@ SqlProductListFinder::SqlProductListFinder() {}
 
 QList<Product> SqlProductListFinder::exec() {
     QSqlQuery query(db);
-    query.prepare("SELECT * FROM products WHERE removed_at=NULL");
+    query.prepare("SELECT * FROM products WHERE removed_at IS NULL");
     if (!query.exec()) {
         qDebug() << "SqlProductListFinder::exec:" << query.lastError().type()
                  << query.lastError().text();

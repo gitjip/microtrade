@@ -1,6 +1,7 @@
 #ifndef PAYMENTDIALOG_H
 #define PAYMENTDIALOG_H
 
+#include "tcpresponse.h"
 #include <QDialog>
 
 namespace Ui {
@@ -13,7 +14,7 @@ class PaymentDialog : public QDialog {
 public:
     explicit PaymentDialog(QWidget *parent = nullptr);
     ~PaymentDialog();
-    void setProductId(const QString &productId);
+    void setProductId(qint64 productId);
     void setRow(int row);
 
 signals:
@@ -21,7 +22,11 @@ signals:
 
 public slots:
     void update();
-    void on_payPushButton_clicked();
+    void addToCart();
+
+private:
+    void tryUpdate(const TcpResponse &tcpResponse);
+    void tryAddToCart(const TcpResponse &tcpResponse);
 
 private:
     enum class RowName { Row, Image, Name, Price, Stock, Description };
@@ -35,7 +40,7 @@ private:
 
 private:
     Ui::PaymentDialog *ui;
-    QString m_productId;
+    qint64 m_productId;
 };
 
 #endif // PAYMENTDIALOG_H

@@ -5,9 +5,9 @@
 TcpAddToCartClient::TcpAddToCartClient(QObject *parent)
     : TcpLocalClient{parent} {}
 
-void TcpAddToCartClient::sendAsync(const Product &product) {
+void TcpAddToCartClient::sendAsync(qint64 productId) {
     QJsonObject body;
-    body["product"] = product.toJson();
+    body["product"] = Product(productId, {}, {}, "", "", -1, -1, Product::Category::Null).toJson();
     body["authorization"] = AuthorizationManager::instance()->authorization().toJson();
-    TcpLocalClient::sendAsync("addToCart", body);
+    TcpLocalClient::sendAsync("/add-to-cart", body);
 }

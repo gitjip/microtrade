@@ -5,7 +5,7 @@ SqlUserFinder::SqlUserFinder() {}
 
 User SqlUserFinder::exec(const User &user) {
     QSqlQuery query(db);
-    query.prepare("SELECT * FROM users WHERE id=:id AND removed_at=NULL");
+    query.prepare("SELECT * FROM users WHERE id=:id AND removed_at IS NULL");
     query.bindValue(":id", user.id());
     if (!query.exec()) {
         qDebug() << "SqlUserFinder::exec:" << query.lastError().type()

@@ -6,7 +6,7 @@ SqlProductFinder::SqlProductFinder() {}
 Product SqlProductFinder::exec(const Product &product) {
     qDebug() << "SqlProductFinder::exec:" << "productId:" << product.id();
     QSqlQuery query(db);
-    query.prepare("SELECT * FROM products WHERE id=:id AND removed_at=NULL");
+    query.prepare("SELECT * FROM products WHERE id=:id AND removed_at IS NULL");
     query.bindValue(":id", product.id());
     if (!query.exec()) {
         qDebug() << "SqlProductFinder::exec:" << query.lastError().type()

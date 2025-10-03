@@ -33,7 +33,7 @@ QJsonObject TcpInteraction::toJson() const {
 }
 
 QByteArray TcpInteraction::toBytes() const {
-    QByteArray bytes = QJsonDocument(toJson()).toJson();
+    QByteArray bytes = QJsonDocument(toJson()).toJson(QJsonDocument::Compact);
     return valueToBytes(bytes.length()) + bytes;
 }
 

@@ -1,7 +1,6 @@
 #ifndef TCPPRODUCTCLIENT_H
 #define TCPPRODUCTCLIENT_H
 
-#include "product.h"
 #include "tcplocalclient.h"
 
 class TcpProductClient : public TcpLocalClient
@@ -9,7 +8,7 @@ class TcpProductClient : public TcpLocalClient
     Q_OBJECT
 public:
     explicit TcpProductClient(QObject *parent = nullptr);
-    void sendAsync(const Product &product);
+    void sendAsync(qint64 productId);
 };
 
 #endif // TCPPRODUCTCLIENT_H

@@ -16,9 +16,9 @@ public:
     ~WelcomeWidget();
 
 private slots:
-    void on_loginPushButton_clicked();
-    void on_registerPushButton_clicked();
-    void on_logoutPushButton_clicked();
+    void tryLogin();
+    void tryRegister();
+    void tryLogout();
     void onLogin();
     void onLogout();
 

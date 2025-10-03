@@ -12,29 +12,32 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
             this, &WelcomeWidget::onLogin);
     connect(AuthorizationManager::instance(), &AuthorizationManager::loggedout,
             this, &WelcomeWidget::onLogout);
+    connect(ui->loginPushButton, &QPushButton::clicked, this, &WelcomeWidget::tryLogin);
+    connect(ui->logoutPushButton, &QPushButton::clicked, this, &WelcomeWidget::tryLogout);
+    connect(ui->registerPushButton, &QPushButton::clicked, this, &WelcomeWidget::tryRegister);
 }
 
 WelcomeWidget::~WelcomeWidget() { delete ui; }
 
-void WelcomeWidget::on_loginPushButton_clicked() {
+void WelcomeWidget::tryLogin() {
     LoginDialog *loginDialog = new LoginDialog(this);
     loginDialog->open();
 }
 
-void WelcomeWidget::on_registerPushButton_clicked() {
+void WelcomeWidget::tryRegister() {
     RegisterDialog *registerDialog = new RegisterDialog(this);
     registerDialog->open();
 }
 
-void WelcomeWidget::on_logoutPushButton_clicked() {
+void WelcomeWidget::tryLogout() {
     QMessageBox::StandardButton reply =
         QMessageBox::question(this, "Are you sure to logout?",
             "Your data will be safely stored on the cloud.");
     if (reply == QMessageBox::Yes) {
         AuthorizationManager::instance()->logout();
-        qDebug() << "WelcomeWidget::on_logoutPushButton_clicked:" << "yes";
+        qDebug() << "WelcomeWidget::tryLogout:" << "yes";
     } else {
-        qDebug() << "WelcomeWidget::on_logoutPushButton_clicked:" << "no";
+        qDebug() << "WelcomeWidget::tryLogout:" << "no";
     }
 }
 

@@ -1,5 +1,4 @@
 #include "paymentdialog.h"
-#include "config.h"
 #include "product.h"
 #include "tcpproductclient.h"
 #include "ui_paymentdialog.h"
@@ -13,11 +12,13 @@ PaymentDialog::PaymentDialog(QWidget *parent)
 
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(
         QHeaderView::Stretch);
+
+    connect(ui->payPushButton, &QPushButton::clicked, this, &PaymentDialog::addToCart);
 }
 
 PaymentDialog::~PaymentDialog() { delete ui; }
 
-void PaymentDialog::setProductId(const QString &productId) {
+void PaymentDialog::setProductId(qint64 productId) {
     m_productId = productId;
     qDebug() << "PaymentDialog::setProductId:" << productId;
 }
@@ -28,27 +29,9 @@ void PaymentDialog::setRow(int row){
 }
 
 void PaymentDialog::update() {
-    TcpProductClient *tcpProductClient = new TcpProductClient(this);
-    tcpProductClient->sendAsync(m_productId, Config::instance()->timeout());
-    connect(tcpProductClient, &TcpProductClient::readyRead, this,
-            [=](const TcpResponse &tcpResponse) {
-                qDebug() << "PaymentDialog::update:" << "response fetched:"
-                 << QJsonObject(tcpResponse);
-        if (tcpResponse.success()) {
-                    QJsonObject responseBody = tcpResponse.body();
-            Product product = responseBody["product"].toObject();
-                    setImage(product.imageUrl());
-            setName(product.name());
-                    setPrice(product.price());
-            setStock(product.stock());
-                    setDescription(product.description());
-        } else {
-            qDebug() << "PaymentDialog::update:" << "error:"
-                     << TcpResponse::statusTypeToString(
-                            tcpResponse.statusType())
-                     << tcpResponse.statusDetail();
-        }
-    });
+    TcpProductClient *productClient = new TcpProductClient(this);
+    productClient->sendAsync(m_productId);
+    connect(productClient, &TcpProductClient::readyRead, this, &PaymentDialog::tryUpdate);
 }
 
 void PaymentDialog::setImage(const QUrl &imageUrl) {
@@ -81,30 +64,50 @@ void PaymentDialog::setDescription(const QString &description) {
                              new QTableWidgetItem(description));
 }
 
-void PaymentDialog::on_payPushButton_clicked()
+void PaymentDialog::addToCart()
 {
     qDebug()<<"PaymentDialog::on_payPushButton_clicked";
     TcpAddToCartClient *paymentClient = new TcpAddToCartClient(this);
-    paymentClient->sendAsync(m_productId, Config::instance()->timeout());
+    paymentClient->sendAsync(m_productId);
     connect(paymentClient, &TcpProductClient::readyRead, this,
-            [=](const TcpResponse &tcpResponse) {
-                qDebug() << "PaymentDialog::on_payPushButton_clicked:" << "response fetched:"
-                         << QJsonObject(tcpResponse);
-                if (tcpResponse.success()) {
-                    QJsonObject responseBody = tcpResponse.body();
-                    Product product = responseBody["product"].toObject();
-                    setImage(product.imageUrl());
-                    setName(product.name());
-                    setPrice(product.price());
-                    setStock(product.stock());
-                    setDescription(product.description());
-                } else {
-                    qDebug() << "PaymentDialog::on_payPushButton_clicked:" << "error:"
-                             << TcpResponse::statusTypeToString(
-                                    tcpResponse.statusType())
-                             << tcpResponse.statusDetail();
-                }
-            });
-    emit paid();
+            &PaymentDialog::tryAddToCart);
 }
 
+void PaymentDialog::tryUpdate(const TcpResponse &request){
+    qDebug() << "PaymentDialog::update:" << "response fetched:"
+             << request.toJson();
+    if (request.success()) {
+        QJsonObject responseBody = request.body();
+        Product product = Product::fromJson(responseBody["product"].toObject());
+        setImage(product.imageUrl());
+        setName(product.name());
+        setPrice(product.price());
+        setStock(product.stock());
+        setDescription(product.description());
+    } else {
+        qDebug() << "PaymentDialog::update:"
+                 << TcpResponse::statusTypeToString(
+                        request.statusType())
+                 << request.statusDetail();
+    }
+}
+
+void PaymentDialog::tryAddToCart(const TcpResponse &response){
+    qDebug() << "PaymentDialog::on_payPushButton_clicked:" << "response fetched:"
+             << response.toJson();
+    if (response.success()) {
+        QJsonObject responseBody = response.body();
+        Product product = Product::fromJson(responseBody["product"].toObject());
+        setImage(product.imageUrl());
+        setName(product.name());
+        setPrice(product.price());
+        setStock(product.stock());
+        setDescription(product.description());
+        emit paid();
+    } else {
+        qDebug() << "PaymentDialog::on_payPushButton_clicked:" << "error:"
+                 << TcpResponse::statusTypeToString(
+                        response.statusType())
+                 << response.statusDetail();
+    }
+}
