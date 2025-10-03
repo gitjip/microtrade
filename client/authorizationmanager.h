@@ -8,9 +8,9 @@ class AuthorizationManager : public QObject
     Q_OBJECT
 public:
     static AuthorizationManager *instance(); // single instance
-    void login(const QString &authorizedToken);
+    void login(const QString &token);
     void logout();
-    QString authorizedToken() const;
+    QString token() const;
     bool isLoggedin() const;
 
 signals:
@@ -27,7 +27,7 @@ private:
     AuthorizationManager &operator=(const AuthorizationManager &authorizationManager) = delete;
 
 private:
-    QString m_authorizedToken; // empty if not loggedin
+    QString m_token; // empty if not loggedin
 };
 
 #endif // AUTHORIZATIONMANAGER_H

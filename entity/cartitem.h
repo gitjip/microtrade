@@ -19,8 +19,8 @@ public:
     qint64 quantity() const;
 
 private:
-    qint64 m_cartId;
-    qint64 m_productId;
+    qint64 m_cartId = 0;
+    qint64 m_productId = 0;
     qint64 m_quantity = 0;
 };
 

@@ -17,7 +17,7 @@ void TcpLoginClient::sendAsync(const QString &username, const QString &password,
         TcpRequest(true, QDateTime::currentDateTime(),
                    QHostAddress(Config::instance()->hostAddress()),
                    Config::instance()->port(),
-                   AuthorizationManager::instance()->authorizedToken(), "/login",
+                   AuthorizationManager::instance()->m_token(), "/login",
                    timeout, requestBody),
         timeout);
     qDebug() << "TcpLoginClient::sendAsync:" << "username:" << username;

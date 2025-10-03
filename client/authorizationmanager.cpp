@@ -9,18 +9,18 @@ AuthorizationManager *AuthorizationManager::instance() {
 }
 
 void AuthorizationManager::login(const QString &authorizedToken) {
-    if(m_authorizedToken.isEmpty()) {
-        m_authorizedToken = authorizedToken;
+    if(m_token.isEmpty()) {
+        m_token = authorizedToken;
         emit loggedin();
-        qDebug() << "AuthorizationManager::login:" << m_authorizedToken;
+        qDebug() << "AuthorizationManager::login:" << m_token;
     }else{
         qDebug() << "AuthorizationManager::login:" << "already login";
     }
 }
 
 void AuthorizationManager::logout() {
-    if(!m_authorizedToken.isEmpty()){
-        m_authorizedToken = "";
+    if(!m_token.isEmpty()){
+        m_token = "";
         emit loggedout();
         qDebug() << "AuthorizationManager::logout:" << "successfully logout";
     } else{
@@ -28,12 +28,12 @@ void AuthorizationManager::logout() {
     }
 }
 
-QString AuthorizationManager::authorizedToken() const {
-    return m_authorizedToken;
+QString AuthorizationManager::m_token() const {
+    return m_token;
 }
 
 bool AuthorizationManager::isLoggedin() const {
-    return !m_authorizedToken.isEmpty();
+    return !m_token.isEmpty();
 }
 
 void AuthorizationManager::update() { emit updated(); }

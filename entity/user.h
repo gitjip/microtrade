@@ -2,36 +2,29 @@
 #define USER_H
 
 #include "entity.h"
-#include <QDateTime>
+#include <QUrl>
 
 class ENTITY_EXPORT User : public Entity {
 public:
     User();
-    User(const qint64 &id, const QString &username, const QString &passwordHash,
-         const QUrl &avatarUrl, const QDateTime &createdAt,
-         const QDateTime &removedAt, bool isDeleted = false);
-    User(const QJsonObject &jsonObj);
-    operator QJsonObject() const override;
+    User(const qint64 &id, const QDateTime &createdAt, const QDateTime &removedAt,
+         const QString &username, const QString &passwordHash,
+         const QUrl &avatarUrl = QUrl());
+    static User fromJson(const QJsonObject &json);
+    QJsonObject toJson() const override;
 
 public:
-    qint64 id() const;
     QString username() const;
     QString passwordHash() const;
     QUrl avatarUrl() const;
-    QDateTime createdAt() const;
-    QDateTime removedAt() const;
-    bool isRemoved() const;
-    bool isValid() const;
 
 private:
-    qint64 m_id;
+    void initFromJson(const QJsonObject &json) override;
+
+private:
     QString m_username;
     QString m_passwordHash;
     QUrl m_avatarUrl;
-    QDateTime m_createdAt;
-    QDateTime m_removedAt;
-    bool m_isRemoved = false;
-    bool m_isValid = false;
 };
 
 #endif // USER_H

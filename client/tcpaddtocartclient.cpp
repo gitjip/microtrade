@@ -14,7 +14,7 @@ void TcpAddToCartClient::sendAsync(const QString &productId, qint64 timeout) {
     TcpRequest request(true, QDateTime::currentDateTime(),
                        QHostAddress(Config::instance()->hostAddress()),
                        Config::instance()->port(),
-                       AuthorizationManager::instance()->authorizedToken(),
+                       AuthorizationManager::instance()->m_token(),
                        "/add_to_cart", timeout, requestBody);
     TcpClient::sendAsync(request, timeout);
     qDebug() << "TcpPaymentClient::sendAsync:" << "productId:" << productId;

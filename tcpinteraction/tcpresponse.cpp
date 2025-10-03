@@ -10,29 +10,38 @@ TcpResponse::TcpResponse(const QDateTime &dateTime,
     : TcpInteraction(dateTime, hostAddress, port, body), m_success(success),
     m_statusType(statusType), m_statusDetail(statusDetail) {}
 
-TcpResponse::TcpResponse(const QJsonObject &jsonObj)
-    : TcpInteraction(QDateTime::fromString(jsonObj["dateTime"].toString()),
-                     QHostAddress(jsonObj["hostAddress"].toString()),
-                     jsonObj["port"].toInteger(), jsonObj["body"].toObject()),
-    m_success(jsonObj["success"].toBool()),
-    m_statusType(stringToStatusType(jsonObj["statusType"].toString())),
-    m_statusDetail(jsonObj["statusDetail"].toString()) {}
-
 TcpResponse::~TcpResponse() {}
 
-TcpResponse::operator QJsonObject() const {
-    return QJsonObject({{"dateTime", m_dateTime.toString()},
-                        {"hostAddress", m_hostAddress.toString()},
-                        {"port", qint64(m_port)},
-                        {"body", m_body},
-                        {"success", m_success},
-                        {"statusType", statusTypeToString(m_statusType)},
-                        {"statusDetail", m_statusDetail}});
+TcpResponse TcpResponse::fromJson(const QJsonObject &json) {
+    TcpResponse response;
+    response.initFromJson(json);
+    return response;
 }
 
 TcpResponse TcpResponse::fromSocket(QTcpSocket *socket) {
+    TcpResponse response;
+    response.initFromSocket(socket);
+    return response;
+}
+
+QJsonObject TcpResponse::toJson() const {
+    QJsonObject json = TcpInteraction::toJson();
+    json["success"] = m_success;
+    json["statusType"] = statusTypeToString(m_statusType);
+    json["statusDetail"] = m_statusDetail;
+    return json;
+}
+
+void TcpResponse::initFromJson(const QJsonObject &json) {
+    TcpInteraction::initFromJson(json);
+    m_success = json["success"].toBool();
+    m_statusType = stringToStatusType(json["statusType"].toString());
+    m_statusDetail = json["statusDetail"].toString();
+}
+
+void TcpResponse::initFromSocket(QTcpSocket *socket) {
     qint64 length = bytesToValue(socket->read(8));
-    return TcpResponse(QJsonDocument::fromJson(socket->read(length)).object());
+    initFromJson(QJsonDocument::fromJson(socket->read(length)).object());
 }
 
 QString TcpResponse::statusTypeToString(StatusType statusType) {

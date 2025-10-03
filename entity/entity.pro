@@ -10,6 +10,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    authorization.cpp \
     cart.cpp \
     cartitem.cpp \
     entity.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
     user.cpp
 
 HEADERS += \
+    authorization.h \
     cart.h \
     cartitem.h \
     entity_global.h \

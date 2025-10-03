@@ -23,10 +23,10 @@ public:
                 const QHostAddress &hostAddress, quint64 port, bool success,
                 StatusType statusType, const QString &statusDetail,
                 const QJsonObject &body = QJsonObject());
-    TcpResponse(const QJsonObject &jsonObj);
     ~TcpResponse() override;
-    operator QJsonObject() const override;
+    static TcpResponse fromJson(const QJsonObject &json);
     static TcpResponse fromSocket(QTcpSocket *socket);
+    QJsonObject toJson() const override;
     static QString statusTypeToString(StatusType statusType);
     static StatusType stringToStatusType(const QString &statusTypeString);
 
@@ -34,6 +34,10 @@ public:
     bool success() const;
     StatusType statusType() const;
     QString statusDetail() const;
+
+private:
+    void initFromJson(const QJsonObject &json) override;
+    void initFromSocket(QTcpSocket *socket) override;
 
 private:
     bool m_success = false;

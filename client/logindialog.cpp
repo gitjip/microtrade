@@ -19,7 +19,7 @@ void LoginDialog::accept() {
     connect(tcpLoginClient, &TcpLoginClient::readyRead, this,
             [=](const TcpResponse &tcpResponse) {
                 qDebug() << "LoginDialog::accept:"
-                 << "response fetched:" << QJsonObject(tcpResponse);
+                 << "response fetched:" << tcpResponse.toJson();
         if (tcpResponse.success()) {
                     QJsonObject responseBody = tcpResponse.body();
             AuthorizationManager::instance()->login(

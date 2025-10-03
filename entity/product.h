@@ -2,60 +2,39 @@
 #define PRODUCT_H
 
 #include "entity.h"
-#include <QDateTime>
+#include <QUrl>
 
 class ENTITY_EXPORT Product : public Entity {
 public:
-    enum class Attribute {
-        Id,
-        Name,
-        Description,
-        Price,
-        Stock,
-        Category,
-        ImageUrl,
-        ListedAt,
-        DelistedAt,
-        IsDeleted
-    };
     enum class Category { Food, Clothes, Furniture, Tool, Electronic };
 
-public:
     Product();
-    Product(const QString &id, const QString &name, const QString &description,
-            double price, qint64 stock, Category category, const QUrl &imageUrl,
-            const QDateTime &listedAt, const QDateTime &delistedAt,
-            bool isDeleted = false);
-    Product(const QJsonObject &jsonObj);
-    static QString attributeToString(Attribute attribute);
+    Product(const qint64 &id, const QDateTime &createdAt, const QDateTime &removedAt,
+            const QString &name, const QString &description, double price,
+            qint64 stock, Category category, const QUrl &imageUrl = QUrl());
+    static Product fromJson(const QJsonObject &json);
+    QJsonObject toJson() const override;
     static QString categoryToString(Category category);
     static Category stringToCategory(const QString &categoryString);
-    operator QJsonObject() const override;
 
 public:
-    QString id() const;
     QString name() const;
     QString description() const;
     double price() const;
     qint64 stock() const;
     Category category() const;
     QUrl imageUrl() const;
-    QDateTime listedAt() const;
-    QDateTime delistedAt() const;
-    bool isDeleted() const;
-    bool isValid() const;
 
 private:
-    QString m_id;
+    void initFromJson(const QJsonObject &json) override;
+
+private:
     QString m_name;
     QString m_description;
     double m_price = 0;
     qint64 m_stock = 0;
-    Category m_category;
+    Category m_category = Category::Clothes;
     QUrl m_imageUrl;
-    QDateTime m_listedAt;
-    QDateTime m_delistedAt;
-    bool m_isDeleted = false;
 };
 
 #endif // PRODUCT_H

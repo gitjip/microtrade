@@ -2,50 +2,31 @@
 #define ORDER_H
 
 #include "entity.h"
-#include <QDateTime>
 
 class ENTITY_EXPORT Order : public Entity {
 public:
-    enum class Attribute {
-        Id,
-        UserId,
-        Cost,
-        Status,
-        CreatedAt,
-        CancelledAt,
-        IsDeleted
-    };
     enum class Status { Pending, Cancelled, Accepted, Unaccepted, Returned };
 
-public:
     Order();
-    Order(const QString &id, const QString &userId, double cost, Status status,
-          const QDateTime &createdAt, const QDateTime &cancelledAt,
-          bool isDeleted = false);
-    Order(const QJsonObject &jsonObj);
-    static QString attributeToString(Attribute attribute);
+    Order(const qint64 &id, const QDateTime &createdAt, const QDateTime &removedAt,
+          const qint64 &userId, double cost, Status status);
+    static Order fromJson(const QJsonObject &json);
+    QJsonObject toJson() const override;
     static QString statusToString(Status status);
     static Status stringToStatus(const QString &statusString);
-    operator QJsonObject() const override;
 
 public:
-    QString id() const;
-    QString userId() const;
+    qint64 userId() const;
     double cost() const;
     Status status() const;
-    QDateTime createdAt() const;
-    QDateTime cancelledAt() const;
-    bool isDeleted() const;
-    bool isValid() const;
 
 private:
-    QString m_id;
-    QString m_userId;
+    void initFromJson(const QJsonObject &json) override;
+
+private:
+    qint64 m_userId = 0;
     double m_cost = 0;
-    Status m_status;
-    QDateTime m_createdAt;
-    QDateTime m_cancelledAt;
-    bool m_isDeleted = false;
+    Status m_status = Status::Pending;
 };
 
 #endif // ORDER_H

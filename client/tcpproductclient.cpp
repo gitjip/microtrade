@@ -15,7 +15,7 @@ void TcpProductClient::sendAsync(const QString &productId, qint64 timeout) {
         TcpRequest(true, QDateTime::currentDateTime(),
                    QHostAddress(Config::instance()->hostAddress()),
                    Config::instance()->port(),
-                   AuthorizationManager::instance()->authorizedToken(),
+                   AuthorizationManager::instance()->m_token(),
                    "/product", timeout, requestBody),
         timeout);
     qDebug() << "TcpProductClient::sendAsync:" << "productId:" << productId;

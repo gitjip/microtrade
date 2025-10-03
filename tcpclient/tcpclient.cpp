@@ -56,7 +56,7 @@ bool TcpClient::send(const TcpRequest &tcpRequest) {
         emit notOpened();
         return false;
     }
-    if (m_socket->write(tcpRequest) == -1) {
+    if (m_socket->write(tcpRequest.toBytes()) == -1) {
         qDebug() << "TcpClient::send: socket writing error";
         emit writtingErrorOccurred();
         return false;

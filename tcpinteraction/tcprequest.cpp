@@ -9,27 +9,36 @@ TcpRequest::TcpRequest(const QDateTime &dateTime,
     : TcpInteraction(dateTime, hostAddress, port, body), m_route(route),
     m_timeout(timeout) {}
 
-TcpRequest::TcpRequest(const QJsonObject &jsonObj)
-    : TcpInteraction(QDateTime::fromString(jsonObj["dateTime"].toString()),
-                     QHostAddress(jsonObj["hostAddress"].toString()),
-                     jsonObj["port"].toInteger(), jsonObj["body"].toObject()),
-    m_route(jsonObj["route"].toString()),
-    m_timeout(jsonObj["timeout"].toInteger()) {}
-
 TcpRequest::~TcpRequest() {}
 
-TcpRequest::operator QJsonObject() const {
-    return QJsonObject({{"dateTime", m_dateTime.toString()},
-                        {"hostAddress", m_hostAddress.toString()},
-                        {"port", qint64(m_port)},
-                        {"body", m_body},
-                        {"route", m_route},
-                        {"timeout", m_timeout}});
+TcpRequest TcpRequest::fromJson(const QJsonObject &json) {
+    TcpRequest request;
+    request.initFromJson(json);
+    return request;
 }
 
 TcpRequest TcpRequest::fromSocket(QTcpSocket *socket) {
+    TcpRequest request;
+    request.initFromSocket(socket);
+    return request;
+}
+
+QJsonObject TcpRequest::toJson() const {
+    QJsonObject json = TcpInteraction::toJson();
+    json["route"] = m_route;
+    json["timeout"] = m_timeout;
+    return json;
+}
+
+void TcpRequest::initFromJson(const QJsonObject &json) {
+    TcpInteraction::initFromJson(json);
+    m_route = json["route"].toString();
+    m_timeout = json["timeout"].toInteger();
+}
+
+void TcpRequest::initFromSocket(QTcpSocket *socket) {
     qint64 length = bytesToValue(socket->read(8));
-    return TcpRequest(QJsonDocument::fromJson(socket->read(length)).object());
+    initFromJson(QJsonDocument::fromJson(socket->read(length)).object());
 }
 
 QString TcpRequest::route() const { return m_route; }

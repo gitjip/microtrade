@@ -12,7 +12,7 @@ void TcpProductListClient::sendAsync(qint64 timeout) {
     TcpRequest request(true, QDateTime::currentDateTime(),
                        QHostAddress(Config::instance()->hostAddress()),
                        Config::instance()->port(),
-                       AuthorizationManager::instance()->authorizedToken(),
+                       AuthorizationManager::instance()->m_token(),
                        "/product_list", timeout);
     TcpClient::sendAsync(request, timeout);
     qDebug() << "TcpProductListClient::sendAsync:" << QJsonObject(request);

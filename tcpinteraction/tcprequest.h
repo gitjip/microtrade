@@ -11,12 +11,18 @@ public:
     TcpRequest(const QDateTime &dateTime, const QHostAddress &hostAddress,
                quint64 port, const QString &route, qint64 timeout,
                const QJsonObject &body = QJsonObject());
-    TcpRequest(const QJsonObject &jsonObj);
     ~TcpRequest() override;
-    operator QJsonObject() const override;
+    static TcpRequest fromJson(const QJsonObject &json);
     static TcpRequest fromSocket(QTcpSocket *socket);
+    QJsonObject toJson() const override;
+
+public:
     QString route() const;
     qint64 timeout() const;
+
+private:
+    void initFromJson(const QJsonObject &json) override;
+    void initFromSocket(QTcpSocket *socket) override;
 
 private:
     QString m_route;
