@@ -5,8 +5,9 @@ SqlCartItemCreator::SqlCartItemCreator() {}
 
 CartItem SqlCartItemCreator::exec(const Cart &cart, const Product &product) {
     QSqlQuery query(db);
-    query.prepare("INSERT INTO cart_items (cart_id,product_id) VALUES "
-                  "(:cart_id,:product_id)");
+    query.prepare("INSERT INTO cart_items (created_at,cart_id,product_id) VALUES "
+                  "(:created_at,:cart_id,:product_id)");
+    query.bindValue(":created_at", QDateTime::currentDateTime());
     query.bindValue(":cart_id", cart.id());
     query.bindValue(":product_id", product.id());
     qDebug() << "SqlCartItemCreator::exec:" << query.boundValueNames();

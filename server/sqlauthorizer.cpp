@@ -17,8 +17,8 @@ Authorization SqlAuthorizer::exec(const User &user) {
     query.bindValue(":created_at", current);
     query.bindValue(":token", token);
     query.bindValue(":user_id", user.id());
-    qDebug() << "SqlAuthorizer::exec" << query.boundValueNames();
-    qDebug() << "SqlAuthorizer::exec" << query.boundValues();
+    // qDebug() << "SqlAuthorizer::exec" << query.boundValueNames();
+    // qDebug() << "SqlAuthorizer::exec" << query.boundValues();
     if (!query.exec()) {
         qDebug() << "SqlAuthorizer::exec" << query.lastError().type()
                  << query.lastError().text();
