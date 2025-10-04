@@ -27,12 +27,15 @@ TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
         handler = new TcpAddToCartHandler(this);
     } else if (request.route() == "/register") {
         handler = new TcpRegisterHandler(this);
+    }
+    if (handler) {
+        return handler->handle(request);
     } else {
+        qDebug() << "TcpLocalDistributor::distribute:" << "handler is nullptr";
         return TcpResponse(false, TcpResponse::StatusType::InvalidRequest,
                            QString("route %1 not supported").arg(request.route()),
                            QDateTime::currentDateTime(),
                            QHostAddress(Config::instance()->hostAddress()),
                            Config::instance()->port());
     }
-    return handler->handle(request);
 }

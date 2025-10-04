@@ -3,7 +3,7 @@
 
 #include "tcpresponse.h"
 
-class TcpLocalResponse : public TcpResponse {
+class TcpLocalResponse {
 public:
     TcpLocalResponse();
     static TcpResponse make(bool success, TcpResponse::StatusType statusType,

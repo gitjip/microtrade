@@ -27,6 +27,7 @@ SOURCES += \
     sqlproductfinder.cpp \
     sqlproductlistfinder.cpp \
     sqlproductreducer.cpp \
+    sqlunauthorizer.cpp \
     sqlusercreator.cpp \
     sqluserfinder.cpp \
     tcpaddtocarthandler.cpp \
@@ -34,6 +35,7 @@ SOURCES += \
     tcplocalresponse.cpp \
     tcplocalserver.cpp \
     tcploginhandler.cpp \
+    tcplogouthandler.cpp \
     tcpproducthandler.cpp \
     tcpproductlisthandler.cpp \
     tcpregisterhandler.cpp \
@@ -58,6 +60,7 @@ HEADERS += \
     sqlproductfinder.h \
     sqlproductlistfinder.h \
     sqlproductreducer.h \
+    sqlunauthorizer.h \
     sqlusercreator.h \
     sqluserfinder.h \
     tcpaddtocarthandler.h \
@@ -65,6 +68,7 @@ HEADERS += \
     tcplocalresponse.h \
     tcplocalserver.h \
     tcploginhandler.h \
+    tcplogouthandler.h \
     tcpproducthandler.h \
     tcpproductlisthandler.h \
     tcpregisterhandler.h \
