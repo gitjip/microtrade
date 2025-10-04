@@ -1,6 +1,7 @@
 #include "tcpaddtocarthandler.h"
 #include "sqlauthenticator.h"
 #include "sqlcartfinder.h"
+#include "sqlcartitemcreator.h"
 #include "tcplocalresponse.h"
 #include "user.h"
 
@@ -28,8 +29,17 @@ TcpResponse TcpAddToCartHandler::handle(const TcpRequest &request) {
         qDebug() << "TcpAddToCartHandler::handle:" << response.statusDetail();
         return response;
     }
-    // add connection between product and cart
-    // unfinished ...
+    // add cart item
+    SqlCartItemCreator cartItemCreator;
+    CartItem cartItem = cartItemCreator.exec(
+        cart, Product::fromJson(requestBody["product"].toObject()));
+    if (cartItem.isNull()) {
+        TcpResponse response = TcpLocalResponse::make(
+            false, TcpResponse::StatusType::Failed, "failed to create cart");
+        qDebug() << "TcpAddToCartHandler::handle:" << response.statusDetail();
+        return response;
+    }
+    // success
     TcpResponse response = TcpLocalResponse::make(
         true, TcpResponse::StatusType::Success, "successfully add to cart");
     qDebug() << "TcpAddToCartHandler::handle:" << response.statusDetail();

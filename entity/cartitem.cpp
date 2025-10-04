@@ -2,8 +2,10 @@
 
 CartItem::CartItem() {}
 
-CartItem::CartItem(qint64 cartId, qint64 productId, qint64 quantity)
-    : m_cartId(cartId), m_productId(productId), m_quantity(quantity) {}
+CartItem::CartItem(qint64 id, QDateTime createdAt, QDateTime removedAt,
+                   qint64 cartId, qint64 productId, qint64 quantity)
+    : Entity(id, createdAt, removedAt), m_cartId(cartId),
+    m_productId(productId), m_quantity(quantity) {}
 
 CartItem CartItem::fromJson(const QJsonObject &json) {
     CartItem cartItem;

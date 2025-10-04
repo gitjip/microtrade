@@ -6,7 +6,8 @@
 class ENTITY_EXPORT CartItem : public Entity {
 public:
     CartItem();
-    CartItem(qint64 cartId, qint64 productId, qint64 quantity);
+    CartItem(qint64 id, QDateTime createdAt, QDateTime removedAt, qint64 cartId,
+             qint64 productId, qint64 quantity);
     static CartItem fromJson(const QJsonObject &json);
     QJsonObject toJson() const override;
 
