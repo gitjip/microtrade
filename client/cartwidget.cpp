@@ -3,6 +3,7 @@
 #include "tcpcartproductlistclient.h"
 #include "ui_cartwidget.h"
 #include <QJsonArray>
+#include <QSpinBox>
 
 CartWidget::CartWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::CartWidget) {
@@ -50,6 +51,7 @@ void CartWidget::setProduct(int row, const Product &product) {
     setName(row, product.name());
     setPrice(row, product.price());
     setStock(row, product.stock());
+    setQuantity(row, product.id());
 }
 
 void CartWidget::setImage(int row, const QUrl &imageUrl) {
@@ -77,4 +79,9 @@ void CartWidget::setPrice(int row, double price) {
 void CartWidget::setStock(int row, qint64 stock) {
     QTableWidgetItem *item = new QTableWidgetItem(QString::number(stock));
     ui->tableWidget->setItem(row, int(ColomnName::Stock), item);
+}
+
+void CartWidget::setQuantity(int row, qint64) {
+    QSpinBox *spinBox = new QSpinBox;
+    ui->tableWidget->setCellWidget(row, int(ColomnName::Quantity), spinBox);
 }
