@@ -1,14 +1,80 @@
 #include "cartwidget.h"
+#include "authorizationmanager.h"
+#include "tcpcartproductlistclient.h"
 #include "ui_cartwidget.h"
+#include <QJsonArray>
 
 CartWidget::CartWidget(QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::CartWidget)
-{
+    : QWidget(parent), ui(new Ui::CartWidget) {
     ui->setupUi(this);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(
+        int(ColomnName::Image), QHeaderView::Fixed);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(
+        int(ColomnName::Name), QHeaderView::Stretch);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(
+        int(ColomnName::Price), QHeaderView::ResizeToContents);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(
+        int(ColomnName::Stock), QHeaderView::ResizeToContents);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(
+        int(ColomnName::Quantity), QHeaderView::ResizeToContents);
+    ui->tableWidget->setColumnWidth(int(ColomnName::Image), 80);
+    connect(AuthorizationManager::instance(), &AuthorizationManager::loggedin,
+            this, &CartWidget::update);
 }
 
-CartWidget::~CartWidget()
-{
-    delete ui;
+CartWidget::~CartWidget() { delete ui; }
+
+void CartWidget::update() {
+    TcpCartProductListClient *cartProductListClient =
+        new TcpCartProductListClient(this);
+    connect(cartProductListClient, &TcpLocalClient::readyRead, this,
+            &CartWidget::onCartProductListClientReadyRead);
+    cartProductListClient->sendAsync();
+}
+
+void CartWidget::onCartProductListClientReadyRead(const TcpResponse &response) {
+    qDebug() << Q_FUNC_INFO << "response:" << response.toJson();
+    if (response.success()) {
+        QJsonObject body = response.body();
+        QJsonArray productJsonArray = body["productList"].toArray();
+        ui->tableWidget->setRowCount(productJsonArray.count());
+        for (qsizetype i = 0; i < productJsonArray.count(); ++i) {
+            Product product = Product::fromJson(productJsonArray[i].toObject());
+            setProduct(i, product);
+        }
+    }
+}
+
+void CartWidget::setProduct(int row, const Product &product) {
+    setImage(row, product.imageUrl());
+    setName(row, product.name());
+    setPrice(row, product.price());
+    setStock(row, product.stock());
+}
+
+void CartWidget::setImage(int row, const QUrl &imageUrl) {
+    QPixmap pixmap;
+    QTableWidgetItem *item = nullptr;
+    if (!pixmap.load(imageUrl.toString())) {
+        item = new QTableWidgetItem("image");
+        qDebug() << Q_FUNC_INFO << "failed to load image" << imageUrl.toString();
+    } else {
+        item = new QTableWidgetItem(pixmap, "");
+    }
+    ui->tableWidget->setItem(row, int(ColomnName::Image), item);
+}
+
+void CartWidget::setName(int row, const QString &productName) {
+    QTableWidgetItem *item = new QTableWidgetItem(productName);
+    ui->tableWidget->setItem(row, int(ColomnName::Name), item);
+}
+
+void CartWidget::setPrice(int row, double price) {
+    QTableWidgetItem *item = new QTableWidgetItem(QString::number(price));
+    ui->tableWidget->setItem(row, int(ColomnName::Price), item);
+}
+
+void CartWidget::setStock(int row, qint64 stock) {
+    QTableWidgetItem *item = new QTableWidgetItem(QString::number(stock));
+    ui->tableWidget->setItem(row, int(ColomnName::Stock), item);
 }

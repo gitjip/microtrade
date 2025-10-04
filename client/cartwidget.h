@@ -18,10 +18,10 @@ public:
     ~CartWidget();
 
 public slots:
-    // void update();
+    void update();
 
 private slots:
-    // void onCartItemListClientReadyRead(const TcpResponse &response);
+    void onCartProductListClientReadyRead(const TcpResponse &response);
 
 private:
     enum class ColomnName { Image, Name, Price, Stock, Quantity };
