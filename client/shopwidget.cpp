@@ -1,5 +1,5 @@
 #include "shopwidget.h"
-#include "paymentdialog.h"
+#include "addtocartdialog.h"
 #include "tcpproductlistclient.h"
 #include "ui_shopwidget.h"
 #include <QJsonArray>
@@ -92,13 +92,12 @@ void ShopWidget::setView(int row, qint64 productId) {
     ui->tableWidget->setCellWidget(row, int(ColomnName::View), viewLink);
     connect(viewLink, &QLabel::linkActivated, this, [=]() {
         qDebug() << "ShopWidget::addView:" << "QLabel::linkActivated";
-        PaymentDialog *paymentDialog = new PaymentDialog(this);
+        AddToCartDialog *paymentDialog = new AddToCartDialog(this);
         paymentDialog->setProductId(productId);
         paymentDialog->setRow(row);
         paymentDialog->update();
-        connect(paymentDialog, &PaymentDialog::paid, this, [=]() {
+        connect(paymentDialog, &AddToCartDialog::paid, this, [=]() {
             qDebug() << "ShopWidget::addView:" << "onPaid";
-            update();
         });
         paymentDialog->show();
     });

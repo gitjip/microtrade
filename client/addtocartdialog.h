@@ -1,5 +1,5 @@
-#ifndef PAYMENTDIALOG_H
-#define PAYMENTDIALOG_H
+#ifndef ADDTOCARTDIALOG_H
+#define ADDTOCARTDIALOG_H
 
 #include "tcpresponse.h"
 #include <QDialog>
@@ -8,12 +8,12 @@ namespace Ui {
 class PaymentDialog;
 }
 
-class PaymentDialog : public QDialog {
+class AddToCartDialog : public QDialog {
     Q_OBJECT
 
 public:
-    explicit PaymentDialog(QWidget *parent = nullptr);
-    ~PaymentDialog();
+    explicit AddToCartDialog(QWidget *parent = nullptr);
+    ~AddToCartDialog();
     void setProductId(qint64 productId);
     void setRow(int row);
 
@@ -43,4 +43,4 @@ private:
     qint64 m_productId;
 };
 
-#endif // PAYMENTDIALOG_H
+#endif // ADDTOCARTDIALOG_H

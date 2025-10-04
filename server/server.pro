@@ -20,6 +20,8 @@ SOURCES += \
     sqlauthenticator.cpp \
     sqlauthorizer.cpp \
     sqlcartcreator.cpp \
+    sqlcartfinder.cpp \
+    sqlcartitemcreator.cpp \
     sqllocalserver.cpp \
     sqlloginchecker.cpp \
     sqlproductfinder.cpp \
@@ -49,6 +51,8 @@ HEADERS += \
     sqlauthenticator.h \
     sqlauthorizer.h \
     sqlcartcreator.h \
+    sqlcartfinder.h \
+    sqlcartitemcreator.h \
     sqllocalserver.h \
     sqlloginchecker.h \
     sqlproductfinder.h \

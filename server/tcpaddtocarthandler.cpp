@@ -1,19 +1,37 @@
 #include "tcpaddtocarthandler.h"
-#include "sqluserfinder.h"
-#include "user.h"
+#include "sqlauthenticator.h"
+#include "sqlcartfinder.h"
 #include "tcplocalresponse.h"
+#include "user.h"
 
 TcpAddToCartHandler::TcpAddToCartHandler(QObject *parent)
     : TcpHandler{parent} {}
 
 TcpResponse TcpAddToCartHandler::handle(const TcpRequest &request) {
-    SqlUserFinder userFinder;
     QJsonObject requestBody = request.body();
-    User user = userFinder.exec(User::fromJson(requestBody["user"].toObject()));
-    if (!user.isNull()) {
-        TcpResponse response = TcpLocalResponse::make(false, TcpResponse::StatusType::Unauthorized, "not authorized");
+    // authenticate user
+    SqlAuthenticator authenticator;
+    User user = authenticator.exec(
+        Authorization::fromJson(requestBody["authorization"].toObject()));
+    if (user.isNull()) {
+        TcpResponse response = TcpLocalResponse::make(
+            false, TcpResponse::StatusType::Unauthorized, "not authorized");
         qDebug() << "TcpAddToCartHandler::handle:" << response.statusDetail();
         return response;
     }
-    return {};
+    // find cart by user id
+    SqlCartFinder cartFinder;
+    Cart cart = cartFinder.exec(user);
+    if (cart.isNull()) {
+        TcpResponse response = TcpLocalResponse::make(
+            false, TcpResponse::StatusType::NotFound, "cart not found");
+        qDebug() << "TcpAddToCartHandler::handle:" << response.statusDetail();
+        return response;
+    }
+    // add connection between product and cart
+    // unfinished ...
+    TcpResponse response = TcpLocalResponse::make(
+        true, TcpResponse::StatusType::Success, "successfully add to cart");
+    qDebug() << "TcpAddToCartHandler::handle:" << response.statusDetail();
+    return response;
 }
