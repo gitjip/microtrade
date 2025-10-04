@@ -5,7 +5,7 @@
 #include "tcpaddtocartclient.h"
 
 AddToCartDialog::AddToCartDialog(QWidget *parent)
-    : QDialog(parent), ui(new Ui::PaymentDialog) {
+    : QDialog(parent), ui(new Ui::AddToCartDialog) {
     ui->setupUi(this);
 
     setAttribute(Qt::WA_DeleteOnClose);

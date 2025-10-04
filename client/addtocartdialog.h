@@ -5,7 +5,7 @@
 #include <QDialog>
 
 namespace Ui {
-class PaymentDialog;
+class AddToCartDialog;
 }
 
 class AddToCartDialog : public QDialog {
@@ -39,7 +39,7 @@ private:
     void setDescription(const QString &description);
 
 private:
-    Ui::PaymentDialog *ui;
+    Ui::AddToCartDialog *ui;
     qint64 m_productId;
 };
 
