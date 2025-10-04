@@ -1,9 +1,9 @@
 #include "addtocartdialog.h"
+#include "authorizationmanager.h"
 #include "product.h"
 #include "tcpaddtocartclient.h"
 #include "tcpproductclient.h"
 #include "ui_addtocartdialog.h"
-#include "authorizationmanager.h"
 
 AddToCartDialog::AddToCartDialog(QWidget *parent)
     : QDialog(parent), ui(new Ui::AddToCartDialog) {
@@ -25,8 +25,8 @@ void AddToCartDialog::setProductId(qint64 productId) {
 }
 
 void AddToCartDialog::setRow(int row) {
-    ui->tableWidget->setItem(int(RowName::Row), 0,
-                             new QTableWidgetItem(QString::number(row + 1)));
+    QTableWidgetItem *item = new QTableWidgetItem(QString::number(row + 1));
+    ui->tableWidget->setItem(int(RowName::Row), 0, item);
 }
 
 void AddToCartDialog::update() {
@@ -38,33 +38,34 @@ void AddToCartDialog::update() {
 
 void AddToCartDialog::setImage(const QUrl &imageUrl) {
     QPixmap pixmap;
+    QTableWidgetItem *item = nullptr;
     if (!pixmap.load(imageUrl.toString())) {
-        ui->tableWidget->setItem(int(RowName::Image), 0,
-                                 new QTableWidgetItem("image"));
+        item = new QTableWidgetItem("image");
         qDebug() << Q_FUNC_INFO << "failed to load image" << imageUrl.toString();
     } else {
-        ui->tableWidget->setItem(int(RowName::Image), 0,
-                                 new QTableWidgetItem(pixmap, ""));
+        item = new QTableWidgetItem(pixmap, "");
     }
+    ui->tableWidget->setItem(int(RowName::Image), 0, item);
 }
 
 void AddToCartDialog::setName(const QString &name) {
-    ui->tableWidget->setItem(int(RowName::Name), 0, new QTableWidgetItem(name));
+    QTableWidgetItem *item = new QTableWidgetItem(name);
+    ui->tableWidget->setItem(int(RowName::Name), 0, item);
 }
 
 void AddToCartDialog::setPrice(double price) {
-    ui->tableWidget->setItem(int(RowName::Price), 0,
-                             new QTableWidgetItem(QString::number(price)));
+    QTableWidgetItem *item = new QTableWidgetItem(QString::number(price));
+    ui->tableWidget->setItem(int(RowName::Price), 0, item);
 }
 
 void AddToCartDialog::setStock(qint64 stock) {
-    ui->tableWidget->setItem(int(RowName::Stock), 0,
-                             new QTableWidgetItem(QString::number(stock)));
+    QTableWidgetItem *item = new QTableWidgetItem(QString::number(stock));
+    ui->tableWidget->setItem(int(RowName::Stock), 0, item);
 }
 
 void AddToCartDialog::setDescription(const QString &description) {
-    ui->tableWidget->setItem(int(RowName::Description), 0,
-                             new QTableWidgetItem(description));
+    QTableWidgetItem *item = new QTableWidgetItem(description);
+    ui->tableWidget->setItem(int(RowName::Description), 0, item);
 }
 
 void AddToCartDialog::onAddToCartPushButtonClicked() {
