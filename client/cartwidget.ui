@@ -14,8 +14,20 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0">
+    <widget class="QPushButton" name="payPushButton">
+     <property name="text">
+      <string>pay all now</string>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0">
     <widget class="QTableWidget" name="tableWidget">
+     <column>
+      <property name="text">
+       <string>id</string>
+      </property>
+     </column>
      <column>
       <property name="text">
        <string>image</string>
@@ -41,13 +53,6 @@
        <string>quantity</string>
       </property>
      </column>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QPushButton" name="payPushButton">
-     <property name="text">
-      <string>pay all now</string>
-     </property>
     </widget>
    </item>
   </layout>

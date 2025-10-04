@@ -14,8 +14,8 @@ class AddToCartDialog : public QDialog {
 public:
     explicit AddToCartDialog(QWidget *parent = nullptr);
     ~AddToCartDialog();
-    void setProductId(qint64 productId);
     void setRow(int row);
+    void setProductId(qint64 productId);
 
 signals:
     void addedToCart();
@@ -29,7 +29,7 @@ private:
     void onAddToCartClientReadyRead(const TcpResponse &tcpResponse);
 
 private:
-    enum class RowName { Row, Image, Name, Price, Stock, Description };
+    enum class RowName { Row, Id, Image, Name, Price, Stock, Description };
 
 private:
     void setImage(const QUrl &imageUrl);

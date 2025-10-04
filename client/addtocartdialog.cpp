@@ -22,6 +22,8 @@ AddToCartDialog::~AddToCartDialog() { delete ui; }
 void AddToCartDialog::setProductId(qint64 productId) {
     m_productId = productId;
     qDebug() << Q_FUNC_INFO << productId;
+    QTableWidgetItem *item = new QTableWidgetItem(QString::number(productId));
+    ui->tableWidget->setItem(int(RowName::Id), 0, item);
 }
 
 void AddToCartDialog::setRow(int row) {

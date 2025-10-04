@@ -47,11 +47,18 @@ void CartWidget::onCartProductListClientReadyRead(const TcpResponse &response) {
 }
 
 void CartWidget::setProduct(int row, const Product &product) {
+    setProductId(row, product.id());
     setImage(row, product.imageUrl());
     setName(row, product.name());
     setPrice(row, product.price());
     setStock(row, product.stock());
     setQuantity(row, product.id());
+}
+
+void CartWidget::setProductId(int row, qint64 productId) {
+    qDebug() << Q_FUNC_INFO << productId;
+    QTableWidgetItem *item = new QTableWidgetItem(QString::number(productId));
+    ui->tableWidget->setItem(row, int(ColomnName::Id), item);
 }
 
 void CartWidget::setImage(int row, const QUrl &imageUrl) {

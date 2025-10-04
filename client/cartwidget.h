@@ -24,10 +24,11 @@ private slots:
     void onCartProductListClientReadyRead(const TcpResponse &response);
 
 private:
-    enum class ColomnName { Image, Name, Price, Stock, Quantity };
+    enum class ColomnName { Id, Image, Name, Price, Stock, Quantity };
 
 private:
     void setProduct(int row, const Product &product);
+    void setProductId(int row, qint64 productId);
     void setImage(int row, const QUrl &imageUrl);
     void setName(int row, const QString &productName);
     void setPrice(int row, double price);

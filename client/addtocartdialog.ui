@@ -30,6 +30,11 @@
      </row>
      <row>
       <property name="text">
+       <string>id</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
        <string>image</string>
       </property>
      </row>
@@ -50,7 +55,7 @@
      </row>
      <row>
       <property name="text">
-       <string>description</string>
+       <string>detail</string>
       </property>
      </row>
      <column>

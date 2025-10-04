@@ -9,6 +9,8 @@ ShopWidget::ShopWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::ShopWidget) {
     ui->setupUi(this);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(
+        int(ColomnName::Id), QHeaderView::ResizeToContents);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(
         int(ColomnName::Image), QHeaderView::Fixed);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(
         int(ColomnName::Name), QHeaderView::Stretch);
@@ -43,11 +45,17 @@ void ShopWidget::onProductListClientReadyRead(const TcpResponse &tcpResponse){
 }
 
 void ShopWidget::setProduct(int row, const Product &product) {
+    setProductId(row, product.id());
     setImage(row, product.imageUrl());
     setName(row, product.name());
     setPrice(row, product.price());
     setStock(row, product.stock());
     setView(row, product.id());
+}
+
+void ShopWidget::setProductId(int row, qint64 productId) {
+    QTableWidgetItem *item = new QTableWidgetItem(QString::number(productId));
+    ui->tableWidget->setItem(row, int(ColomnName::Id),  item);
 }
 
 void ShopWidget::setImage(int row, const QUrl &imageUrl) {
