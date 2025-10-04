@@ -5,6 +5,9 @@
 #include "cart.h"
 #include "user.h"
 
+/**
+ * @brief find cart where userId matches
+ */
 class SqlCartFinder : public SqlLocalServer
 {
 public:

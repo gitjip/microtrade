@@ -31,6 +31,7 @@ SOURCES += \
     sqlusercreator.cpp \
     sqluserfinder.cpp \
     tcpaddtocarthandler.cpp \
+    tcpcartproductlisthandler.cpp \
     tcplocaldistributor.cpp \
     tcplocalresponse.cpp \
     tcplocalserver.cpp \
@@ -64,6 +65,7 @@ HEADERS += \
     sqlusercreator.h \
     sqluserfinder.h \
     tcpaddtocarthandler.h \
+    tcpcartproductlisthandler.h \
     tcplocaldistributor.h \
     tcplocalresponse.h \
     tcplocalserver.h \

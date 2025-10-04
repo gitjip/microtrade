@@ -4,6 +4,9 @@
 #include "sqllocalserver.h"
 #include "user.h"
 
+/**
+ * @brief find a user with its id
+ */
 class SqlUserFinder : public SqlLocalServer
 {
 public:

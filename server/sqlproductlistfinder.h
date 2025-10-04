@@ -4,6 +4,9 @@
 #include "product.h"
 #include "sqllocalserver.h"
 
+/**
+ * @brief find all products and return them as a list
+ */
 class SqlProductListFinder : public SqlLocalServer
 {
 public:

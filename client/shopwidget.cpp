@@ -26,12 +26,12 @@ ShopWidget::ShopWidget(QWidget *parent)
 ShopWidget::~ShopWidget() { delete ui; }
 
 void ShopWidget::update() {
-    TcpProductListClient *tcpProductListClient = new TcpProductListClient(this);
-    tcpProductListClient->sendAsync();
-    connect(tcpProductListClient, &TcpProductListClient::readyRead, this, &ShopWidget::tryUpdate);
+    TcpProductListClient *productListClient = new TcpProductListClient(this);
+    productListClient->sendAsync();
+    connect(productListClient, &TcpProductListClient::readyRead, this, &ShopWidget::onProductListClientReadyRead);
 }
 
-void ShopWidget::tryUpdate(const TcpResponse &tcpResponse){
+void ShopWidget::onProductListClientReadyRead(const TcpResponse &tcpResponse){
     qDebug() << "ShopWidget::update:" << "response fetched:"
              << tcpResponse.toJson();
     if (tcpResponse.success()) {

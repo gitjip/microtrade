@@ -4,6 +4,9 @@
 #include "sqllocalserver.h"
 #include "authorization.h"
 
+/**
+ * @brief remove an authorization, especially on user trying to logout
+ */
 class SqlUnauthorizer : public SqlLocalServer
 {
 public:

@@ -5,6 +5,9 @@
 #include "user.h"
 #include "authorization.h"
 
+/**
+ * @brief create authorization with userId and token, especially on user ready login
+ */
 class SqlAuthorizer : public SqlLocalServer
 {
 public:

@@ -5,6 +5,9 @@
 #include "authorization.h"
 #include "user.h"
 
+/**
+ * @brief find authorization where token matches, which is useful for SQL functions in need for pre-authentication
+ */
 class SqlAuthenticator : public SqlLocalServer
 {
 public:

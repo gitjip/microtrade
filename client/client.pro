@@ -23,6 +23,7 @@ SOURCES += \
     registerdialog.cpp \
     shopwidget.cpp \
     tcpaddtocartclient.cpp \
+    tcpcartproductlistclient.cpp \
     tcplocalclient.cpp \
     tcploginclient.cpp \
     tcplogoutclient.cpp \
@@ -45,6 +46,7 @@ HEADERS += \
     registerdialog.h \
     shopwidget.h \
     tcpaddtocartclient.h \
+    tcpcartproductlistclient.h \
     tcplocalclient.h \
     tcploginclient.h \
     tcplogoutclient.h \

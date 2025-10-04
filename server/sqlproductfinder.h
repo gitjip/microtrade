@@ -4,6 +4,9 @@
 #include "product.h"
 #include "sqllocalserver.h"
 
+/**
+ * @brief find a product with its id
+ */
 class SqlProductFinder : public SqlLocalServer
 {
 public:

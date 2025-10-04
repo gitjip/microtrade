@@ -4,6 +4,9 @@
 #include "sqllocalserver.h"
 #include "user.h"
 
+/**
+ * @brief create cart with userId, especially on user registering
+ */
 class SqlCartCreator : public SqlLocalServer
 {
 public:

@@ -6,6 +6,9 @@
 #include "cart.h"
 #include "product.h"
 
+/**
+ * @brief create cartItem with cartId and productId, especially on user adding a product to cart
+ */
 class SqlCartItemCreator : public SqlLocalServer
 {
 public:

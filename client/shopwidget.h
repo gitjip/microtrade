@@ -20,7 +20,7 @@ public slots:
     void update();
 
 private slots:
-    void tryUpdate(const TcpResponse &tcpResponse);
+    void onProductListClientReadyRead(const TcpResponse &tcpResponse);
 
 private:
     enum class ColomnName { Image, Name, Price, Stock, View };
