@@ -5,6 +5,7 @@
 #include "tcpproducthandler.h"
 #include "tcpproductlisthandler.h"
 #include "tcpregisterhandler.h"
+#include "tcplogouthandler.h"
 
 TcpLocalDistributor::TcpLocalDistributor(QObject *parent)
     : TcpDistributor{parent} {}
@@ -27,6 +28,8 @@ TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
         handler = new TcpAddToCartHandler(this);
     } else if (request.route() == "/register") {
         handler = new TcpRegisterHandler(this);
+    } else if (request.route() == "/logout") {
+        handler = new TcpLogoutHandler(this);
     }
     if (handler) {
         return handler->handle(request);
