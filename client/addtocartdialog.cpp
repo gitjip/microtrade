@@ -13,7 +13,7 @@ AddToCartDialog::AddToCartDialog(QWidget *parent)
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(
         QHeaderView::Stretch);
 
-    connect(ui->payPushButton, &QPushButton::clicked, this, &AddToCartDialog::addToCart);
+    connect(ui->addToCartPushButton, &QPushButton::clicked, this, &AddToCartDialog::addToCart);
 }
 
 AddToCartDialog::~AddToCartDialog() { delete ui; }
