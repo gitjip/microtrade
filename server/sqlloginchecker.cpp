@@ -10,8 +10,6 @@ User SqlLoginChecker::exec(const User &user) {
                   "password_hash=:password_hash AND removed_at IS NULL");
     query.bindValue(":username", user.username());
     query.bindValue(":password_hash", user.passwordHash());
-    qDebug() << "SqlLoginChecker::exec:" << query.boundValueNames();
-    qDebug() << "SqlLoginChecker::exec:" << query.boundValues();
     if (!query.exec()) {
         qDebug() << "SqlLoginChecker::exec:" << query.lastError().type()
                  << query.lastError().text();

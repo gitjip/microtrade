@@ -8,29 +8,19 @@ AuthorizationManager *AuthorizationManager::instance() {
     return &authorizationManager;
 }
 
-void AuthorizationManager::login(const Authorization &authorization) {
-    if (m_authorization.isNull()) {
-        m_authorization = authorization;
-        emit loggedin();
-        qDebug() << "AuthorizationManager::login:" << m_authorization.token();
-    } else {
-        qDebug() << "AuthorizationManager::login:" << "already login";
-    }
-}
-
 void AuthorizationManager::login(const QString &token) {
-    if (token.isEmpty()) {
-        m_authorization = Authorization(-1, {}, {}, -1, token);
+    if (m_token.isEmpty()) {
+        m_token = token;
         emit loggedin();
-        qDebug() << "AuthorizationManager::login:" << m_authorization.token();
+        qDebug() << "AuthorizationManager::login:" << m_token;
     } else {
-        qDebug() << "AuthorizationManager::login:" << "already login";
+        qDebug() << "AuthorizationManager::login:" << "already login" << token;
     }
 }
 
 void AuthorizationManager::logout() {
-    if (!m_authorization.isNull()) {
-        m_authorization = {};
+    if (!m_token.isEmpty()) {
+        m_token = "";
         emit loggedout();
         qDebug() << "AuthorizationManager::logout:" << "successfully logout";
     } else {
@@ -38,14 +28,8 @@ void AuthorizationManager::logout() {
     }
 }
 
-Authorization AuthorizationManager::authorization() const {
-    return m_authorization;
-}
+QString AuthorizationManager::token() const { return m_token; }
 
-QString AuthorizationManager::token() const { return m_authorization.token(); }
-
-bool AuthorizationManager::isLoggedin() const {
-    return !m_authorization.isNull();
-}
+bool AuthorizationManager::isLoggedin() const { return !m_token.isEmpty(); }
 
 void AuthorizationManager::update() { emit updated(); }

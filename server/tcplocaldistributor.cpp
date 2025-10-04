@@ -4,6 +4,7 @@
 #include "tcploginhandler.h"
 #include "tcpproducthandler.h"
 #include "tcpproductlisthandler.h"
+#include "tcpregisterhandler.h"
 
 TcpLocalDistributor::TcpLocalDistributor(QObject *parent)
     : TcpDistributor{parent} {}
@@ -24,13 +25,14 @@ TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
         handler = new TcpProductListHandler(this);
     } else if (request.route() == "/add-to-cart") {
         handler = new TcpAddToCartHandler(this);
+    } else if (request.route() == "/register") {
+        handler = new TcpRegisterHandler(this);
     } else {
-        return TcpResponse(
-            false, TcpResponse::StatusType::InvalidRequest,
-            QString("route %1 not supported").arg(request.route()),
-            QDateTime::currentDateTime(),
-            QHostAddress(Config::instance()->hostAddress()),
-            Config::instance()->port());
+        return TcpResponse(false, TcpResponse::StatusType::InvalidRequest,
+                           QString("route %1 not supported").arg(request.route()),
+                           QDateTime::currentDateTime(),
+                           QHostAddress(Config::instance()->hostAddress()),
+                           Config::instance()->port());
     }
     return handler->handle(request);
 }

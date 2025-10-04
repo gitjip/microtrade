@@ -19,11 +19,13 @@ SOURCES += \
     serverwidget.cpp \
     sqlauthenticator.cpp \
     sqlauthorizer.cpp \
+    sqlcartcreator.cpp \
     sqllocalserver.cpp \
     sqlloginchecker.cpp \
     sqlproductfinder.cpp \
     sqlproductlistfinder.cpp \
     sqlproductreducer.cpp \
+    sqlusercreator.cpp \
     sqluserfinder.cpp \
     tcpaddtocarthandler.cpp \
     tcplocaldistributor.cpp \
@@ -32,6 +34,7 @@ SOURCES += \
     tcploginhandler.cpp \
     tcpproducthandler.cpp \
     tcpproductlisthandler.cpp \
+    tcpregisterhandler.cpp \
     userwidget.cpp \
     welcomewidget.cpp
 
@@ -45,11 +48,13 @@ HEADERS += \
     serverwidget.h \
     sqlauthenticator.h \
     sqlauthorizer.h \
+    sqlcartcreator.h \
     sqllocalserver.h \
     sqlloginchecker.h \
     sqlproductfinder.h \
     sqlproductlistfinder.h \
     sqlproductreducer.h \
+    sqlusercreator.h \
     sqluserfinder.h \
     tcpaddtocarthandler.h \
     tcplocaldistributor.h \
@@ -58,6 +63,7 @@ HEADERS += \
     tcploginhandler.h \
     tcpproducthandler.h \
     tcpproductlisthandler.h \
+    tcpregisterhandler.h \
     userwidget.h \
     welcomewidget.h
 
