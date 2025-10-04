@@ -22,6 +22,7 @@ SOURCES += \
     sqlcartcreator.cpp \
     sqlcartfinder.cpp \
     sqlcartitemcreator.cpp \
+    sqlcartitemlistfinder.cpp \
     sqllocalserver.cpp \
     sqlloginchecker.cpp \
     sqlproductfinder.cpp \
@@ -56,6 +57,7 @@ HEADERS += \
     sqlcartcreator.h \
     sqlcartfinder.h \
     sqlcartitemcreator.h \
+    sqlcartitemlistfinder.h \
     sqllocalserver.h \
     sqlloginchecker.h \
     sqlproductfinder.h \
