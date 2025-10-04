@@ -1,11 +1,11 @@
 #include "tcplocaldistributor.h"
-#include "config.h"
 #include "tcpaddtocarthandler.h"
+#include "tcplocalresponse.h"
 #include "tcploginhandler.h"
+#include "tcplogouthandler.h"
 #include "tcpproducthandler.h"
 #include "tcpproductlisthandler.h"
 #include "tcpregisterhandler.h"
-#include "tcplogouthandler.h"
 
 TcpLocalDistributor::TcpLocalDistributor(QObject *parent)
     : TcpDistributor{parent} {}
@@ -35,10 +35,9 @@ TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
         return handler->handle(request);
     } else {
         qDebug() << "TcpLocalDistributor::distribute:" << "handler is nullptr";
-        return TcpResponse(false, TcpResponse::StatusType::InvalidRequest,
-                           QString("route %1 not supported").arg(request.route()),
-                           QDateTime::currentDateTime(),
-                           QHostAddress(Config::instance()->hostAddress()),
-                           Config::instance()->port());
+        TcpResponse response = TcpLocalResponse::make(
+            false, TcpResponse::StatusType::InvalidRequest,
+            QString("route %1 not supported").arg(request.route()));
+        return response;
     }
 }
