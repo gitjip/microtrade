@@ -12,6 +12,7 @@ void AuthorizationManager::login(const QString &token) {
     if (m_token.isEmpty()) {
         m_token = token;
         emit loggedin();
+        emit updated();
         qDebug() << "AuthorizationManager::login:" << m_token;
     } else {
         qDebug() << "AuthorizationManager::login:" << "already login" << token;
@@ -22,6 +23,7 @@ void AuthorizationManager::logout() {
     if (!m_token.isEmpty()) {
         m_token = "";
         emit loggedout();
+        emit updated();
         qDebug() << "AuthorizationManager::logout:" << "successfully logout";
     } else {
         qDebug() << "AuthorizationManager::logout:" << "not login";

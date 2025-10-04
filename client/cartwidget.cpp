@@ -19,7 +19,7 @@ CartWidget::CartWidget(QWidget *parent)
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(
         int(ColomnName::Quantity), QHeaderView::ResizeToContents);
     ui->tableWidget->setColumnWidth(int(ColomnName::Image), 80);
-    connect(AuthorizationManager::instance(), &AuthorizationManager::loggedin,
+    connect(AuthorizationManager::instance(), &AuthorizationManager::updated,
             this, &CartWidget::update);
 }
 

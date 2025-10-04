@@ -84,13 +84,13 @@ void ShopWidget::setView(int row, qint64 productId) {
     ui->tableWidget->setCellWidget(row, int(ColomnName::View), viewLink);
     connect(viewLink, &QLabel::linkActivated, this, [=]() {
         qDebug() << Q_FUNC_INFO << "QLabel::linkActivated";
-        AddToCartDialog *paymentDialog = new AddToCartDialog(this);
-        paymentDialog->setProductId(productId);
-        paymentDialog->setRow(row);
-        paymentDialog->update();
-        connect(paymentDialog, &AddToCartDialog::paid, this, [=]() {
+        AddToCartDialog *addToCartDialog = new AddToCartDialog(this);
+        addToCartDialog->setProductId(productId);
+        addToCartDialog->setRow(row);
+        addToCartDialog->update();
+        connect(addToCartDialog, &AddToCartDialog::addedToCart, this, [=]() {
             qDebug() << Q_FUNC_INFO << "onPaid";
         });
-        paymentDialog->show();
+        addToCartDialog->show();
     });
 }

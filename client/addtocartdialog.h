@@ -18,15 +18,15 @@ public:
     void setRow(int row);
 
 signals:
-    void paid();
+    void addedToCart();
 
 public slots:
     void update();
-    void addToCart();
+    void onAddToCartPushButtonClicked();
 
 private:
-    void tryUpdate(const TcpResponse &tcpResponse);
-    void tryAddToCart(const TcpResponse &tcpResponse);
+    void onProductClientReadyRead(const TcpResponse &tcpResponse);
+    void onAddToCartClientReadyRead(const TcpResponse &tcpResponse);
 
 private:
     enum class RowName { Row, Image, Name, Price, Stock, Description };
