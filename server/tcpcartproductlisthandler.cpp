@@ -35,23 +35,21 @@ TcpResponse TcpCartProductListHandler::handle(const TcpRequest &request) {
     QList<CartItem> cartItemList = cartItemListFinder.exec(cart);
     // find product list by product id of carts
     SqlProductFinder productFinder;
-    QJsonArray productJsonArray;
+    QJsonArray productQuantityJsonArray;
     for (qsizetype i = 0; i < cartItemList.count(); ++i) {
-        Product product = productFinder.exec(Product{cartItemList[i].productId(),
-                                                     {},
-                                                     {},
-                                                     "",
-                                                     "",
-                                                     -1,
-                                                     -1,
-                                                     Product::Category::Null});
-        productJsonArray.append(product.toJson());
+        Product productId = {cartItemList[i].productId(), {}, {}, "", "", -1, -1,
+                             Product::Category::Null};
+        Product product = productFinder.exec(productId);
+        QJsonObject productQuantityPair;
+        productQuantityPair["product"] = product.toJson();
+        productQuantityPair["quantity"] = cartItemList[i].quantity();
+        productQuantityJsonArray.append(productQuantityPair);
     }
     QJsonObject responseBody;
-    responseBody["productList"] = productJsonArray;
+    responseBody["productQuantityMap"] = productQuantityJsonArray;
     TcpResponse response =
         TcpLocalResponse::make(true, TcpResponse::StatusType::Success,
                                                   "successfully find product list", responseBody);
-    qDebug() << Q_FUNC_INFO << response.statusDetail();
+    qDebug() << Q_FUNC_INFO << response.toJson();
     return response;
 }

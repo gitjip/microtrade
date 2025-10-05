@@ -3,14 +3,16 @@
 #include "cartitem.h"
 #include "tcpcartproductlistclient.h"
 #include "tcpcartsyncclient.h"
-#include "ui_cartwidget.h"
 #include "tcppaymentclient.h"
+#include "ui_cartwidget.h"
 #include <QJsonArray>
 #include <QSpinBox>
 
 CartWidget::CartWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::CartWidget) {
     ui->setupUi(this);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(
+        int(ColomnName::Id), QHeaderView::ResizeToContents);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(
         int(ColomnName::Image), QHeaderView::Fixed);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(
@@ -42,11 +44,14 @@ void CartWidget::onCartProductListClientReadyRead(const TcpResponse &response) {
     qDebug() << Q_FUNC_INFO << "response:" << response.toJson();
     if (response.success()) {
         QJsonObject body = response.body();
-        QJsonArray productJsonArray = body["productList"].toArray();
-        ui->tableWidget->setRowCount(productJsonArray.count());
-        for (qsizetype i = 0; i < productJsonArray.count(); ++i) {
-            Product product = Product::fromJson(productJsonArray[i].toObject());
-            setProduct(i, product);
+        QJsonArray productQuantityJsonArray = body["productQuantityMap"].toArray();
+        ui->tableWidget->setRowCount(productQuantityJsonArray.count());
+        for (qsizetype i = 0; i < productQuantityJsonArray.count(); ++i) {
+            QJsonObject productQuantityPair = productQuantityJsonArray[i].toObject();
+            Product product =
+                Product::fromJson(productQuantityPair["product"].toObject());
+            qint64 quantity = productQuantityPair["quantity"].toInteger();
+            setProduct(i, product, quantity);
         }
     }
 }
@@ -71,6 +76,7 @@ void CartWidget::onPayPushButtonClicked() {
 
 void CartWidget::onCartSyncClientReadyRead(const TcpResponse &response) {
     qDebug() << Q_FUNC_INFO << response.toJson();
+    AuthorizationManager::instance()->update();
 }
 
 void CartWidget::sendPaymentRequest(const TcpResponse &) {
@@ -80,17 +86,18 @@ void CartWidget::sendPaymentRequest(const TcpResponse &) {
     paymentClient->sendAsync();
 }
 
-void CartWidget::onPaymentClientReadyRead(const TcpResponse &response){
+void CartWidget::onPaymentClientReadyRead(const TcpResponse &response) {
     qDebug() << Q_FUNC_INFO << response.toJson();
+    AuthorizationManager::instance()->update();
 }
 
-void CartWidget::setProduct(int row, const Product &product) {
+void CartWidget::setProduct(int row, const Product &product, qint64 quantity) {
     setProductId(row, product.id());
     setImage(row, product.imageUrl());
     setName(row, product.name());
     setPrice(row, product.price());
     setStock(row, product.stock());
-    setQuantity(row, product.id());
+    setQuantity(row, quantity);
 }
 
 void CartWidget::setProductId(int row, qint64 productId) {
@@ -126,7 +133,12 @@ void CartWidget::setStock(int row, qint64 stock) {
     ui->tableWidget->setItem(row, int(ColomnName::Stock), item);
 }
 
-void CartWidget::setQuantity(int row, qint64) {
-    QSpinBox *spinBox = new QSpinBox;
-    ui->tableWidget->setCellWidget(row, int(ColomnName::Quantity), spinBox);
+void CartWidget::setQuantity(int row, qint64 quantity) {
+    if (!ui->tableWidget->cellWidget(row, int(ColomnName::Quantity))) {
+        QSpinBox *spinBox = new QSpinBox;
+        ui->tableWidget->setCellWidget(row, int(ColomnName::Quantity), spinBox);
+    } else {
+        QSpinBox *spinBox = qobject_cast<QSpinBox *>(ui->tableWidget->cellWidget(row, int(ColomnName::Quantity)));
+        spinBox->setValue(quantity);
+    }
 }

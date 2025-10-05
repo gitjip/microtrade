@@ -1,5 +1,6 @@
 #include "shopwidget.h"
 #include "addtocartdialog.h"
+#include "authorizationmanager.h"
 #include "tcpproductlistclient.h"
 #include "ui_shopwidget.h"
 #include <QJsonArray>
@@ -21,6 +22,8 @@ ShopWidget::ShopWidget(QWidget *parent)
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(
         int(ColomnName::View), QHeaderView::ResizeToContents);
     ui->tableWidget->setColumnWidth(int(ColomnName::Image), 80);
+    connect(AuthorizationManager::instance(), &AuthorizationManager::updated,
+            this, &ShopWidget::update);
 }
 
 ShopWidget::~ShopWidget() { delete ui; }
