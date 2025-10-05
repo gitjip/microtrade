@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     config.cpp \
+    costcalculator.cpp \
     logwidget.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -26,6 +27,8 @@ SOURCES += \
     sqlcartsyncer.cpp \
     sqllocalserver.cpp \
     sqlloginchecker.cpp \
+    sqlordercreator.cpp \
+    sqlorderitemlistcreator.cpp \
     sqlproductfinder.cpp \
     sqlproductlistfinder.cpp \
     sqlproductreducer.cpp \
@@ -50,6 +53,7 @@ SOURCES += \
 
 HEADERS += \
     config.h \
+    costcalculator.h \
     logwidget.h \
     mainwindow.h \
     notificationwidget.h \
@@ -65,6 +69,8 @@ HEADERS += \
     sqlcartsyncer.h \
     sqllocalserver.h \
     sqlloginchecker.h \
+    sqlordercreator.h \
+    sqlorderitemlistcreator.h \
     sqlproductfinder.h \
     sqlproductlistfinder.h \
     sqlproductreducer.h \

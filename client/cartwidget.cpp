@@ -4,6 +4,7 @@
 #include "tcpcartproductlistclient.h"
 #include "tcpcartsyncclient.h"
 #include "ui_cartwidget.h"
+#include "tcppaymentclient.h"
 #include <QJsonArray>
 #include <QSpinBox>
 
@@ -63,10 +64,23 @@ void CartWidget::onPayPushButtonClicked() {
     TcpCartSyncClient *cartSyncClient = new TcpCartSyncClient(this);
     connect(cartSyncClient, &TcpLocalClient::readyRead, this,
             &CartWidget::onCartSyncClientReadyRead);
+    connect(cartSyncClient, &TcpLocalClient::readyRead, this,
+            &CartWidget::sendPaymentRequest);
     cartSyncClient->sendAsync(cartItemList);
 }
 
 void CartWidget::onCartSyncClientReadyRead(const TcpResponse &response) {
+    qDebug() << Q_FUNC_INFO << response.toJson();
+}
+
+void CartWidget::sendPaymentRequest(const TcpResponse &) {
+    TcpPaymentClient *paymentClient = new TcpPaymentClient(this);
+    connect(paymentClient, &TcpLocalClient::readyRead, this,
+            &CartWidget::onPaymentClientReadyRead);
+    paymentClient->sendAsync();
+}
+
+void CartWidget::onPaymentClientReadyRead(const TcpResponse &response){
     qDebug() << Q_FUNC_INFO << response.toJson();
 }
 

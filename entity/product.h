@@ -25,6 +25,9 @@ public:
     static Category stringToCategory(const QString &categoryString);
 
 public:
+    bool operator<(const Product &product) const;
+
+public:
     QString name() const;
     QString description() const;
     double price() const;
