@@ -1,6 +1,7 @@
 #include "tcplocaldistributor.h"
 #include "tcpaddtocarthandler.h"
 #include "tcpcartproductlisthandler.h"
+#include "tcpcartsynchandler.h"
 #include "tcplocalresponse.h"
 #include "tcploginhandler.h"
 #include "tcplogouthandler.h"
@@ -36,6 +37,8 @@ TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
         handler = new TcpCartProductListHandler(this);
     } else if (request.route() == "/user") {
         handler = new TcpUserHandler(this);
+    } else if (request.route() == "/cart-sync") {
+        handler = new TcpCartSyncHandler(this);
     }
     if (handler) {
         return handler->handle(request);

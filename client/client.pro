@@ -24,6 +24,7 @@ SOURCES += \
     shopwidget.cpp \
     tcpaddtocartclient.cpp \
     tcpcartproductlistclient.cpp \
+    tcpcartsyncclient.cpp \
     tcplocalclient.cpp \
     tcploginclient.cpp \
     tcplogoutclient.cpp \
@@ -49,6 +50,7 @@ HEADERS += \
     shopwidget.h \
     tcpaddtocartclient.h \
     tcpcartproductlistclient.h \
+    tcpcartsyncclient.h \
     tcplocalclient.h \
     tcploginclient.h \
     tcplogoutclient.h \

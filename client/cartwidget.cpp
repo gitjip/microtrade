@@ -1,6 +1,8 @@
 #include "cartwidget.h"
 #include "authorizationmanager.h"
+#include "cartitem.h"
 #include "tcpcartproductlistclient.h"
+#include "tcpcartsyncclient.h"
 #include "ui_cartwidget.h"
 #include <QJsonArray>
 #include <QSpinBox>
@@ -21,6 +23,8 @@ CartWidget::CartWidget(QWidget *parent)
     ui->tableWidget->setColumnWidth(int(ColomnName::Image), 80);
     connect(AuthorizationManager::instance(), &AuthorizationManager::updated,
             this, &CartWidget::update);
+    connect(ui->payPushButton, &QPushButton::clicked, this,
+            &CartWidget::onPayPushButtonClicked);
 }
 
 CartWidget::~CartWidget() { delete ui; }
@@ -44,6 +48,26 @@ void CartWidget::onCartProductListClientReadyRead(const TcpResponse &response) {
             setProduct(i, product);
         }
     }
+}
+
+void CartWidget::onPayPushButtonClicked() {
+    qDebug() << Q_FUNC_INFO;
+    QList<CartItem> cartItemList;
+    for (qsizetype i = 0; i < ui->tableWidget->rowCount(); ++i) {
+        QTableWidgetItem *idItem = ui->tableWidget->item(i, int(ColomnName::Id));
+        QSpinBox *quantityItem = qobject_cast<QSpinBox *>(
+            ui->tableWidget->cellWidget(i, int(ColomnName::Quantity)));
+        cartItemList.append(
+            {-1, {}, {}, -1, idItem->text().toLongLong(), quantityItem->value()});
+    }
+    TcpCartSyncClient *cartSyncClient = new TcpCartSyncClient(this);
+    connect(cartSyncClient, &TcpLocalClient::readyRead, this,
+            &CartWidget::onCartSyncClientReadyRead);
+    cartSyncClient->sendAsync(cartItemList);
+}
+
+void CartWidget::onCartSyncClientReadyRead(const TcpResponse &response) {
+    qDebug() << Q_FUNC_INFO << response.toJson();
 }
 
 void CartWidget::setProduct(int row, const Product &product) {

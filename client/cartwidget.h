@@ -22,6 +22,8 @@ public slots:
 
 private slots:
     void onCartProductListClientReadyRead(const TcpResponse &response);
+    void onPayPushButtonClicked();
+    void onCartSyncClientReadyRead(const TcpResponse &response);
 
 private:
     enum class ColomnName { Id, Image, Name, Price, Stock, Quantity };

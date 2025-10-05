@@ -4,9 +4,8 @@
 
 TcpPaymentClient::TcpPaymentClient(QObject *parent) : TcpLocalClient{parent} {}
 
-void TcpPaymentClient::sendAsync(const Cart &cart) {
+void TcpPaymentClient::sendAsync() {
     QJsonObject body;
-    body["cart"] = cart.toJson();
     body["authorization"] =
             Authorization{-1, {}, {}, -1, AuthorizationManager::instance()->token()}
             .toJson();

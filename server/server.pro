@@ -23,6 +23,7 @@ SOURCES += \
     sqlcartfinder.cpp \
     sqlcartitemcreator.cpp \
     sqlcartitemlistfinder.cpp \
+    sqlcartsyncer.cpp \
     sqllocalserver.cpp \
     sqlloginchecker.cpp \
     sqlproductfinder.cpp \
@@ -33,11 +34,13 @@ SOURCES += \
     sqluserfinder.cpp \
     tcpaddtocarthandler.cpp \
     tcpcartproductlisthandler.cpp \
+    tcpcartsynchandler.cpp \
     tcplocaldistributor.cpp \
     tcplocalresponse.cpp \
     tcplocalserver.cpp \
     tcploginhandler.cpp \
     tcplogouthandler.cpp \
+    tcppaymenthandler.cpp \
     tcpproducthandler.cpp \
     tcpproductlisthandler.cpp \
     tcpregisterhandler.cpp \
@@ -59,6 +62,7 @@ HEADERS += \
     sqlcartfinder.h \
     sqlcartitemcreator.h \
     sqlcartitemlistfinder.h \
+    sqlcartsyncer.h \
     sqllocalserver.h \
     sqlloginchecker.h \
     sqlproductfinder.h \
@@ -69,11 +73,13 @@ HEADERS += \
     sqluserfinder.h \
     tcpaddtocarthandler.h \
     tcpcartproductlisthandler.h \
+    tcpcartsynchandler.h \
     tcplocaldistributor.h \
     tcplocalresponse.h \
     tcplocalserver.h \
     tcploginhandler.h \
     tcplogouthandler.h \
+    tcppaymenthandler.h \
     tcpproducthandler.h \
     tcpproductlisthandler.h \
     tcpregisterhandler.h \

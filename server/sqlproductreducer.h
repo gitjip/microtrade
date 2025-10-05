@@ -8,7 +8,7 @@ class SqlProductReducer : public SqlLocalServer
 {
 public:
     SqlProductReducer();
-    QMap<Product, qint64> exec(const Product &product);
+    QMap<Product, qint64> exec(const QMap<Product,qint64> &quantityMap);
 };
 
 #endif // SQLPRODUCTREDUCER_H
