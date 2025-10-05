@@ -27,7 +27,7 @@ QJsonObject OrderItem::toJson() const {
     if (m_quantity != -1) {
         json["quantity"] = m_quantity;
     }
-    if (!qIsNaN(m_cost)) {
+    if (m_cost != -1) {
         json["cost"] = m_cost;
     }
 
@@ -39,7 +39,7 @@ void OrderItem::initFromJson(const QJsonObject &json) {
     m_orderId = json["orderId"].toInteger(-1);
     m_productId = json["productId"].toInteger(-1);
     m_quantity = json["quantity"].toInteger(-1);
-    m_cost = json["cost"].toDouble(qQNaN());
+    m_cost = json["cost"].toDouble(-1);
 }
 
 qint64 OrderItem::orderId() const { return m_orderId; }

@@ -19,7 +19,7 @@ QJsonObject Order::toJson() const {
     if (m_userId != -1) {
         json["userId"] = m_userId;
     }
-    if (!qIsNaN(m_cost)) {
+    if (m_cost != -1) {
         json["cost"] = m_cost;
     }
     if (m_status != Status::Null) {
@@ -32,7 +32,7 @@ QJsonObject Order::toJson() const {
 void Order::initFromJson(const QJsonObject &json) {
     Entity::initFromJson(json);
     m_userId = json["userId"].toInteger(-1);
-    m_cost = json["cost"].toDouble(qQNaN());
+    m_cost = json["cost"].toDouble(-1);
     m_status = stringToStatus(json["status"].toString());
 }
 

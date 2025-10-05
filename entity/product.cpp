@@ -24,7 +24,7 @@ QJsonObject Product::toJson() const {
     if (!m_description.isEmpty()) {
         json["description"] = m_description;
     }
-    if (!qIsNaN(m_price)) {
+    if (m_price != -1) {
         json["price"] = m_price;
     }
     if (m_stock != -1) {
@@ -44,7 +44,7 @@ void Product::initFromJson(const QJsonObject &json) {
     Entity::initFromJson(json);
     m_name = json["name"].toString();
     m_description = json["description"].toString();
-    m_price = json["price"].toDouble(qQNaN());
+    m_price = json["price"].toDouble(-1);
     m_stock = json["stock"].toInteger(-1);
     m_category = stringToCategory(json["category"].toString());
     m_imageUrl = QUrl(json["imageUrl"].toString());

@@ -25,7 +25,7 @@ private:
     qint64 m_orderId = -1;
     qint64 m_productId = -1;
     qint64 m_quantity = -1;
-    double m_cost = qQNaN();
+    double m_cost = -1;
 };
 
 #endif // ORDERITEM_H

@@ -38,7 +38,7 @@ private:
 private:
     QString m_name;
     QString m_description;
-    double m_price = qQNaN();
+    double m_price = -1;
     qint64 m_stock = -1;
     Category m_category = Category::Null;
     QUrl m_imageUrl;

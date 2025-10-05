@@ -32,7 +32,7 @@ private:
 
 private:
     qint64 m_userId = -1;
-    double m_cost = qQNaN();
+    double m_cost = -1;
     Status m_status = Status::Null;
 };
 
