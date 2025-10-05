@@ -23,5 +23,5 @@ User SqlUserFinder::exec(const User &user) {
                   query.value("password_hash").toString(),
                   QUrl(query.value("avatar_url").toString())};
     qDebug() << "SqlUserFinder::exec:" << "find user:" << returned.toJson();
-    return user;
+    return returned;
 }

@@ -23,7 +23,6 @@ void AuthorizationManager::logout() {
     if (!m_token.isEmpty()) {
         m_token = "";
         emit loggedout();
-        emit updated();
         qDebug() << "AuthorizationManager::logout:" << "successfully logout";
     } else {
         qDebug() << "AuthorizationManager::logout:" << "not login";

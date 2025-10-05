@@ -41,6 +41,7 @@ SOURCES += \
     tcpproducthandler.cpp \
     tcpproductlisthandler.cpp \
     tcpregisterhandler.cpp \
+    tcpuserhandler.cpp \
     userwidget.cpp \
     welcomewidget.cpp
 
@@ -76,6 +77,7 @@ HEADERS += \
     tcpproducthandler.h \
     tcpproductlisthandler.h \
     tcpregisterhandler.h \
+    tcpuserhandler.h \
     userwidget.h \
     welcomewidget.h
 

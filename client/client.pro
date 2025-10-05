@@ -30,6 +30,7 @@ SOURCES += \
     tcpproductclient.cpp \
     tcpproductlistclient.cpp \
     tcpregisterclient.cpp \
+    tcpuserclient.cpp \
     welcomewidget.cpp
 
 HEADERS += \
@@ -53,6 +54,7 @@ HEADERS += \
     tcpproductclient.h \
     tcpproductlistclient.h \
     tcpregisterclient.h \
+    tcpuserclient.h \
     welcomewidget.h
 
 FORMS += \

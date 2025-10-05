@@ -1,12 +1,13 @@
 #include "tcplocaldistributor.h"
 #include "tcpaddtocarthandler.h"
+#include "tcpcartproductlisthandler.h"
 #include "tcplocalresponse.h"
 #include "tcploginhandler.h"
 #include "tcplogouthandler.h"
 #include "tcpproducthandler.h"
 #include "tcpproductlisthandler.h"
 #include "tcpregisterhandler.h"
-#include "tcpcartproductlisthandler.h"
+#include "tcpuserhandler.h"
 
 TcpLocalDistributor::TcpLocalDistributor(QObject *parent)
     : TcpDistributor{parent} {}
@@ -31,8 +32,10 @@ TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
         handler = new TcpRegisterHandler(this);
     } else if (request.route() == "/logout") {
         handler = new TcpLogoutHandler(this);
-    } else if(request.route() == "/cart-product-list") {
+    } else if (request.route() == "/cart-product-list") {
         handler = new TcpCartProductListHandler(this);
+    } else if (request.route() == "/user") {
+        handler = new TcpUserHandler(this);
     }
     if (handler) {
         return handler->handle(request);
