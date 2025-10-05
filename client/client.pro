@@ -28,6 +28,7 @@ SOURCES += \
     tcplocalclient.cpp \
     tcploginclient.cpp \
     tcplogoutclient.cpp \
+    tcporderclient.cpp \
     tcppaymentclient.cpp \
     tcpproductclient.cpp \
     tcpproductlistclient.cpp \
@@ -54,6 +55,7 @@ HEADERS += \
     tcplocalclient.h \
     tcploginclient.h \
     tcplogoutclient.h \
+    tcporderclient.h \
     tcppaymentclient.h \
     tcpproductclient.h \
     tcpproductlistclient.h \

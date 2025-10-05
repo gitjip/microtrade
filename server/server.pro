@@ -29,6 +29,7 @@ SOURCES += \
     sqlloginchecker.cpp \
     sqlordercreator.cpp \
     sqlorderitemlistcreator.cpp \
+    sqlordertreefinder.cpp \
     sqlproductfinder.cpp \
     sqlproductlistfinder.cpp \
     sqlproductreducer.cpp \
@@ -43,6 +44,7 @@ SOURCES += \
     tcplocalserver.cpp \
     tcploginhandler.cpp \
     tcplogouthandler.cpp \
+    tcporderhandler.cpp \
     tcppaymenthandler.cpp \
     tcpproducthandler.cpp \
     tcpproductlisthandler.cpp \
@@ -71,6 +73,7 @@ HEADERS += \
     sqlloginchecker.h \
     sqlordercreator.h \
     sqlorderitemlistcreator.h \
+    sqlordertreefinder.h \
     sqlproductfinder.h \
     sqlproductlistfinder.h \
     sqlproductreducer.h \
@@ -85,6 +88,7 @@ HEADERS += \
     tcplocalserver.h \
     tcploginhandler.h \
     tcplogouthandler.h \
+    tcporderhandler.h \
     tcppaymenthandler.h \
     tcpproducthandler.h \
     tcpproductlisthandler.h \

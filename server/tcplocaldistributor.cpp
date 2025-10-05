@@ -45,6 +45,7 @@ TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
     }
     if (handler) {
         return handler->handle(request);
+        handler->deleteLater();
     } else {
         qDebug() << "TcpLocalDistributor::distribute:" << "handler is nullptr";
         TcpResponse response = TcpLocalResponse::make(

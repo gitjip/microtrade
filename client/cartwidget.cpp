@@ -134,11 +134,13 @@ void CartWidget::setStock(int row, qint64 stock) {
 }
 
 void CartWidget::setQuantity(int row, qint64 quantity) {
+    QSpinBox *spinBox = nullptr;
     if (!ui->tableWidget->cellWidget(row, int(ColomnName::Quantity))) {
-        QSpinBox *spinBox = new QSpinBox;
+        spinBox = new QSpinBox;
         ui->tableWidget->setCellWidget(row, int(ColomnName::Quantity), spinBox);
     } else {
-        QSpinBox *spinBox = qobject_cast<QSpinBox *>(ui->tableWidget->cellWidget(row, int(ColomnName::Quantity)));
-        spinBox->setValue(quantity);
+        spinBox = qobject_cast<QSpinBox *>(
+            ui->tableWidget->cellWidget(row, int(ColomnName::Quantity)));
     }
+    spinBox->setValue(quantity);
 }
