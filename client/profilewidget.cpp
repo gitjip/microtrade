@@ -7,8 +7,10 @@
 ProfileWidget::ProfileWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::ProfileWidget) {
     ui->setupUi(this);
-    connect(Commander::instance(), &Commander::privateUpdated,
-            this, &ProfileWidget::update);
+    connect(Commander::instance(), &Commander::privateUpdated, this,
+            &ProfileWidget::update);
+    connect(Commander::instance(), &Commander::loggedout, this,
+            &ProfileWidget::clear);
 }
 
 ProfileWidget::~ProfileWidget() { delete ui; }
@@ -27,6 +29,11 @@ void ProfileWidget::onUserClientReadyRead(const TcpResponse &response) {
         User user = User::fromJson(body["user"].toObject());
         setUser(user);
     }
+}
+
+void ProfileWidget::clear() {
+    ui->avatarLabel->clear();
+    ui->usernameLineEdit->clear();
 }
 
 void ProfileWidget::setUser(const User &user) {

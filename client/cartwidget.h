@@ -27,6 +27,7 @@ private slots:
     void sendPaymentRequest(const TcpResponse &);
     void onPaymentClientReadyRead(const TcpResponse &response);
     void onCommanderSynchronoused();
+    void clear();
 
 private:
     enum class ColomnName { Id, Image, Name, Price, Stock, Quantity, Remove };

@@ -23,6 +23,7 @@ public slots:
 
 private slots:
     void onTreeWidgetItemDoubleClicked(QTreeWidgetItem *item, int);
+    void clear();
 
 private:
     enum class OrderColomn { Id, Cost, Status, CreatedAt };

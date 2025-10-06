@@ -1,8 +1,8 @@
 #include "orderwidget.h"
-#include "productdialog.h"
 #include "commander.h"
 #include "order.h"
 #include "orderitem.h"
+#include "productdialog.h"
 #include "tcporderclient.h"
 #include "ui_orderwidget.h"
 #include <QJsonArray>
@@ -13,6 +13,8 @@ OrderWidget::OrderWidget(QWidget *parent)
     initFrontEnd();
     connect(Commander::instance(), &Commander::privateUpdated, this,
             &OrderWidget::update);
+    connect(Commander::instance(), &Commander::loggedout, this,
+            &OrderWidget::clear);
     connect(ui->treeWidget, &QTreeWidget::itemDoubleClicked, this,
             &OrderWidget::onTreeWidgetItemDoubleClicked);
 }
@@ -81,6 +83,8 @@ void OrderWidget::onTreeWidgetItemDoubleClicked(QTreeWidgetItem *item, int) {
     dialog->update();
     dialog->show();
 }
+
+void OrderWidget::clear() { ui->treeWidget->clear(); }
 
 void OrderWidget::initFrontEnd() {
     // set color

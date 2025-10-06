@@ -32,6 +32,8 @@ CartWidget::CartWidget(QWidget *parent)
             &CartWidget::update);
     connect(Commander::instance(), &Commander::synchronoused, this,
             &CartWidget::onCommanderSynchronoused);
+    connect(Commander::instance(), &Commander::loggedout, this,
+            &CartWidget::clear);
     connect(ui->payPushButton, &QPushButton::clicked, this,
             &CartWidget::onPayPushButtonClicked);
 }
@@ -112,6 +114,8 @@ void CartWidget::onCommanderSynchronoused() {
             &CartWidget::onCartSyncClientReadyRead);
     cartSyncClient->sendAsync(cartItemList);
 }
+
+void CartWidget::clear() { ui->tableWidget->setRowCount(0); }
 
 void CartWidget::setProduct(int row, const Product &product, qint64 quantity) {
     setProductId(row, product.id());

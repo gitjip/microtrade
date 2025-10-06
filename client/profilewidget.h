@@ -21,6 +21,7 @@ public slots:
 
 private slots:
     void onUserClientReadyRead(const TcpResponse &response);
+    void clear();
 
 private:
     void setUser(const User &user);
