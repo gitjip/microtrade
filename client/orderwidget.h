@@ -3,6 +3,7 @@
 
 #include "tcpresponse.h"
 #include <QWidget>
+#include <QTreeWidgetItem>
 
 namespace Ui {
 class OrderWidget;
@@ -20,6 +21,9 @@ public slots:
     void update();
     void onOrderClientReadyRead(const TcpResponse &response);
 
+private slots:
+    void onTreeWidgetItemDoubleClicked(QTreeWidgetItem *item, int);
+
 private:
     enum class OrderColomn { Id, Cost, Status, CreatedAt };
     enum class OrderItemColomn { Id, Cost, Quantity, CreatedAt, ProductId };
@@ -29,6 +33,7 @@ private:
 
 private:
     Ui::OrderWidget *ui;
+    QMap<QTreeWidgetItem *, qint64> productIdMap;
 };
 
 #endif // ORDERWIDGET_H

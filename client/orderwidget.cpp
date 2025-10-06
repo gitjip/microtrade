@@ -1,4 +1,5 @@
 #include "orderwidget.h"
+#include "addtocartdialog.h"
 #include "commander.h"
 #include "order.h"
 #include "orderitem.h"
@@ -12,6 +13,8 @@ OrderWidget::OrderWidget(QWidget *parent)
     initFrontEnd();
     connect(Commander::instance(), &Commander::privateUpdated, this,
             &OrderWidget::update);
+    connect(ui->treeWidget, &QTreeWidget::itemDoubleClicked, this,
+            &OrderWidget::onTreeWidgetItemDoubleClicked);
 }
 
 OrderWidget::~OrderWidget() { delete ui; }
@@ -26,6 +29,7 @@ void OrderWidget::update() {
 void OrderWidget::onOrderClientReadyRead(const TcpResponse &response) {
     qDebug() << Q_FUNC_INFO << response.toJson();
     if (response.success()) {
+        productIdMap.clear();
         ui->treeWidget->clear();
         QJsonObject body = response.body();
         QJsonArray orderTree = body["orderTree"].toArray();
@@ -64,10 +68,18 @@ void OrderWidget::onOrderClientReadyRead(const TcpResponse &response) {
                 orderItemWidgetItem->setText(
                     int(OrderItemColomn::CreatedAt),
                     QString("created:  %1").arg(orderItem.createdAt().toString()));
+                productIdMap[orderItemWidgetItem] = orderItem.productId();
             }
         }
         ui->treeWidget->expandAll();
     }
+}
+
+void OrderWidget::onTreeWidgetItemDoubleClicked(QTreeWidgetItem *item, int) {
+    AddToCartDialog *dialog = new AddToCartDialog(this);
+    dialog->setProductId(productIdMap[item]);
+    dialog->update();
+    dialog->show();
 }
 
 void OrderWidget::initFrontEnd() {
@@ -79,10 +91,4 @@ void OrderWidget::initFrontEnd() {
     header->setPalette(systemPalette);
     ui->treeWidget->setAutoFillBackground(true);
     header->setAutoFillBackground(true);
-    // set resize mode
-    // header->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-    // header->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-    // header->setSectionResizeMode(2, QHeaderView::ResizeToContents);
-    // header->setSectionResizeMode(3, QHeaderView::Stretch);
-    // header->setSectionResizeMode(4, QHeaderView::ResizeToContents);
 }

@@ -23,6 +23,7 @@ void Commander::logout() {
     if (!m_token.isEmpty()) {
         m_token = "";
         emit loggedout();
+        // emit synchronoused();
         qDebug() << Q_FUNC_INFO << "successfully logout";
     } else {
         qDebug() << Q_FUNC_INFO << "not login";

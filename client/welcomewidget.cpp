@@ -1,18 +1,20 @@
 #include "welcomewidget.h"
 #include "commander.h"
+// #include "config.h"
 #include "logindialog.h"
 #include "registerdialog.h"
-#include "ui_welcomewidget.h"
 #include "tcplogoutclient.h"
+#include "ui_welcomewidget.h"
 #include <QMessageBox>
+#include <QTimer>
 
 WelcomeWidget::WelcomeWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::WelcomeWidget) {
     ui->setupUi(this);
-    connect(Commander::instance(), &Commander::loggedin,
-            this, &WelcomeWidget::onAuthorizationManagerLogin);
-    connect(Commander::instance(), &Commander::loggedout,
-            this, &WelcomeWidget::onAuthorizationManagerLogout);
+    connect(Commander::instance(), &Commander::loggedin, this,
+            &WelcomeWidget::onAuthorizationManagerLogin);
+    connect(Commander::instance(), &Commander::loggedout, this,
+            &WelcomeWidget::onAuthorizationManagerLogout);
     connect(ui->loginPushButton, &QPushButton::clicked, this,
             &WelcomeWidget::onLoginPushButtonClicked);
     connect(ui->logoutPushButton, &QPushButton::clicked, this,
@@ -34,27 +36,35 @@ void WelcomeWidget::onRegisterPushButtonClicked() {
 }
 
 void WelcomeWidget::onLogoutPushButtonClicked() {
-    QMessageBox::StandardButton reply =
-        QMessageBox::question(this, "Are you sure to logout?",
-            "Your data will be safely stored on the cloud.");
+    QMessageBox::StandardButton reply = QMessageBox::question(
+        this, "Are you sure to logout?", "Your data will be saved on the cloud.");
     if (reply == QMessageBox::Yes) {
-        TcpLogoutClient *logoutClient = new TcpLogoutClient(this);
-        connect(logoutClient, &TcpLocalClient::readyRead, this, &WelcomeWidget::onLogoutClientReadyRead);
-        logoutClient->sendAsync();
-        qDebug() << "WelcomeWidget::tryLogout:" << "yes";
+        ui->logoutPushButton->setEnabled(false);
+        Commander::instance()->synchronous();
+        QTimer::singleShot(100, this, [=]() {
+            TcpLogoutClient *logoutClient = new TcpLogoutClient(this);
+            connect(logoutClient, &TcpLocalClient::readyRead, this,
+                    &WelcomeWidget::onLogoutClientReadyRead);
+            logoutClient->sendAsync();
+            qDebug() << Q_FUNC_INFO << "yes";
+            connect(logoutClient, &TcpLogoutClient::timedOut, this, [=]() {
+                qDebug() << Q_FUNC_INFO << "timeout";
+                ui->logoutPushButton->setEnabled(true);
+            });
+        });
     } else {
-        qDebug() << "WelcomeWidget::tryLogout:" << "no";
+        qDebug() << Q_FUNC_INFO << "no";
     }
 }
 
 void WelcomeWidget::onLogoutClientReadyRead(const TcpResponse &response) {
-    qDebug() << "WelcomeWidget::onLogoutClientReadyRead:" << "response fetched:"
-             << response.toJson();
+    qDebug() << Q_FUNC_INFO << "response fetched:" << response.toJson();
     if (response.success()) {
-        qDebug() << "WelcomeWidget::onLogoutClientReadyRead:" << "success";
+        qDebug() << Q_FUNC_INFO << "success";
         Commander::instance()->logout();
     } else {
-        qDebug() << "WelcomeWidget::onLogoutClientReadyRead:" << "failed";
+        qDebug() << Q_FUNC_INFO << "failed";
+        ui->logoutPushButton->setEnabled(true);
     }
 }
 
@@ -77,4 +87,3 @@ void WelcomeWidget::onAuthorizationManagerLogout() {
     ui->registerPushButton->setEnabled(true);
     ui->logoutPushButton->setEnabled(false);
 }
-

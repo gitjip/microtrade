@@ -72,6 +72,7 @@ void AddToCartDialog::setDescription(const QString &description) {
 
 void AddToCartDialog::onAddToCartPushButtonClicked() {
     qDebug() << Q_FUNC_INFO;
+    Commander::instance()->synchronous();
     TcpAddToCartClient *addToCartClient = new TcpAddToCartClient(this);
     connect(addToCartClient, &TcpProductClient::readyRead, this,
             &AddToCartDialog::onAddToCartClientReadyRead);
