@@ -1,5 +1,5 @@
 #include "cartwidget.h"
-#include "authorizationmanager.h"
+#include "commander.h"
 #include "cartitem.h"
 #include "tcpcartproductlistclient.h"
 #include "tcpcartsyncclient.h"
@@ -24,7 +24,7 @@ CartWidget::CartWidget(QWidget *parent)
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(
         int(ColomnName::Quantity), QHeaderView::ResizeToContents);
     ui->tableWidget->setColumnWidth(int(ColomnName::Image), 80);
-    connect(AuthorizationManager::instance(), &AuthorizationManager::updated,
+    connect(Commander::instance(), &Commander::privateUpdated,
             this, &CartWidget::update);
     connect(ui->payPushButton, &QPushButton::clicked, this,
             &CartWidget::onPayPushButtonClicked);
@@ -76,7 +76,7 @@ void CartWidget::onPayPushButtonClicked() {
 
 void CartWidget::onCartSyncClientReadyRead(const TcpResponse &response) {
     qDebug() << Q_FUNC_INFO << response.toJson();
-    AuthorizationManager::instance()->update();
+    Commander::instance()->privateUpdate();
 }
 
 void CartWidget::sendPaymentRequest(const TcpResponse &) {
@@ -88,7 +88,7 @@ void CartWidget::sendPaymentRequest(const TcpResponse &) {
 
 void CartWidget::onPaymentClientReadyRead(const TcpResponse &response) {
     qDebug() << Q_FUNC_INFO << response.toJson();
-    AuthorizationManager::instance()->update();
+    Commander::instance()->privateUpdate();
 }
 
 void CartWidget::setProduct(int row, const Product &product, qint64 quantity) {

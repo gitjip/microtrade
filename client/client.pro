@@ -10,8 +10,8 @@ CONFIG += c++17
 
 SOURCES += \
     addtocartdialog.cpp \
-    authorizationmanager.cpp \
     cartwidget.cpp \
+    commander.cpp \
     config.cpp \
     logindialog.cpp \
     main.cpp \
@@ -38,8 +38,8 @@ SOURCES += \
 
 HEADERS += \
     addtocartdialog.h \
-    authorizationmanager.h \
     cartwidget.h \
+    commander.h \
     config.h \
     logindialog.h \
     mainwindow.h \

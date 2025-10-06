@@ -1,5 +1,5 @@
 #include "profilewidget.h"
-#include "authorizationmanager.h"
+#include "commander.h"
 #include "tcpuserclient.h"
 #include "ui_profilewidget.h"
 #include <QPixmap>
@@ -7,7 +7,7 @@
 ProfileWidget::ProfileWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::ProfileWidget) {
     ui->setupUi(this);
-    connect(AuthorizationManager::instance(), &AuthorizationManager::updated,
+    connect(Commander::instance(), &Commander::privateUpdated,
             this, &ProfileWidget::update);
 }
 

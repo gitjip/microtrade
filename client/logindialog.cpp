@@ -1,6 +1,6 @@
 #include "logindialog.h"
 #include "authorization.h"
-#include "authorizationmanager.h"
+#include "commander.h"
 #include "passwordhasher.h"
 #include "tcploginclient.h"
 #include "ui_logindialog.h"
@@ -28,7 +28,7 @@ void LoginDialog::login(const TcpResponse &response) {
         Authorization authorization =
             Authorization::fromJson(responseBody["authorization"].toObject());
         qDebug() << "LoginDialog::login:" << authorization.token();
-        AuthorizationManager::instance()->login(authorization.token());
+        Commander::instance()->login(authorization.token());
     } else {
         qDebug() << "LoginDialog::accept:" << "error:"
                  << TcpResponse::statusTypeToString(response.statusType())

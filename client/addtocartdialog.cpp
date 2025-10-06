@@ -1,5 +1,5 @@
 #include "addtocartdialog.h"
-#include "authorizationmanager.h"
+#include "commander.h"
 #include "product.h"
 #include "tcpaddtocartclient.h"
 #include "tcpproductclient.h"
@@ -11,7 +11,7 @@ AddToCartDialog::AddToCartDialog(QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(
         QHeaderView::Stretch);
-    connect(AuthorizationManager::instance(), &AuthorizationManager::updated,
+    connect(Commander::instance(), &Commander::privateUpdated,
             this, &AddToCartDialog::update);
     connect(ui->addToCartPushButton, &QPushButton::clicked, this,
             &AddToCartDialog::onAddToCartPushButtonClicked);
@@ -94,7 +94,7 @@ void AddToCartDialog::onProductClientReadyRead(const TcpResponse &request) {
 void AddToCartDialog::onAddToCartClientReadyRead(const TcpResponse &response) {
     qDebug() << Q_FUNC_INFO << "response:" << response.toJson();
     if (response.success()) {
-        AuthorizationManager::instance()->update();
+        Commander::instance()->privateUpdate();
         emit addedToCart();
     }
 }

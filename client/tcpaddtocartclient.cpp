@@ -1,6 +1,6 @@
 #include "tcpaddtocartclient.h"
 #include "authorization.h"
-#include "authorizationmanager.h"
+#include "commander.h"
 #include "product.h"
 
 TcpAddToCartClient::TcpAddToCartClient(QObject *parent)
@@ -11,6 +11,6 @@ void TcpAddToCartClient::sendAsync(qint64 productId) {
     body["product"] =
         Product(productId, {}, {}, "", "", -1, -1, Product::Category::Null).toJson();
     body["authorization"] =
-        Authorization(-1, {}, {}, -1, AuthorizationManager::instance()->token()).toJson();
+        Authorization(-1, {}, {}, -1, Commander::instance()->token()).toJson();
     TcpLocalClient::sendAsync("/add-to-cart", body);
 }

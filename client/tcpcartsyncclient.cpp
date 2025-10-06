@@ -1,6 +1,6 @@
 #include "tcpcartsyncclient.h"
 #include "authorization.h"
-#include "authorizationmanager.h"
+#include "commander.h"
 #include <QJsonArray>
 
 TcpCartSyncClient::TcpCartSyncClient(QObject *parent)
@@ -9,7 +9,7 @@ TcpCartSyncClient::TcpCartSyncClient(QObject *parent)
 void TcpCartSyncClient::sendAsync(const QList<CartItem> &cartItemList) {
     QJsonObject body;
     body["authorization"] =
-            Authorization{-1, {}, {}, -1, AuthorizationManager::instance()->token()}
+            Authorization{-1, {}, {}, -1, Commander::instance()->token()}
             .toJson();
     QJsonArray cartItemJsonArray;
     for (qsizetype i = 0; i < cartItemList.count(); ++i) {

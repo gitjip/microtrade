@@ -1,5 +1,5 @@
 #include "welcomewidget.h"
-#include "authorizationmanager.h"
+#include "commander.h"
 #include "logindialog.h"
 #include "registerdialog.h"
 #include "ui_welcomewidget.h"
@@ -9,9 +9,9 @@
 WelcomeWidget::WelcomeWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::WelcomeWidget) {
     ui->setupUi(this);
-    connect(AuthorizationManager::instance(), &AuthorizationManager::loggedin,
+    connect(Commander::instance(), &Commander::loggedin,
             this, &WelcomeWidget::onAuthorizationManagerLogin);
-    connect(AuthorizationManager::instance(), &AuthorizationManager::loggedout,
+    connect(Commander::instance(), &Commander::loggedout,
             this, &WelcomeWidget::onAuthorizationManagerLogout);
     connect(ui->loginPushButton, &QPushButton::clicked, this,
             &WelcomeWidget::onLoginPushButtonClicked);
@@ -52,7 +52,7 @@ void WelcomeWidget::onLogoutClientReadyRead(const TcpResponse &response) {
              << response.toJson();
     if (response.success()) {
         qDebug() << "WelcomeWidget::onLogoutClientReadyRead:" << "success";
-        AuthorizationManager::instance()->logout();
+        Commander::instance()->logout();
     } else {
         qDebug() << "WelcomeWidget::onLogoutClientReadyRead:" << "failed";
     }
