@@ -16,6 +16,12 @@ public:
     explicit WelcomeWidget(QWidget *parent = nullptr);
     ~WelcomeWidget();
 
+signals:
+    void aboutToLogout();
+
+public slots:
+    void tryToLogout();
+
 private slots:
     void onLoginPushButtonClicked();
     void onRegisterPushButtonClicked();

@@ -39,22 +39,26 @@ void WelcomeWidget::onLogoutPushButtonClicked() {
     QMessageBox::StandardButton reply = QMessageBox::question(
         this, "Are you sure to logout?", "Your data will be saved on the cloud.");
     if (reply == QMessageBox::Yes) {
-        ui->logoutPushButton->setEnabled(false);
-        Commander::instance()->synchronous();
-        QTimer::singleShot(100, this, [=]() {
-            TcpLogoutClient *logoutClient = new TcpLogoutClient(this);
-            connect(logoutClient, &TcpLocalClient::readyRead, this,
-                    &WelcomeWidget::onLogoutClientReadyRead);
-            logoutClient->sendAsync();
-            qDebug() << Q_FUNC_INFO << "yes";
-            connect(logoutClient, &TcpLogoutClient::timedOut, this, [=]() {
-                qDebug() << Q_FUNC_INFO << "timeout";
-                ui->logoutPushButton->setEnabled(true);
-            });
-        });
+        tryToLogout();
     } else {
         qDebug() << Q_FUNC_INFO << "no";
     }
+}
+
+void WelcomeWidget::tryToLogout() {
+    ui->logoutPushButton->setEnabled(false);
+    Commander::instance()->synchronous();
+    QTimer::singleShot(50, this, [=]() {
+        TcpLogoutClient *logoutClient = new TcpLogoutClient(this);
+        connect(logoutClient, &TcpLocalClient::readyRead, this,
+                &WelcomeWidget::onLogoutClientReadyRead);
+        logoutClient->sendAsync();
+        qDebug() << Q_FUNC_INFO << "yes";
+        connect(logoutClient, &TcpLogoutClient::timedOut, this, [=]() {
+            qDebug() << Q_FUNC_INFO << "timeout";
+            ui->logoutPushButton->setEnabled(true);
+        });
+    });
 }
 
 void WelcomeWidget::onLogoutClientReadyRead(const TcpResponse &response) {
@@ -62,6 +66,7 @@ void WelcomeWidget::onLogoutClientReadyRead(const TcpResponse &response) {
     if (response.success()) {
         qDebug() << Q_FUNC_INFO << "success";
         Commander::instance()->logout();
+        QTimer::singleShot(50, this, [=]() { emit aboutToLogout(); });
     } else {
         qDebug() << Q_FUNC_INFO << "failed";
         ui->logoutPushButton->setEnabled(true);
