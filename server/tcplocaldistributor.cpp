@@ -10,6 +10,7 @@
 #include "tcpproducthandler.h"
 #include "tcpproductlisthandler.h"
 #include "tcpregisterhandler.h"
+#include "tcpremovefromcarthandler.h"
 #include "tcpuserhandler.h"
 
 TcpLocalDistributor::TcpLocalDistributor(QObject *parent)
@@ -45,6 +46,8 @@ TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
         handler = new TcpPaymentHandler(this);
     } else if (request.route() == "/order") {
         handler = new TcpOrderHandler(this);
+    } else if (request.route() == "/remove-from-cart") {
+        handler = new TcpRemoveFromCartHandler(this);
     }
     if (handler) {
         return handler->handle(request);

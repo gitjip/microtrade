@@ -60,7 +60,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
@@ -77,11 +77,15 @@
    </attribute>
    <addaction name="separator"/>
    <addaction name="actionPublicRefresh"/>
+   <addaction name="separator"/>
    <addaction name="actionPrivateRefresh"/>
+   <addaction name="separator"/>
+   <addaction name="actionSync"/>
+   <addaction name="separator"/>
   </widget>
   <action name="actionPrivateRefresh">
    <property name="icon">
-    <iconset theme="QIcon::ThemeIcon::SystemReboot"/>
+    <iconset theme="QIcon::ThemeIcon::ViewRefresh"/>
    </property>
    <property name="text">
     <string>Refresh</string>
@@ -102,6 +106,20 @@
    </property>
    <property name="toolTip">
     <string>Update the resources of the shop.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionSync">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::SyncSynchronizing"/>
+   </property>
+   <property name="text">
+    <string>Sync</string>
+   </property>
+   <property name="toolTip">
+    <string>Sync the current state to the remote.</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>

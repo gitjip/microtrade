@@ -24,6 +24,7 @@ SOURCES += \
     sqlcartfinder.cpp \
     sqlcartitemcreator.cpp \
     sqlcartitemlistfinder.cpp \
+    sqlcartitemremover.cpp \
     sqlcartsyncer.cpp \
     sqllocalserver.cpp \
     sqlloginchecker.cpp \
@@ -50,6 +51,7 @@ SOURCES += \
     tcpproducthandler.cpp \
     tcpproductlisthandler.cpp \
     tcpregisterhandler.cpp \
+    tcpremovefromcarthandler.cpp \
     tcpuserhandler.cpp \
     userwidget.cpp \
     welcomewidget.cpp
@@ -69,6 +71,7 @@ HEADERS += \
     sqlcartfinder.h \
     sqlcartitemcreator.h \
     sqlcartitemlistfinder.h \
+    sqlcartitemremover.h \
     sqlcartsyncer.h \
     sqllocalserver.h \
     sqlloginchecker.h \
@@ -95,6 +98,7 @@ HEADERS += \
     tcpproducthandler.h \
     tcpproductlisthandler.h \
     tcpregisterhandler.h \
+    tcpremovefromcarthandler.h \
     tcpuserhandler.h \
     userwidget.h \
     welcomewidget.h

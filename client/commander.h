@@ -18,10 +18,12 @@ signals:
     void loggedout();
     void privateUpdated();
     void publicUpdated();
+    void synchronoused();
 
 public slots:
     void privateUpdate();
     void publicUpdate();
+    void synchronous();
 
 private:
     explicit Commander(QObject *parent = nullptr);

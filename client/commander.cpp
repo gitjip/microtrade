@@ -36,3 +36,5 @@ bool Commander::isLoggedin() const { return !m_token.isEmpty(); }
 void Commander::privateUpdate() { emit privateUpdated(); }
 
 void Commander::publicUpdate() { emit publicUpdated(); }
+
+void Commander::synchronous() { emit synchronoused(); }

@@ -1,11 +1,13 @@
 #include "cartwidget.h"
-#include "commander.h"
 #include "cartitem.h"
+#include "commander.h"
 #include "tcpcartproductlistclient.h"
 #include "tcpcartsyncclient.h"
 #include "tcppaymentclient.h"
+#include "tcpremovefromcartclient.h"
 #include "ui_cartwidget.h"
 #include <QJsonArray>
+#include <QLabel>
 #include <QSpinBox>
 
 CartWidget::CartWidget(QWidget *parent)
@@ -23,9 +25,13 @@ CartWidget::CartWidget(QWidget *parent)
         int(ColomnName::Stock), QHeaderView::ResizeToContents);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(
         int(ColomnName::Quantity), QHeaderView::ResizeToContents);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(
+        int(ColomnName::Remove), QHeaderView::ResizeToContents);
     ui->tableWidget->setColumnWidth(int(ColomnName::Image), 80);
-    connect(Commander::instance(), &Commander::privateUpdated,
-            this, &CartWidget::update);
+    connect(Commander::instance(), &Commander::privateUpdated, this,
+            &CartWidget::update);
+    connect(Commander::instance(), &Commander::synchronoused, this,
+            &CartWidget::onCommanderSynchronoused);
     connect(ui->payPushButton, &QPushButton::clicked, this,
             &CartWidget::onPayPushButtonClicked);
 }
@@ -91,6 +97,22 @@ void CartWidget::onPaymentClientReadyRead(const TcpResponse &response) {
     Commander::instance()->privateUpdate();
 }
 
+void CartWidget::onCommanderSynchronoused() {
+    qDebug() << Q_FUNC_INFO;
+    QList<CartItem> cartItemList;
+    for (qsizetype i = 0; i < ui->tableWidget->rowCount(); ++i) {
+        QTableWidgetItem *idItem = ui->tableWidget->item(i, int(ColomnName::Id));
+        QSpinBox *quantityItem = qobject_cast<QSpinBox *>(
+            ui->tableWidget->cellWidget(i, int(ColomnName::Quantity)));
+        cartItemList.append(
+            {-1, {}, {}, -1, idItem->text().toLongLong(), quantityItem->value()});
+    }
+    TcpCartSyncClient *cartSyncClient = new TcpCartSyncClient(this);
+    connect(cartSyncClient, &TcpLocalClient::readyRead, this,
+            &CartWidget::onCartSyncClientReadyRead);
+    cartSyncClient->sendAsync(cartItemList);
+}
+
 void CartWidget::setProduct(int row, const Product &product, qint64 quantity) {
     setProductId(row, product.id());
     setImage(row, product.imageUrl());
@@ -98,6 +120,7 @@ void CartWidget::setProduct(int row, const Product &product, qint64 quantity) {
     setPrice(row, product.price());
     setStock(row, product.stock());
     setQuantity(row, quantity);
+    setRemove(row, product.id());
 }
 
 void CartWidget::setProductId(int row, qint64 productId) {
@@ -143,4 +166,22 @@ void CartWidget::setQuantity(int row, qint64 quantity) {
             ui->tableWidget->cellWidget(row, int(ColomnName::Quantity)));
     }
     spinBox->setValue(quantity);
+}
+
+void CartWidget::setRemove(int row, qint64 productId) {
+    QLabel *removalLink =
+        new QLabel("<a href='#' style='color: red;'>remove</a>");
+    removalLink->setOpenExternalLinks(false);
+    ui->tableWidget->setCellWidget(row, int(ColomnName::Remove), removalLink);
+    connect(removalLink, &QLabel::linkActivated, this, [=]() {
+        TcpRemoveFromCartClient *client = new TcpRemoveFromCartClient(this);
+        connect(client, &TcpRemoveFromCartClient::readyRead, this,
+                [=](const TcpResponse &response) {
+                    qDebug() << Q_FUNC_INFO << response.toJson();
+            if (response.success()) {
+                        Commander::instance()->privateUpdate();
+            }
+        });
+        client->sendAsync(productId);
+    });
 }

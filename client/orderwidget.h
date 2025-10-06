@@ -21,6 +21,13 @@ public slots:
     void onOrderClientReadyRead(const TcpResponse &response);
 
 private:
+    enum class OrderColomn { Id, Cost, Status, CreatedAt };
+    enum class OrderItemColomn { Id, Cost, Quantity, CreatedAt, ProductId };
+
+private:
+    void initFrontEnd();
+
+private:
     Ui::OrderWidget *ui;
 };
 

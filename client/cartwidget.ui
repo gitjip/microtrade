@@ -23,6 +23,9 @@
    </item>
    <item row="0" column="0">
     <widget class="QTableWidget" name="tableWidget">
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+     </property>
      <column>
       <property name="text">
        <string>id</string>
@@ -51,6 +54,11 @@
      <column>
       <property name="text">
        <string>quantity</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>remove</string>
       </property>
      </column>
     </widget>

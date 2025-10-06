@@ -16,6 +16,9 @@
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="0">
     <widget class="QTableWidget" name="tableWidget">
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+     </property>
      <column>
       <property name="text">
        <string>id</string>
@@ -43,7 +46,7 @@
      </column>
      <column>
       <property name="text">
-       <string>view</string>
+       <string>view details</string>
       </property>
      </column>
     </widget>

@@ -14,6 +14,10 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug() << Q_FUNC_INFO << "QAction::triggered:";
         Commander::instance()->privateUpdate();
     });
+    connect(ui->actionSync, &QAction::triggered, this, [=](){
+        qDebug() << Q_FUNC_INFO << "QAction::triggered:";
+        Commander::instance()->synchronous();
+    });
 }
 
 MainWindow::~MainWindow() { delete ui; }

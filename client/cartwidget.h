@@ -26,9 +26,10 @@ private slots:
     void onCartSyncClientReadyRead(const TcpResponse &response);
     void sendPaymentRequest(const TcpResponse &);
     void onPaymentClientReadyRead(const TcpResponse &response);
+    void onCommanderSynchronoused();
 
 private:
-    enum class ColomnName { Id, Image, Name, Price, Stock, Quantity };
+    enum class ColomnName { Id, Image, Name, Price, Stock, Quantity, Remove };
 
 private:
     void setProduct(int row, const Product &product, qint64 quantity);
@@ -37,7 +38,8 @@ private:
     void setName(int row, const QString &productName);
     void setPrice(int row, double price);
     void setStock(int row, qint64 stock);
-    void setQuantity(int row, qint64 productId);
+    void setQuantity(int row, qint64 quantity);
+    void setRemove(int row, qint64 productId);
 
 private:
     Ui::CartWidget *ui;
