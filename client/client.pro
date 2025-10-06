@@ -102,3 +102,6 @@ else:unix: LIBS += -L$$OUT_PWD/../entity/ -lentity
 
 INCLUDEPATH += $$PWD/../entity
 DEPENDPATH += $$PWD/../entity
+
+RESOURCES += \
+    resrc.qrc

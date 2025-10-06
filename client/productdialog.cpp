@@ -11,8 +11,8 @@ ProductDialog::ProductDialog(QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(
         QHeaderView::Stretch);
-    connect(Commander::instance(), &Commander::privateUpdated,
-            this, &ProductDialog::update);
+    connect(Commander::instance(), &Commander::privateUpdated, this,
+            &ProductDialog::update);
     connect(ui->addToCartPushButton, &QPushButton::clicked, this,
             &ProductDialog::onAddToCartPushButtonClicked);
 }
@@ -22,14 +22,15 @@ ProductDialog::~ProductDialog() { delete ui; }
 void ProductDialog::setProductId(qint64 productId) {
     m_productId = productId;
     qDebug() << Q_FUNC_INFO << productId;
-    QTableWidgetItem *item = new QTableWidgetItem(QString::number(productId));
-    ui->tableWidget->setItem(int(RowName::Id), 0, item);
+    // QTableWidgetItem *item = new QTableWidgetItem(QString::number(productId));
+    // ui->tableWidget->setItem(int(RowName::Id), 0, item);
+    ui->tableWidget->horizontalHeaderItem(0)->setText(QString("product-id:  %1").arg(productId));
 }
 
-void ProductDialog::setRow(int row) {
-    QTableWidgetItem *item = new QTableWidgetItem(QString::number(row + 1));
-    ui->tableWidget->setItem(int(RowName::Row), 0, item);
-}
+// void ProductDialog::setRow(int row) {
+//     QTableWidgetItem *item = new QTableWidgetItem(QString::number(row + 1));
+//     ui->tableWidget->setItem(int(RowName::Row), 0, item);
+// }
 
 void ProductDialog::update() {
     TcpProductClient *productClient = new TcpProductClient(this);
@@ -39,14 +40,15 @@ void ProductDialog::update() {
 }
 
 void ProductDialog::setImage(const QUrl &imageUrl) {
-    QPixmap pixmap;
     QTableWidgetItem *item = nullptr;
-    if (!pixmap.load(imageUrl.toString())) {
+    QIcon icon(":" + imageUrl.path());
+    if (icon.isNull()) {
         item = new QTableWidgetItem("image");
-        qDebug() << Q_FUNC_INFO << "failed to load image" << imageUrl.toString();
+        qDebug() << Q_FUNC_INFO << "failed to load image" << imageUrl.path();
     } else {
-        item = new QTableWidgetItem(pixmap, "");
+        item = new QTableWidgetItem(icon, "");
     }
+    ui->tableWidget->verticalHeader()->resizeSection(int(RowName::Image), 80);
     ui->tableWidget->setItem(int(RowName::Image), 0, item);
 }
 

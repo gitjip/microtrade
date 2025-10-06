@@ -14,7 +14,7 @@ QList<Product> SqlProductListFinder::exec() {
     QList<Product> productList;
     while (query.next()) {
         Product product{
-            query.value("id").toLongLong(),
+                        query.value("id").toLongLong(),
             query.value("created_at").toDateTime(),
             query.value("removed_at").toDateTime(),
             query.value("name").toString(),
@@ -24,6 +24,9 @@ QList<Product> SqlProductListFinder::exec() {
             Product::stringToCategory(query.value("category").toString()),
             QUrl(query.value("image_url").toString())};
         productList.append(product);
+        qDebug() << Q_FUNC_INFO << product.id()
+                 << query.value("image_url").toString()
+                 << QUrl(query.value("image_url").toString()).errorString();
     }
     return productList;
 }

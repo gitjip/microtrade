@@ -1,6 +1,6 @@
 #include "shopwidget.h"
-#include "productdialog.h"
 #include "commander.h"
+#include "productdialog.h"
 #include "tcpproductlistclient.h"
 #include "ui_shopwidget.h"
 #include <QJsonArray>
@@ -22,8 +22,8 @@ ShopWidget::ShopWidget(QWidget *parent)
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(
         int(ColomnName::View), QHeaderView::ResizeToContents);
     ui->tableWidget->setColumnWidth(int(ColomnName::Image), 80);
-    connect(Commander::instance(), &Commander::publicUpdated,
-            this, &ShopWidget::update);
+    connect(Commander::instance(), &Commander::publicUpdated, this,
+            &ShopWidget::update);
 }
 
 ShopWidget::~ShopWidget() { delete ui; }
@@ -31,12 +31,12 @@ ShopWidget::~ShopWidget() { delete ui; }
 void ShopWidget::update() {
     TcpProductListClient *productListClient = new TcpProductListClient(this);
     productListClient->sendAsync();
-    connect(productListClient, &TcpProductListClient::readyRead, this, &ShopWidget::onProductListClientReadyRead);
+    connect(productListClient, &TcpProductListClient::readyRead, this,
+            &ShopWidget::onProductListClientReadyRead);
 }
 
-void ShopWidget::onProductListClientReadyRead(const TcpResponse &tcpResponse){
-    qDebug() << Q_FUNC_INFO << "response fetched:"
-             << tcpResponse.toJson();
+void ShopWidget::onProductListClientReadyRead(const TcpResponse &tcpResponse) {
+    qDebug() << Q_FUNC_INFO << "response fetched:" << tcpResponse.toJson();
     if (tcpResponse.success()) {
         QJsonObject responseBody = tcpResponse.body();
         QJsonArray productJsonArray = responseBody["productList"].toArray();
@@ -58,17 +58,18 @@ void ShopWidget::setProduct(int row, const Product &product) {
 
 void ShopWidget::setProductId(int row, qint64 productId) {
     QTableWidgetItem *item = new QTableWidgetItem(QString::number(productId));
-    ui->tableWidget->setItem(row, int(ColomnName::Id),  item);
+    ui->tableWidget->setItem(row, int(ColomnName::Id), item);
 }
 
 void ShopWidget::setImage(int row, const QUrl &imageUrl) {
-    QPixmap pixmap;
     QTableWidgetItem *item = nullptr;
-    if (!pixmap.load(imageUrl.toString())) {
+    QIcon icon(":" + imageUrl.path());
+    qDebug() << Q_FUNC_INFO << imageUrl.path();
+    if (icon.isNull()) {
         item = new QTableWidgetItem("image");
-        qDebug() << Q_FUNC_INFO << "failed to load image" << imageUrl.toString();
+        qDebug() << Q_FUNC_INFO << "failed to load image" << imageUrl.path();
     } else {
-        item = new QTableWidgetItem(pixmap, "");
+        item = new QTableWidgetItem(icon, "");
     }
     ui->tableWidget->setItem(row, int(ColomnName::Image), item);
 }
@@ -97,11 +98,10 @@ void ShopWidget::setView(int row, qint64 productId) {
         qDebug() << Q_FUNC_INFO << "QLabel::linkActivated";
         ProductDialog *addToCartDialog = new ProductDialog(this);
         addToCartDialog->setProductId(productId);
-        addToCartDialog->setRow(row);
+        // addToCartDialog->setRow(row);
         addToCartDialog->update();
-        connect(addToCartDialog, &ProductDialog::addedToCart, this, [=]() {
-            qDebug() << Q_FUNC_INFO << "onPaid";
-        });
+        connect(addToCartDialog, &ProductDialog::addedToCart, this,
+                [=]() { qDebug() << Q_FUNC_INFO << "onPaid"; });
         addToCartDialog->show();
     });
 }

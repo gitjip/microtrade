@@ -134,13 +134,13 @@ void CartWidget::setProductId(int row, qint64 productId) {
 }
 
 void CartWidget::setImage(int row, const QUrl &imageUrl) {
-    QPixmap pixmap;
     QTableWidgetItem *item = nullptr;
-    if (!pixmap.load(imageUrl.toString())) {
+    QIcon icon(":" + imageUrl.path());
+    if (icon.isNull()) {
         item = new QTableWidgetItem("image");
-        qDebug() << Q_FUNC_INFO << "failed to load image" << imageUrl.toString();
+        qDebug() << Q_FUNC_INFO << "failed to load image" << imageUrl.path();
     } else {
-        item = new QTableWidgetItem(pixmap, "");
+        item = new QTableWidgetItem(icon, "");
     }
     ui->tableWidget->setItem(row, int(ColomnName::Image), item);
 }

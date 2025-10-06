@@ -23,16 +23,21 @@
    </item>
    <item row="0" column="0">
     <widget class="QTableWidget" name="tableWidget">
-     <row>
-      <property name="text">
-       <string>row</string>
-      </property>
-     </row>
-     <row>
-      <property name="text">
-       <string>id</string>
-      </property>
-     </row>
+     <property name="editTriggers">
+      <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>80</width>
+       <height>80</height>
+      </size>
+     </property>
+     <property name="showGrid">
+      <bool>false</bool>
+     </property>
+     <attribute name="verticalHeaderDefaultSectionSize">
+      <number>37</number>
+     </attribute>
      <row>
       <property name="text">
        <string>image</string>
@@ -60,7 +65,7 @@
      </row>
      <column>
       <property name="text">
-       <string>content</string>
+       <string>product-id</string>
       </property>
      </column>
     </widget>

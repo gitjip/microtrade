@@ -14,7 +14,7 @@ class ProductDialog : public QDialog {
 public:
     explicit ProductDialog(QWidget *parent = nullptr);
     ~ProductDialog();
-    void setRow(int row);
+    // void setRow(int row);
     void setProductId(qint64 productId);
 
 signals:
@@ -29,7 +29,7 @@ private:
     void onAddToCartClientReadyRead(const TcpResponse &tcpResponse);
 
 private:
-    enum class RowName { Row, Id, Image, Name, Price, Stock, Description };
+    enum class RowName { Image, Name, Price, Stock, Description };
 
 private:
     void setImage(const QUrl &imageUrl);
