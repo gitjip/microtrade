@@ -5,6 +5,7 @@
 #include "tcplocalresponse.h"
 #include "tcploginhandler.h"
 #include "tcplogouthandler.h"
+#include "tcporderhandler.h"
 #include "tcppaymenthandler.h"
 #include "tcpproducthandler.h"
 #include "tcpproductlisthandler.h"
@@ -42,6 +43,8 @@ TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
         handler = new TcpCartSyncHandler(this);
     } else if (request.route() == "/payment") {
         handler = new TcpPaymentHandler(this);
+    } else if (request.route() == "/order") {
+        handler = new TcpOrderHandler(this);
     }
     if (handler) {
         return handler->handle(request);

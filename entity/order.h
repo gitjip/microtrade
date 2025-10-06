@@ -23,6 +23,9 @@ public:
     static Status stringToStatus(const QString &statusString);
 
 public:
+    bool operator<(const Order &order) const;
+
+public:
     qint64 userId() const;
     double cost() const;
     Status status() const;

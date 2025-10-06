@@ -29,6 +29,8 @@ SOURCES += \
     sqlloginchecker.cpp \
     sqlordercreator.cpp \
     sqlorderitemlistcreator.cpp \
+    sqlorderitemlistfinder.cpp \
+    sqlorderlistfinder.cpp \
     sqlordertreefinder.cpp \
     sqlproductfinder.cpp \
     sqlproductlistfinder.cpp \
@@ -73,6 +75,8 @@ HEADERS += \
     sqlloginchecker.h \
     sqlordercreator.h \
     sqlorderitemlistcreator.h \
+    sqlorderitemlistfinder.h \
+    sqlorderlistfinder.h \
     sqlordertreefinder.h \
     sqlproductfinder.h \
     sqlproductlistfinder.h \
