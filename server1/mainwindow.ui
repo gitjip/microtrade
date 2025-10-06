@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="WelcomeWidget" name="welcomeTab">
+       <attribute name="title">
+        <string>Welcome</string>
+       </attribute>
+      </widget>
+      <widget class="ServerWidget" name="serverTab">
+       <attribute name="title">
+        <string>Server</string>
+       </attribute>
+      </widget>
+      <widget class="UserWidget" name="userTab">
+       <attribute name="title">
+        <string>User</string>
+       </attribute>
+      </widget>
+      <widget class="ProductWidget" name="productTab">
+       <attribute name="title">
+        <string>Product</string>
+       </attribute>
+      </widget>
+      <widget class="PromotionWidget" name="promotionTab">
+       <attribute name="title">
+        <string>Promotion</string>
+       </attribute>
+      </widget>
+      <widget class="NotificationWidget" name="notificationTab">
+       <attribute name="title">
+        <string>Notification</string>
+       </attribute>
+      </widget>
+      <widget class="LogWidget" name="logTab">
+       <attribute name="title">
+        <string>Log</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>24</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>LogWidget</class>
+   <extends>QWidget</extends>
+   <header>logwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>NotificationWidget</class>
+   <extends>QWidget</extends>
+   <header>notificationwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ProductWidget</class>
+   <extends>QWidget</extends>
+   <header>productwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PromotionWidget</class>
+   <extends>QWidget</extends>
+   <header>promotionwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ServerWidget</class>
+   <extends>QWidget</extends>
+   <header>serverwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UserWidget</class>
+   <extends>QWidget</extends>
+   <header>userwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WelcomeWidget</class>
+   <extends>QWidget</extends>
+   <header>welcomewidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
