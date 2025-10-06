@@ -22,8 +22,6 @@ TcpResponse TcpOrderHandler::handle(const TcpRequest &request) {
     // find order tree
     SqlOrderListFinder orderListFinder;
     QList<Order> orderList = orderListFinder.exec(user.id());
-    // SqlOrderTreeFinder orderTreeFinder;
-    // QMap<Order, QList<OrderItem>> orderTree = orderTreeFinder.exec(user.id());
     QJsonArray orderTreeJsonArray;
     SqlOrderItemListFinder orderItemListFinder;
     for (qsizetype i = 0; i < orderList.count(); ++i) {
@@ -38,18 +36,6 @@ TcpResponse TcpOrderHandler::handle(const TcpRequest &request) {
         orderPair["orderItemList"] = orderItemJsonArray;
         orderTreeJsonArray.append(orderPair);
     }
-    // QMapIterator it(orderTree);
-    // while (it.hasNext()) {
-    //     it.next();
-    //     QJsonObject orderPair;
-    //     orderPair["order"] = it.key().toJson();
-    //     QJsonArray orderItemJsonArray;
-    //     for (qsizetype i = 0; i < it.value().count(); ++i) {
-    //         orderItemJsonArray.append(it.value()[i].toJson());
-    //     }
-    //     orderPair["orderItemList"] = orderItemJsonArray;
-    //     orderTreeJsonArray.append(orderPair);
-    // }
     QJsonObject responseBody;
     responseBody["orderTree"] = orderTreeJsonArray;
     TcpResponse response =
