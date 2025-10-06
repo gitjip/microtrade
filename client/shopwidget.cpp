@@ -1,5 +1,5 @@
 #include "shopwidget.h"
-#include "addtocartdialog.h"
+#include "productdialog.h"
 #include "commander.h"
 #include "tcpproductlistclient.h"
 #include "ui_shopwidget.h"
@@ -95,11 +95,11 @@ void ShopWidget::setView(int row, qint64 productId) {
     ui->tableWidget->setCellWidget(row, int(ColomnName::View), viewLink);
     connect(viewLink, &QLabel::linkActivated, this, [=]() {
         qDebug() << Q_FUNC_INFO << "QLabel::linkActivated";
-        AddToCartDialog *addToCartDialog = new AddToCartDialog(this);
+        ProductDialog *addToCartDialog = new ProductDialog(this);
         addToCartDialog->setProductId(productId);
         addToCartDialog->setRow(row);
         addToCartDialog->update();
-        connect(addToCartDialog, &AddToCartDialog::addedToCart, this, [=]() {
+        connect(addToCartDialog, &ProductDialog::addedToCart, this, [=]() {
             qDebug() << Q_FUNC_INFO << "onPaid";
         });
         addToCartDialog->show();

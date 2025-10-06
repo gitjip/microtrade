@@ -1,5 +1,5 @@
 #include "orderwidget.h"
-#include "addtocartdialog.h"
+#include "productdialog.h"
 #include "commander.h"
 #include "order.h"
 #include "orderitem.h"
@@ -76,7 +76,7 @@ void OrderWidget::onOrderClientReadyRead(const TcpResponse &response) {
 }
 
 void OrderWidget::onTreeWidgetItemDoubleClicked(QTreeWidgetItem *item, int) {
-    AddToCartDialog *dialog = new AddToCartDialog(this);
+    ProductDialog *dialog = new ProductDialog(this);
     dialog->setProductId(productIdMap[item]);
     dialog->update();
     dialog->show();

@@ -9,7 +9,6 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    addtocartdialog.cpp \
     cartwidget.cpp \
     commander.cpp \
     config.cpp \
@@ -19,6 +18,7 @@ SOURCES += \
     notificationwidget.cpp \
     orderwidget.cpp \
     passwordhasher.cpp \
+    productdialog.cpp \
     profilewidget.cpp \
     registerdialog.cpp \
     shopwidget.cpp \
@@ -38,7 +38,6 @@ SOURCES += \
     welcomewidget.cpp
 
 HEADERS += \
-    addtocartdialog.h \
     cartwidget.h \
     commander.h \
     config.h \
@@ -47,6 +46,7 @@ HEADERS += \
     notificationwidget.h \
     orderwidget.h \
     passwordhasher.h \
+    productdialog.h \
     profilewidget.h \
     registerdialog.h \
     shopwidget.h \
@@ -66,12 +66,12 @@ HEADERS += \
     welcomewidget.h
 
 FORMS += \
-    addtocartdialog.ui \
     cartwidget.ui \
     logindialog.ui \
     mainwindow.ui \
     notificationwidget.ui \
     orderwidget.ui \
+    productdialog.ui \
     profilewidget.ui \
     registerdialog.ui \
     shopwidget.ui \

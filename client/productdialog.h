@@ -1,19 +1,19 @@
-#ifndef ADDTOCARTDIALOG_H
-#define ADDTOCARTDIALOG_H
+#ifndef PRODUCTDIALOG_H
+#define PRODUCTDIALOG_H
 
 #include "tcpresponse.h"
 #include <QDialog>
 
 namespace Ui {
-class AddToCartDialog;
+class ProductDialog;
 }
 
-class AddToCartDialog : public QDialog {
+class ProductDialog : public QDialog {
     Q_OBJECT
 
 public:
-    explicit AddToCartDialog(QWidget *parent = nullptr);
-    ~AddToCartDialog();
+    explicit ProductDialog(QWidget *parent = nullptr);
+    ~ProductDialog();
     void setRow(int row);
     void setProductId(qint64 productId);
 
@@ -39,8 +39,8 @@ private:
     void setDescription(const QString &description);
 
 private:
-    Ui::AddToCartDialog *ui;
+    Ui::ProductDialog *ui;
     qint64 m_productId;
 };
 
-#endif // ADDTOCARTDIALOG_H
+#endif // PRODUCTDIALOG_H

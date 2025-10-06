@@ -1,44 +1,44 @@
-#include "addtocartdialog.h"
+#include "productdialog.h"
 #include "commander.h"
 #include "product.h"
 #include "tcpaddtocartclient.h"
 #include "tcpproductclient.h"
-#include "ui_addtocartdialog.h"
+#include "ui_productdialog.h"
 
-AddToCartDialog::AddToCartDialog(QWidget *parent)
-    : QDialog(parent), ui(new Ui::AddToCartDialog) {
+ProductDialog::ProductDialog(QWidget *parent)
+    : QDialog(parent), ui(new Ui::ProductDialog) {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(
         QHeaderView::Stretch);
     connect(Commander::instance(), &Commander::privateUpdated,
-            this, &AddToCartDialog::update);
+            this, &ProductDialog::update);
     connect(ui->addToCartPushButton, &QPushButton::clicked, this,
-            &AddToCartDialog::onAddToCartPushButtonClicked);
+            &ProductDialog::onAddToCartPushButtonClicked);
 }
 
-AddToCartDialog::~AddToCartDialog() { delete ui; }
+ProductDialog::~ProductDialog() { delete ui; }
 
-void AddToCartDialog::setProductId(qint64 productId) {
+void ProductDialog::setProductId(qint64 productId) {
     m_productId = productId;
     qDebug() << Q_FUNC_INFO << productId;
     QTableWidgetItem *item = new QTableWidgetItem(QString::number(productId));
     ui->tableWidget->setItem(int(RowName::Id), 0, item);
 }
 
-void AddToCartDialog::setRow(int row) {
+void ProductDialog::setRow(int row) {
     QTableWidgetItem *item = new QTableWidgetItem(QString::number(row + 1));
     ui->tableWidget->setItem(int(RowName::Row), 0, item);
 }
 
-void AddToCartDialog::update() {
+void ProductDialog::update() {
     TcpProductClient *productClient = new TcpProductClient(this);
     productClient->sendAsync(m_productId);
     connect(productClient, &TcpProductClient::readyRead, this,
-            &AddToCartDialog::onProductClientReadyRead);
+            &ProductDialog::onProductClientReadyRead);
 }
 
-void AddToCartDialog::setImage(const QUrl &imageUrl) {
+void ProductDialog::setImage(const QUrl &imageUrl) {
     QPixmap pixmap;
     QTableWidgetItem *item = nullptr;
     if (!pixmap.load(imageUrl.toString())) {
@@ -50,36 +50,36 @@ void AddToCartDialog::setImage(const QUrl &imageUrl) {
     ui->tableWidget->setItem(int(RowName::Image), 0, item);
 }
 
-void AddToCartDialog::setName(const QString &name) {
+void ProductDialog::setName(const QString &name) {
     QTableWidgetItem *item = new QTableWidgetItem(name);
     ui->tableWidget->setItem(int(RowName::Name), 0, item);
 }
 
-void AddToCartDialog::setPrice(double price) {
+void ProductDialog::setPrice(double price) {
     QTableWidgetItem *item = new QTableWidgetItem(QString::number(price));
     ui->tableWidget->setItem(int(RowName::Price), 0, item);
 }
 
-void AddToCartDialog::setStock(qint64 stock) {
+void ProductDialog::setStock(qint64 stock) {
     QTableWidgetItem *item = new QTableWidgetItem(QString::number(stock));
     ui->tableWidget->setItem(int(RowName::Stock), 0, item);
 }
 
-void AddToCartDialog::setDescription(const QString &description) {
+void ProductDialog::setDescription(const QString &description) {
     QTableWidgetItem *item = new QTableWidgetItem(description);
     ui->tableWidget->setItem(int(RowName::Description), 0, item);
 }
 
-void AddToCartDialog::onAddToCartPushButtonClicked() {
+void ProductDialog::onAddToCartPushButtonClicked() {
     qDebug() << Q_FUNC_INFO;
     Commander::instance()->synchronous();
     TcpAddToCartClient *addToCartClient = new TcpAddToCartClient(this);
     connect(addToCartClient, &TcpProductClient::readyRead, this,
-            &AddToCartDialog::onAddToCartClientReadyRead);
+            &ProductDialog::onAddToCartClientReadyRead);
     addToCartClient->sendAsync(m_productId);
 }
 
-void AddToCartDialog::onProductClientReadyRead(const TcpResponse &request) {
+void ProductDialog::onProductClientReadyRead(const TcpResponse &request) {
     qDebug() << Q_FUNC_INFO << "response:" << request.toJson();
     if (request.success()) {
         QJsonObject responseBody = request.body();
@@ -92,7 +92,7 @@ void AddToCartDialog::onProductClientReadyRead(const TcpResponse &request) {
     }
 }
 
-void AddToCartDialog::onAddToCartClientReadyRead(const TcpResponse &response) {
+void ProductDialog::onAddToCartClientReadyRead(const TcpResponse &response) {
     qDebug() << Q_FUNC_INFO << "response:" << response.toJson();
     if (response.success()) {
         Commander::instance()->privateUpdate();
