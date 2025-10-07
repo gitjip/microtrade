@@ -8,18 +8,18 @@ User SqlAuthenticator::exec(const Authorization &authorization) {
     query.prepare(
         "SELECT * FROM authorizations WHERE token=:token AND removed_at IS NULL");
     query.bindValue(":token", authorization.token());
-    qDebug() << "SqlAuthenticator::exec:" << query.boundValueNames();
-    qDebug() << "SqlAuthenticator::exec:" << query.boundValues();
+    // qDebug() << Q_FUNC_INFO << query.boundValueNames();
+    // qDebug() << Q_FUNC_INFO << query.boundValues();
     if (!query.exec()) {
-        qDebug() << "SqlAuthenticator::exec" << query.lastError().type()
-                 << query.lastError().text();
+        // qDebug() << Q_FUNC_INFO << query.lastError().type()
+        //          << query.lastError().text();
         return {};
     }
     if (!query.next()) {
-        qDebug() << "SqlAuthenticator::exec" << "not found";
+        // qDebug() << Q_FUNC_INFO << "not found";
         return {};
     }
     User user{query.value("user_id").toLongLong(), {}, {}, "", ""};
-    qDebug() << "SqlAuthenticator::exec" << "success" << user.toJson();
+    // qDebug() << Q_FUNC_INFO << "success" << user.toJson();
     return user;
 }

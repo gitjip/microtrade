@@ -13,9 +13,9 @@ void Commander::login(const QString &token) {
         m_token = token;
         emit loggedin();
         emit privateUpdated();
-        qDebug() << Q_FUNC_INFO << m_token;
+        // qDebug() << Q_FUNC_INFO << m_token;
     } else {
-        qDebug() << Q_FUNC_INFO << "already login" << token;
+        // qDebug() << Q_FUNC_INFO << "already login" << token;
     }
 }
 
@@ -24,9 +24,9 @@ void Commander::logout() {
         m_token = "";
         emit loggedout();
         // emit synchronoused();
-        qDebug() << Q_FUNC_INFO << "successfully logout";
+        // qDebug() << Q_FUNC_INFO << "successfully logout";
     } else {
-        qDebug() << Q_FUNC_INFO << "not login";
+        // qDebug() << Q_FUNC_INFO << "not login";
     }
 }
 

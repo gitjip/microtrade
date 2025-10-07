@@ -7,8 +7,8 @@ QList<Product> SqlProductListFinder::exec() {
     QSqlQuery query(db);
     query.prepare("SELECT * FROM products WHERE removed_at IS NULL");
     if (!query.exec()) {
-        qDebug() << "SqlProductListFinder::exec:" << query.lastError().type()
-                 << query.lastError().text();
+        // qDebug() << "SqlProductListFinder::exec:" << query.lastError().type()
+        //          << query.lastError().text();
         return {};
     }
     QList<Product> productList;
@@ -24,9 +24,9 @@ QList<Product> SqlProductListFinder::exec() {
             Product::stringToCategory(query.value("category").toString()),
             QUrl(query.value("image_url").toString())};
         productList.append(product);
-        qDebug() << Q_FUNC_INFO << product.id()
-                 << query.value("image_url").toString()
-                 << QUrl(query.value("image_url").toString()).errorString();
+        // qDebug() << Q_FUNC_INFO << product.id()
+        //          << query.value("image_url").toString()
+        //          << QUrl(query.value("image_url").toString()).errorString();
     }
     return productList;
 }

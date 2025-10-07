@@ -36,7 +36,7 @@ void ShopWidget::update() {
 }
 
 void ShopWidget::onProductListClientReadyRead(const TcpResponse &tcpResponse) {
-    qDebug() << Q_FUNC_INFO << "response fetched:" << tcpResponse.toJson();
+    // qDebug() << Q_FUNC_INFO << "response fetched:" << tcpResponse.toJson();
     if (tcpResponse.success()) {
         QJsonObject responseBody = tcpResponse.body();
         QJsonArray productJsonArray = responseBody["productList"].toArray();
@@ -67,7 +67,7 @@ void ShopWidget::setImage(int row, const QUrl &imageUrl) {
     qDebug() << Q_FUNC_INFO << imageUrl.path();
     if (icon.isNull()) {
         item = new QTableWidgetItem("image");
-        qDebug() << Q_FUNC_INFO << "failed to load image" << imageUrl.path();
+        // qDebug() << Q_FUNC_INFO << "failed to load image" << imageUrl.path();
     } else {
         item = new QTableWidgetItem(icon, "");
     }
@@ -95,7 +95,7 @@ void ShopWidget::setView(int row, qint64 productId) {
     viewLink->setOpenExternalLinks(false);
     ui->tableWidget->setCellWidget(row, int(ColomnName::View), viewLink);
     connect(viewLink, &QLabel::linkActivated, this, [=]() {
-        qDebug() << Q_FUNC_INFO << "QLabel::linkActivated";
+        // qDebug() << Q_FUNC_INFO << "QLabel::linkActivated";
         ProductDialog *addToCartDialog = new ProductDialog(this);
         addToCartDialog->setProductId(productId);
         // addToCartDialog->setRow(row);

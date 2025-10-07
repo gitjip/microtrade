@@ -21,6 +21,6 @@ TcpResponse TcpProductHandler::handle(const TcpRequest &request) {
     TcpResponse response =
         TcpLocalResponse::make(true, TcpResponse::StatusType::Success,
             "successfully find product", responseBody);
-    qDebug() << "TcpProductHandler::handle:" << response.toJson();
+    // qDebug() << "TcpProductHandler::handle:" << response.toJson();
     return response;
 }

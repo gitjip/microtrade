@@ -17,6 +17,6 @@ TcpResponse TcpLogoutHandler::handle(const TcpRequest &request) {
     }
     TcpResponse response = TcpLocalResponse::make(
         true, TcpResponse::StatusType::Success, "successfully logout");
-    qDebug() << "TcpLogoutHandler::handle:" << response.statusDetail();
+    // qDebug() << "TcpLogoutHandler::handle:" << response.statusDetail();
     return response;
 }

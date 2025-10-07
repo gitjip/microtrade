@@ -9,7 +9,7 @@ QList<CartItem> SqlCartItemListFinder::exec(const Cart &cart) {
         "SELECT * FROM cart_items WHERE cart_id=:cart_id AND removed_at IS NULL");
     query.bindValue(":cart_id", cart.id());
     if (!query.exec()) {
-        qDebug() << Q_FUNC_INFO << query.lastError().text();
+        // qDebug() << Q_FUNC_INFO << query.lastError().text();
         return {};
     }
     QList<CartItem> cartItemList;

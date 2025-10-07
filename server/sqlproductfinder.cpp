@@ -4,17 +4,17 @@
 SqlProductFinder::SqlProductFinder() {}
 
 Product SqlProductFinder::exec(const Product &product) {
-    qDebug() << "SqlProductFinder::exec:" << "productId:" << product.id();
+    // qDebug() << "SqlProductFinder::exec:" << "productId:" << product.id();
     QSqlQuery query(db);
     query.prepare("SELECT * FROM products WHERE id=:id AND removed_at IS NULL");
     query.bindValue(":id", product.id());
     if (!query.exec()) {
-        qDebug() << "SqlProductFinder::exec:" << query.lastError().type()
-                 << query.lastError().text();
+        // qDebug() << "SqlProductFinder::exec:" << query.lastError().type()
+        //          << query.lastError().text();
         return {};
     }
     if (!query.next()) {
-        qDebug() << "SqlProductFinder::exec:" << "not found";
+        // qDebug() << "SqlProductFinder::exec:" << "not found";
         return {};
     }
     Product returned{

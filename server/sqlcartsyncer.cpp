@@ -15,11 +15,11 @@ bool SqlCartSyncer::exec(const Cart &cart,
         query.bindValue(":cart_id", cart.id());
         query.bindValue(":product_id", cartItemList[i].productId());
         if (!query.exec()) {
-            qDebug() << Q_FUNC_INFO << cartItemList[i].toJson()
-                     << query.lastError().text();
+            // qDebug() << Q_FUNC_INFO << cartItemList[i].toJson()
+            //          << query.lastError().text();
             success = false;
         }
     }
-    qDebug() << Q_FUNC_INFO << "success";
+    // qDebug() << Q_FUNC_INFO << "success";
     return success;
 }

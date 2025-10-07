@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(31, 31, 31);</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
@@ -40,14 +43,14 @@
         <string>Order</string>
        </attribute>
       </widget>
-      <widget class="NotificationWidget" name="notificationTab">
-       <attribute name="title">
-        <string>Notification</string>
-       </attribute>
-      </widget>
       <widget class="ProfileWidget" name="profileTab">
        <attribute name="title">
         <string>Profile</string>
+       </attribute>
+      </widget>
+      <widget class="NotificationWidget" name="notificationTab">
+       <attribute name="title">
+        <string>Notification</string>
        </attribute>
       </widget>
      </widget>
@@ -60,7 +63,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>

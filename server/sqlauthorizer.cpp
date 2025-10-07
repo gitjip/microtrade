@@ -25,6 +25,6 @@ Authorization SqlAuthorizer::exec(const User &user) {
         return {};
     }
     Authorization authorization{-1, {}, {}, -1, token};
-    qDebug() << "SqlAuthorizer::exec" << "success" << authorization.toJson();
+    // qDebug() << "SqlAuthorizer::exec" << "success" << authorization.toJson();
     return authorization;
 }

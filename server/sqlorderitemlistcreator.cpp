@@ -19,8 +19,8 @@ bool SqlOrderItemListCreator::exec(qint64 orderId,
         query.bindValue(":quantity", it.value());
         query.bindValue(":cost", it.key().price() * it.value());
         if (!query.exec()) {
-            qDebug() << Q_FUNC_INFO << query.lastError().text() << it.key().id()
-                     << it.value();
+            // qDebug() << Q_FUNC_INFO << query.lastError().text() << it.key().id()
+            //          << it.value();
             success = false;
         }
     }

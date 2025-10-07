@@ -19,6 +19,7 @@ SOURCES += \
     order.cpp \
     orderitem.cpp \
     product.cpp \
+    promotion.cpp \
     user.cpp
 
 HEADERS += \
@@ -32,6 +33,7 @@ HEADERS += \
     order.h \
     orderitem.h \
     product.h \
+    promotion.h \
     user.h
 
 # Default rules for deployment.

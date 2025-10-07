@@ -49,7 +49,7 @@ void CartWidget::update() {
 }
 
 void CartWidget::onCartProductListClientReadyRead(const TcpResponse &response) {
-    qDebug() << Q_FUNC_INFO << "response:" << response.toJson();
+    // qDebug() << Q_FUNC_INFO << "response:" << response.toJson();
     if (response.success()) {
         QJsonObject body = response.body();
         QJsonArray productQuantityJsonArray = body["productQuantityMap"].toArray();
@@ -82,8 +82,8 @@ void CartWidget::onPayPushButtonClicked() {
     cartSyncClient->sendAsync(cartItemList);
 }
 
-void CartWidget::onCartSyncClientReadyRead(const TcpResponse &response) {
-    qDebug() << Q_FUNC_INFO << response.toJson();
+void CartWidget::onCartSyncClientReadyRead(const TcpResponse &) {
+    // qDebug() << Q_FUNC_INFO << response.toJson();
     Commander::instance()->privateUpdate();
 }
 
@@ -94,13 +94,13 @@ void CartWidget::sendPaymentRequest(const TcpResponse &) {
     paymentClient->sendAsync();
 }
 
-void CartWidget::onPaymentClientReadyRead(const TcpResponse &response) {
-    qDebug() << Q_FUNC_INFO << response.toJson();
+void CartWidget::onPaymentClientReadyRead(const TcpResponse &) {
+    // qDebug() << Q_FUNC_INFO << response.toJson();
     Commander::instance()->privateUpdate();
 }
 
 void CartWidget::onCommanderSynchronoused() {
-    qDebug() << Q_FUNC_INFO;
+    // qDebug() << Q_FUNC_INFO;
     QList<CartItem> cartItemList;
     for (qsizetype i = 0; i < ui->tableWidget->rowCount(); ++i) {
         QTableWidgetItem *idItem = ui->tableWidget->item(i, int(ColomnName::Id));
@@ -128,7 +128,7 @@ void CartWidget::setProduct(int row, const Product &product, qint64 quantity) {
 }
 
 void CartWidget::setProductId(int row, qint64 productId) {
-    qDebug() << Q_FUNC_INFO << productId;
+    // qDebug() << Q_FUNC_INFO << productId;
     QTableWidgetItem *item = new QTableWidgetItem(QString::number(productId));
     ui->tableWidget->setItem(row, int(ColomnName::Id), item);
 }
@@ -181,7 +181,7 @@ void CartWidget::setRemove(int row, qint64 productId) {
         TcpRemoveFromCartClient *client = new TcpRemoveFromCartClient(this);
         connect(client, &TcpRemoveFromCartClient::readyRead, this,
                 [=](const TcpResponse &response) {
-                    qDebug() << Q_FUNC_INFO << response.toJson();
+                    // qDebug() << Q_FUNC_INFO << response.toJson();
             if (response.success()) {
                         Commander::instance()->privateUpdate();
             }

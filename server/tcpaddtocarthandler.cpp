@@ -42,6 +42,6 @@ TcpResponse TcpAddToCartHandler::handle(const TcpRequest &request) {
     // success
     TcpResponse response = TcpLocalResponse::make(
         true, TcpResponse::StatusType::Success, "successfully add to cart");
-    qDebug() << "TcpAddToCartHandler::handle:" << response.statusDetail();
+    // qDebug() << "TcpAddToCartHandler::handle:" << response.statusDetail();
     return response;
 }

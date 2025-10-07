@@ -50,6 +50,6 @@ TcpResponse TcpCartProductListHandler::handle(const TcpRequest &request) {
     TcpResponse response =
         TcpLocalResponse::make(true, TcpResponse::StatusType::Success,
                                                   "successfully find product list", responseBody);
-    qDebug() << Q_FUNC_INFO << response.toJson();
+    // qDebug() << Q_FUNC_INFO << response.toJson();
     return response;
 }

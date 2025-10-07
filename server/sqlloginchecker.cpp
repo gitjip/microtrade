@@ -11,15 +11,15 @@ User SqlLoginChecker::exec(const User &user) {
     query.bindValue(":username", user.username());
     query.bindValue(":password_hash", user.passwordHash());
     if (!query.exec()) {
-        qDebug() << "SqlLoginChecker::exec:" << query.lastError().type()
-                 << query.lastError().text();
+        // qDebug() << "SqlLoginChecker::exec:" << query.lastError().type()
+        //          << query.lastError().text();
         return {};
     }
     if (!query.next()) {
-        qDebug() << "SqlLoginChecker::exec:" << "not found";
+        // qDebug() << "SqlLoginChecker::exec:" << "not found";
         return {};
     }
     User returned(query.value("id").toLongLong(), {}, {}, "", "");
-    qDebug() << "SqlLoginChecker::exec:" << "user_id:" << returned.id();
+    // qDebug() << "SqlLoginChecker::exec:" << "user_id:" << returned.id();
     return returned;
 }

@@ -10,7 +10,7 @@ QList<OrderItem> SqlOrderItemListFinder::exec(qint64 orderId) {
     query.bindValue(":order_id", orderId);
     QList<OrderItem> orderItemList;
     if (!query.exec()) {
-        qDebug() << Q_FUNC_INFO << query.lastError().text();
+        // qDebug() << Q_FUNC_INFO << query.lastError().text();
         return {};
     }
     while (query.next()) {

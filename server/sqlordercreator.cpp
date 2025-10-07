@@ -16,9 +16,9 @@ qint64 SqlOrderCreator::exec(const User &user,
     query.bindValue(":cost", totalCost);
     query.bindValue(":status", Order::statusToString(Order::Status::Pending));
     if (!query.exec()) {
-        qDebug() << Q_FUNC_INFO << query.lastError().text();
+        // qDebug() << Q_FUNC_INFO << query.lastError().text();
         return -1;
     }
-    qDebug() << Q_FUNC_INFO << "success";
+    // qDebug() << Q_FUNC_INFO << "success";
     return query.lastInsertId().toLongLong();
 }

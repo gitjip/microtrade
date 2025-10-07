@@ -20,12 +20,12 @@ void RegisterDialog::accept() {
 }
 
 void RegisterDialog::onReadyRead(const TcpResponse &response) {
-    qDebug() << "RegisterDialog::onReadyRead:" << "response:"
-             << response.toJson();
+    // qDebug() << "RegisterDialog::onReadyRead:" << "response:"
+    //          << response.toJson();
     if (response.success()) {
-        qDebug() << "RegisterDialog::onReadyRead:" << "success";
+        // qDebug() << "RegisterDialog::onReadyRead:" << "success";
     } else {
-        qDebug() << "RegisterDialog::onReadyRead:" << "error:"
-                 << response.statusDetail();
+        // qDebug() << "RegisterDialog::onReadyRead:" << "error:"
+        //          << response.statusDetail();
     }
 }

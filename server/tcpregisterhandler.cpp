@@ -28,6 +28,6 @@ TcpResponse TcpRegisterHandler::handle(const TcpRequest &request) {
     // success
     TcpResponse response = TcpLocalResponse::make(
         true, TcpResponse::StatusType::Success, "successfully register");
-    qDebug() << "TcpRegisterHandler::handle:" << response.statusDetail();
+    // qDebug() << "TcpRegisterHandler::handle:" << response.statusDetail();
     return response;
 }

@@ -4,13 +4,13 @@
 SqlOrderListFinder::SqlOrderListFinder() {}
 
 QList<Order> SqlOrderListFinder::exec(qint64 userId) {
-    qDebug() << Q_FUNC_INFO << "userId:" << userId;
+    // qDebug() << Q_FUNC_INFO << "userId:" << userId;
     QSqlQuery query(db);
     query.prepare(
         "SELECT * FROM orders WHERE user_id=:user_id AND removed_at IS NULL");
     query.bindValue(":user_id", userId);
     if (!query.exec()) {
-        qDebug() << Q_FUNC_INFO << query.lastError().text();
+        // qDebug() << Q_FUNC_INFO << query.lastError().text();
         return {};
     }
     QList<Order> orderList;

@@ -42,6 +42,6 @@ TcpResponse TcpRemoveFromCartHandler::handle(const TcpRequest &request) {
     // success
     TcpResponse response = TcpLocalResponse::make(
         true, TcpResponse::StatusType::Success, "successfully add to cart");
-    qDebug() << Q_FUNC_INFO << response.statusDetail();
+    // qDebug() << Q_FUNC_INFO << response.statusDetail();
     return response;
 }

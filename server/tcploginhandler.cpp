@@ -32,6 +32,6 @@ TcpResponse TcpLoginHandler::handle(const TcpRequest &request) {
     TcpResponse response =
         TcpLocalResponse::make(true, TcpResponse::StatusType::Success,
             "successfully create authorization", responseBody);
-    qDebug() << "TcpLoginHandler::handle" << response.toJson();
+    // qDebug() << "TcpLoginHandler::handle" << response.toJson();
     return response;
 }

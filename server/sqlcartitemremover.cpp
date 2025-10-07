@@ -13,9 +13,9 @@ bool SqlCartItemRemover::exec(qint64 cartId, qint64 productId) {
     query.bindValue(":cart_id", cartId);
     query.bindValue(":product_id", productId);
     if (!query.exec()) {
-        qDebug() << Q_FUNC_INFO << query.lastError().text();
+        // qDebug() << Q_FUNC_INFO << query.lastError().text();
         return false;
     }
-    qDebug() << Q_FUNC_INFO << "success";
+    // qDebug() << Q_FUNC_INFO << "success";
     return true;
 }

@@ -62,13 +62,13 @@ void WelcomeWidget::tryToLogout() {
 }
 
 void WelcomeWidget::onLogoutClientReadyRead(const TcpResponse &response) {
-    qDebug() << Q_FUNC_INFO << "response fetched:" << response.toJson();
+    // qDebug() << Q_FUNC_INFO << "response fetched:" << response.toJson();
     if (response.success()) {
-        qDebug() << Q_FUNC_INFO << "success";
+        // qDebug() << Q_FUNC_INFO << "success";
         Commander::instance()->logout();
         QTimer::singleShot(50, this, [=]() { emit aboutToLogout(); });
     } else {
-        qDebug() << Q_FUNC_INFO << "failed";
+        // qDebug() << Q_FUNC_INFO << "failed";
         ui->logoutPushButton->setEnabled(true);
     }
 }

@@ -24,12 +24,11 @@ void MainWindow::closeEvent(QCloseEvent *e) {
         e->ignore();
         QMessageBox::StandardButton reply = QMessageBox::question(
             this, "Are you sure to quit?",
-            "We will try to make you logout before you exit here.");
+            "We will try to make you logout before you run away.");
         if (reply == QMessageBox::Yes) {
             ui->welcomeTab->tryToLogout();
             connect(ui->welcomeTab, &WelcomeWidget::aboutToLogout, this,
                     &MainWindow::close);
-            // qDebug() << "close while not logout";
             QTimer::singleShot(1000, this, [=]() {
                 qDebug() << "the server break down, cannot logout";
                 qApp->exit(0);

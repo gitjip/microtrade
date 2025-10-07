@@ -81,6 +81,6 @@ TcpResponse TcpPaymentHandler::handle(const TcpRequest &request) {
     QJsonObject responseBody;
     TcpResponse response = TcpLocalResponse::make(
         true, TcpResponse::StatusType::Success, "successfully pay", responseBody);
-    qDebug() << Q_FUNC_INFO << response.toJson();
+    // qDebug() << Q_FUNC_INFO << response.toJson();
     return response;
 }

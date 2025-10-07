@@ -41,6 +41,6 @@ TcpResponse TcpOrderHandler::handle(const TcpRequest &request) {
     TcpResponse response =
         TcpLocalResponse::make(true, TcpResponse::StatusType::Success,
                                                   "successfully find order tree", responseBody);
-    qDebug() << Q_FUNC_INFO << response.toJson();
+    // qDebug() << Q_FUNC_INFO << response.toJson();
     return response;
 }

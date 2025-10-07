@@ -21,11 +21,11 @@ SqlProductReducer::exec(const QMap<Product, qint64> &quantityMap) {
         // qDebug() << Q_FUNC_INFO << it.key().id() << it.value()
         //          << checkQuery.boundValues();
         if (!checkQuery.exec()) {
-            qDebug() << Q_FUNC_INFO << "check error:" << checkQuery.lastError().text()
-                     << it.key().id() << it.value();
+            // qDebug() << Q_FUNC_INFO << "check error:" << checkQuery.lastError().text()
+            //          << it.key().id() << it.value();
         } else if (!checkQuery.next()) {
-            qDebug() << Q_FUNC_INFO
-                     << "check error:" << checkQuery.lastError().text();
+            // qDebug() << Q_FUNC_INFO
+            //          << "check error:" << checkQuery.lastError().text();
         } else {
             qint64 stock = checkQuery.value("stock").toLongLong();
             qint64 finalQuantity = qMin(it.value(), stock);
@@ -36,9 +36,9 @@ SqlProductReducer::exec(const QMap<Product, qint64> &quantityMap) {
             // qDebug() << Q_FUNC_INFO << it.key().id() << it.value()
             //          << reduceQuery.boundValues();
             if (!reduceQuery.exec()) {
-                qDebug() << Q_FUNC_INFO
-                         << "reduce error:" << reduceQuery.lastError().text()
-                         << it.key().id() << it.value();
+                // qDebug() << Q_FUNC_INFO
+                //          << "reduce error:" << reduceQuery.lastError().text()
+                //          << it.key().id() << it.value();
             } else if (finalQuantity > 0) {
                 returned.insert(it.key(), finalQuantity);
             }

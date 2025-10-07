@@ -12,10 +12,10 @@ User SqlUserCreator::exec(const User &user) {
     query.bindValue(":username", user.username());
     query.bindValue(":password_hash", user.passwordHash());
     query.bindValue(":avatar_url", user.avatarUrl().toString());
-    qDebug() << "SqlUserCreator::exec:" << query.boundValueNames();
-    qDebug() << "SqlUserCreator::exec:" << query.boundValues();
+    // qDebug() << "SqlUserCreator::exec:" << query.boundValueNames();
+    // qDebug() << "SqlUserCreator::exec:" << query.boundValues();
     if (!query.exec()) {
-        qDebug() << "SqlUserCreator::exec:" << query.lastError().text();
+        // qDebug() << "SqlUserCreator::exec:" << query.lastError().text();
         return {};
     }
     User returned{query.lastInsertId().toLongLong(), {}, {}, {}, {}};

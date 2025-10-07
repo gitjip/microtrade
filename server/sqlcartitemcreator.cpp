@@ -10,13 +10,13 @@ CartItem SqlCartItemCreator::exec(const Cart &cart, const Product &product) {
     query.bindValue(":created_at", QDateTime::currentDateTime());
     query.bindValue(":cart_id", cart.id());
     query.bindValue(":product_id", product.id());
-    qDebug() << "SqlCartItemCreator::exec:" << query.boundValueNames();
-    qDebug() << "SqlCartItemCreator::exec:" << query.boundValues();
+    // qDebug() << "SqlCartItemCreator::exec:" << query.boundValueNames();
+    // qDebug() << "SqlCartItemCreator::exec:" << query.boundValues();
     if (!query.exec()) {
-        qDebug() << "SqlCartItemCreator::exec:" << query.lastError().text();
+        // qDebug() << "SqlCartItemCreator::exec:" << query.lastError().text();
         return {};
     }
     CartItem cartItem{query.lastInsertId().toLongLong(), {}, {}, -1, -1, -1};
-    qDebug() << "SqlCartItemCreator::exec:" << "success:" << cartItem.toJson();
+    // qDebug() << "SqlCartItemCreator::exec:" << "success:" << cartItem.toJson();
     return cartItem;
 }

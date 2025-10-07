@@ -8,14 +8,11 @@ Config *Config::instance() {
 Config::Config(QObject *parent)
     : QObject{parent},
     m_settings(new QSettings("server.ini", QSettings::IniFormat, this)) {
-    qDebug() << "server:" << "Configure::Configure:" << "host_address"
-             << hostAddress();
-    qDebug() << "server:" << "Configure::Configure:" << "port" << port();
-    qDebug() << "server:" << "Configure::Configure:" << "timeout" << timeout();
-    qDebug() << "server:" << "Configure::Configure:" << "max_thread_count"
-             << maxThreadCount();
-    qDebug() << "server:" << "Configure::Configure:" << "database_name"
-             << databaseName();
+    qDebug() << Q_FUNC_INFO << "host_address" << hostAddress();
+    qDebug() << Q_FUNC_INFO << "port" << port();
+    qDebug() << Q_FUNC_INFO << "timeout" << timeout();
+    qDebug() << Q_FUNC_INFO << "max_thread_count" << maxThreadCount();
+    qDebug() << Q_FUNC_INFO << "database_name" << databaseName();
 }
 
 QHostAddress Config::hostAddress() const {
