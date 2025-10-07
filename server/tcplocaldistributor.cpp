@@ -9,6 +9,7 @@
 #include "tcppaymenthandler.h"
 #include "tcpproducthandler.h"
 #include "tcpproductlisthandler.h"
+#include "tcppromotionlisthandler.h"
 #include "tcpregisterhandler.h"
 #include "tcpremovefromcarthandler.h"
 #include "tcpuserhandler.h"
@@ -48,6 +49,8 @@ TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
         handler = new TcpOrderHandler(this);
     } else if (request.route() == "/remove-from-cart") {
         handler = new TcpRemoveFromCartHandler(this);
+    } else if (request.route() == "/promotion-list") {
+        handler = new TcpPromotionListHandler(this);
     }
     if (handler) {
         return handler->handle(request);

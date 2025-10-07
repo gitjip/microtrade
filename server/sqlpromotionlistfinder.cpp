@@ -22,7 +22,8 @@ QList<Promotion> SqlPromotionListFinder::exec() {
             query.value("end_at").toDateTime(),
             Promotion::stringToStrategy(query.value("strategy").toString()),
             query.value("threshold").toDouble(),
-            query.value("value").toDouble()};
+            query.value("value").toDouble(),
+            query.value("description").toString()};
         promotionList.append(promotion);
         qDebug() << promotion.toJson();
     }

@@ -23,7 +23,7 @@ private slots:
     void onPromotionListClientReadyRead(const TcpResponse &response);
 
 private:
-    enum class RowName { Id, Text, Start, End };
+    enum class ColomnName { Id, Text, Start, End };
 
 private:
     void setPromotion(int row, const Promotion &promotion);
