@@ -1,11 +1,14 @@
 #include "tcppaymenthandler.h"
+#include "costcalculatorwithpromotion.h"
 #include "sqlauthenticator.h"
 #include "sqlcartfinder.h"
 #include "sqlcartitemlistfinder.h"
 #include "sqlordercreator.h"
-#include "sqlorderitemlistcreator.h"
+#include "sqlorderitemcreator.h"
 #include "sqlproductfinder.h"
 #include "sqlproductreducer.h"
+#include "sqlpromotionfinder.h"
+#include "sqlpromotionidlistfinder.h"
 #include "tcplocalresponse.h"
 #include <QJsonArray>
 
@@ -58,9 +61,29 @@ TcpResponse TcpPaymentHandler::handle(const TcpRequest &request) {
         qDebug() << Q_FUNC_INFO << response.toJson();
         return response;
     }
+    // find promotion list
+    SqlPromotionIdListFinder promotionIdListFinder;
+    SqlPromotionFinder promotionFinder;
+    // calculate cost list and total cost
+    QMap<Product, double> costMap;
+    double totalCost = 0;
+    QMapIterator quantityIt(quantityMap);
+    while (quantityIt.hasNext()) {
+        quantityIt.next();
+        QList<qint64> promotionIdList =
+            promotionIdListFinder.exec(quantityIt.key().id());
+        QList<Promotion> promotionList;
+        for (qsizetype i = 0; i < promotionIdList.count(); ++i) {
+            Promotion promotion = promotionFinder.exec(promotionIdList[i]);
+            promotionList.append(promotion);
+        }
+        costMap[quantityIt.key()] = CostCalculatorWithPromotion::calculate(
+            quantityIt.key().price(), quantityIt.value(), promotionList);
+        totalCost += costMap[quantityIt.key()];
+    }
     // create order
     SqlOrderCreator orderCreator;
-    qint64 orderId = orderCreator.exec(user, quantityMap);
+    qint64 orderId = orderCreator.exec(user, totalCost);
     if (orderId == -1) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Failed, "failed to create order");
@@ -68,8 +91,19 @@ TcpResponse TcpPaymentHandler::handle(const TcpRequest &request) {
         return response;
     }
     // create order item list
-    SqlOrderItemListCreator orderItemListCreator;
-    bool isOrderItemListCreated = orderItemListCreator.exec(orderId, quantityMap);
+    SqlOrderItemCreator orderItemCreator;
+    bool isOrderItemListCreated = true;
+    QMapIterator costIt(costMap);
+    quantityIt.toFront();
+    while (quantityIt.hasNext() && costIt.hasNext()) {
+        quantityIt.next();
+        costIt.next();
+        qint64 orderItemId = orderItemCreator.exec(
+            orderId, quantityIt.key().id(), quantityIt.value(), costIt.value());
+        if (orderItemId == -1) {
+            isOrderItemListCreated = false;
+        }
+    }
     if (!isOrderItemListCreated) {
         TcpResponse response =
             TcpLocalResponse::make(false, TcpResponse::StatusType::Failed,
@@ -81,6 +115,6 @@ TcpResponse TcpPaymentHandler::handle(const TcpRequest &request) {
     QJsonObject responseBody;
     TcpResponse response = TcpLocalResponse::make(
         true, TcpResponse::StatusType::Success, "successfully pay", responseBody);
-    // qDebug() << Q_FUNC_INFO << response.toJson();
+    qDebug() << Q_FUNC_INFO << response.toJson();
     return response;
 }

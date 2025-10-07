@@ -9,6 +9,7 @@ CONFIG += c++17 cmdline
 SOURCES += \
         config.cpp \
         costcalculator.cpp \
+        costcalculatorwithpromotion.cpp \
         main.cpp \
         sqlauthenticator.cpp \
         sqlauthorizer.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
         sqllocalserver.cpp \
         sqlloginchecker.cpp \
         sqlordercreator.cpp \
+        sqlorderitemcreator.cpp \
         sqlorderitemlistcreator.cpp \
         sqlorderitemlistfinder.cpp \
         sqlorderlistfinder.cpp \
@@ -28,6 +30,8 @@ SOURCES += \
         sqlproductfinder.cpp \
         sqlproductlistfinder.cpp \
         sqlproductreducer.cpp \
+        sqlpromotionfinder.cpp \
+        sqlpromotionidlistfinder.cpp \
         sqlunauthorizer.cpp \
         sqlusercreator.cpp \
         sqluserfinder.cpp \
@@ -55,6 +59,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     config.h \
     costcalculator.h \
+    costcalculatorwithpromotion.h \
     sqlauthenticator.h \
     sqlauthorizer.h \
     sqlcartcreator.h \
@@ -66,6 +71,7 @@ HEADERS += \
     sqllocalserver.h \
     sqlloginchecker.h \
     sqlordercreator.h \
+    sqlorderitemcreator.h \
     sqlorderitemlistcreator.h \
     sqlorderitemlistfinder.h \
     sqlorderlistfinder.h \
@@ -73,6 +79,8 @@ HEADERS += \
     sqlproductfinder.h \
     sqlproductlistfinder.h \
     sqlproductreducer.h \
+    sqlpromotionfinder.h \
+    sqlpromotionidlistfinder.h \
     sqlunauthorizer.h \
     sqlusercreator.h \
     sqluserfinder.h \
