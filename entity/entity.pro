@@ -19,6 +19,7 @@ SOURCES += \
     order.cpp \
     orderitem.cpp \
     product.cpp \
+    productpromotionrelation.cpp \
     promotion.cpp \
     user.cpp
 
@@ -33,6 +34,7 @@ HEADERS += \
     order.h \
     orderitem.h \
     product.h \
+    productpromotionrelation.h \
     promotion.h \
     user.h
 
