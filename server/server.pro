@@ -26,12 +26,12 @@ SOURCES += \
         sqlorderitemlistcreator.cpp \
         sqlorderitemlistfinder.cpp \
         sqlorderlistfinder.cpp \
-        sqlordertreefinder.cpp \
         sqlproductfinder.cpp \
         sqlproductlistfinder.cpp \
         sqlproductreducer.cpp \
         sqlpromotionfinder.cpp \
         sqlpromotionidlistfinder.cpp \
+        sqlpromotionlistfinder.cpp \
         sqlunauthorizer.cpp \
         sqlusercreator.cpp \
         sqluserfinder.cpp \
@@ -47,6 +47,7 @@ SOURCES += \
         tcppaymenthandler.cpp \
         tcpproducthandler.cpp \
         tcpproductlisthandler.cpp \
+        tcppromotionlisthandler.cpp \
         tcpregisterhandler.cpp \
         tcpremovefromcarthandler.cpp \
         tcpuserhandler.cpp
@@ -75,12 +76,12 @@ HEADERS += \
     sqlorderitemlistcreator.h \
     sqlorderitemlistfinder.h \
     sqlorderlistfinder.h \
-    sqlordertreefinder.h \
     sqlproductfinder.h \
     sqlproductlistfinder.h \
     sqlproductreducer.h \
     sqlpromotionfinder.h \
     sqlpromotionidlistfinder.h \
+    sqlpromotionlistfinder.h \
     sqlunauthorizer.h \
     sqlusercreator.h \
     sqluserfinder.h \
@@ -96,6 +97,7 @@ HEADERS += \
     tcppaymenthandler.h \
     tcpproducthandler.h \
     tcpproductlisthandler.h \
+    tcppromotionlisthandler.h \
     tcpregisterhandler.h \
     tcpremovefromcarthandler.h \
     tcpuserhandler.h

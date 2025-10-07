@@ -20,6 +20,7 @@ SOURCES += \
     passwordhasher.cpp \
     productdialog.cpp \
     profilewidget.cpp \
+    promotionwidget.cpp \
     registerdialog.cpp \
     shopwidget.cpp \
     tcpaddtocartclient.cpp \
@@ -32,6 +33,7 @@ SOURCES += \
     tcppaymentclient.cpp \
     tcpproductclient.cpp \
     tcpproductlistclient.cpp \
+    tcppromotionlistclient.cpp \
     tcpregisterclient.cpp \
     tcpremovefromcartclient.cpp \
     tcpuserclient.cpp \
@@ -48,6 +50,7 @@ HEADERS += \
     passwordhasher.h \
     productdialog.h \
     profilewidget.h \
+    promotionwidget.h \
     registerdialog.h \
     shopwidget.h \
     tcpaddtocartclient.h \
@@ -60,6 +63,7 @@ HEADERS += \
     tcppaymentclient.h \
     tcpproductclient.h \
     tcpproductlistclient.h \
+    tcppromotionlistclient.h \
     tcpregisterclient.h \
     tcpremovefromcartclient.h \
     tcpuserclient.h \
@@ -73,6 +77,7 @@ FORMS += \
     orderwidget.ui \
     productdialog.ui \
     profilewidget.ui \
+    promotionwidget.ui \
     registerdialog.ui \
     shopwidget.ui \
     welcomewidget.ui

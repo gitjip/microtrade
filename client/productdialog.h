@@ -29,7 +29,8 @@ private:
     void onAddToCartClientReadyRead(const TcpResponse &tcpResponse);
 
 private:
-    enum class RowName { Image, Name, Price, Stock, Description };
+    enum class InfoRowName { Image, Name, Price, Stock, Description };
+    enum class PromRowName { Id, Text, Start, End };
 
 private:
     void setImage(const QUrl &imageUrl);

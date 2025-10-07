@@ -14,7 +14,7 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0">
+   <item row="2" column="0">
     <widget class="QPushButton" name="addToCartPushButton">
      <property name="text">
       <string>add to cart</string>
@@ -22,7 +22,7 @@
     </widget>
    </item>
    <item row="0" column="0">
-    <widget class="QTableWidget" name="tableWidget">
+    <widget class="QTableWidget" name="infoTableWidget">
      <property name="editTriggers">
       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
      </property>
@@ -66,6 +66,30 @@
      <column>
       <property name="text">
        <string>product-id</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QTableWidget" name="promTableWidget">
+     <column>
+      <property name="text">
+       <string>id</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>text</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>start</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>end</string>
       </property>
      </column>
     </widget>

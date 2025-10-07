@@ -9,7 +9,7 @@ ProductDialog::ProductDialog(QWidget *parent)
     : QDialog(parent), ui(new Ui::ProductDialog) {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(
+    ui->infoTableWidget->horizontalHeader()->setSectionResizeMode(
         QHeaderView::Stretch);
     connect(Commander::instance(), &Commander::privateUpdated, this,
             &ProductDialog::update);
@@ -24,7 +24,7 @@ void ProductDialog::setProductId(qint64 productId) {
     qDebug() << Q_FUNC_INFO << productId;
     // QTableWidgetItem *item = new QTableWidgetItem(QString::number(productId));
     // ui->tableWidget->setItem(int(RowName::Id), 0, item);
-    ui->tableWidget->horizontalHeaderItem(0)->setText(QString("product-id:  %1").arg(productId));
+    ui->infoTableWidget->horizontalHeaderItem(0)->setText(QString("product-id:  %1").arg(productId));
 }
 
 // void ProductDialog::setRow(int row) {
@@ -48,28 +48,28 @@ void ProductDialog::setImage(const QUrl &imageUrl) {
     } else {
         item = new QTableWidgetItem(icon, "");
     }
-    ui->tableWidget->verticalHeader()->resizeSection(int(RowName::Image), 80);
-    ui->tableWidget->setItem(int(RowName::Image), 0, item);
+    ui->infoTableWidget->verticalHeader()->resizeSection(int(InfoRowName::Image), 80);
+    ui->infoTableWidget->setItem(int(InfoRowName::Image), 0, item);
 }
 
 void ProductDialog::setName(const QString &name) {
     QTableWidgetItem *item = new QTableWidgetItem(name);
-    ui->tableWidget->setItem(int(RowName::Name), 0, item);
+    ui->infoTableWidget->setItem(int(InfoRowName::Name), 0, item);
 }
 
 void ProductDialog::setPrice(double price) {
     QTableWidgetItem *item = new QTableWidgetItem(QString::number(price));
-    ui->tableWidget->setItem(int(RowName::Price), 0, item);
+    ui->infoTableWidget->setItem(int(InfoRowName::Price), 0, item);
 }
 
 void ProductDialog::setStock(qint64 stock) {
     QTableWidgetItem *item = new QTableWidgetItem(QString::number(stock));
-    ui->tableWidget->setItem(int(RowName::Stock), 0, item);
+    ui->infoTableWidget->setItem(int(InfoRowName::Stock), 0, item);
 }
 
 void ProductDialog::setDescription(const QString &description) {
     QTableWidgetItem *item = new QTableWidgetItem(description);
-    ui->tableWidget->setItem(int(RowName::Description), 0, item);
+    ui->infoTableWidget->setItem(int(InfoRowName::Description), 0, item);
 }
 
 void ProductDialog::onAddToCartPushButtonClicked() {

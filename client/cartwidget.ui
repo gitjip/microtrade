@@ -35,6 +35,9 @@
        <height>80</height>
       </size>
      </property>
+     <property name="showGrid">
+      <bool>false</bool>
+     </property>
      <attribute name="verticalHeaderMinimumSectionSize">
       <number>80</number>
      </attribute>

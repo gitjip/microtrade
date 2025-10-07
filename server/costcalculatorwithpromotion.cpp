@@ -27,10 +27,10 @@ CostCalculatorWithPromotion::calculate(double price, qint64 quantity,
 
 double CostCalculatorWithPromotion::calculatePercentageDiscount(
     double cost, double threshold, double percentage) {
-    return cost > threshold ? cost * percentage : cost;
+    return qMax(cost > threshold ? cost * percentage : cost, 0.0);
 }
 
 double CostCalculatorWithPromotion::calculateFixedAmountDiscount(
     double cost, double threshold, double delta) {
-    return cost > threshold ? cost - delta : cost;
+    return qMax(cost > threshold ? cost - delta : cost, 0.0);
 }
