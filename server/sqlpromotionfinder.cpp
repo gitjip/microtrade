@@ -15,7 +15,7 @@ Promotion SqlPromotionFinder::exec(qint64 promotionId) {
         qDebug() << Q_FUNC_INFO << "not found";
         return {};
     }
-    Promotion promotion {
+    Promotion promotion{
         query.value("id").toLongLong(),
         query.value("created_at").toDateTime(),
         query.value("removed_at").toDateTime(),
@@ -23,7 +23,8 @@ Promotion SqlPromotionFinder::exec(qint64 promotionId) {
         query.value("end_at").toDateTime(),
         Promotion::stringToStrategy(query.value("strategy").toString()),
         query.value("threshold").toDouble(),
-        query.value("value").toDouble()};
+        query.value("value").toDouble(),
+        query.value("description").toString()};
     qDebug() << Q_FUNC_INFO << promotion.toJson();
     return promotion;
 }

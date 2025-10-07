@@ -33,6 +33,7 @@ SOURCES += \
     tcppaymentclient.cpp \
     tcpproductclient.cpp \
     tcpproductlistclient.cpp \
+    tcpproductpromotionlistclient.cpp \
     tcppromotionlistclient.cpp \
     tcpregisterclient.cpp \
     tcpremovefromcartclient.cpp \
@@ -63,6 +64,7 @@ HEADERS += \
     tcppaymentclient.h \
     tcpproductclient.h \
     tcpproductlistclient.h \
+    tcpproductpromotionlistclient.h \
     tcppromotionlistclient.h \
     tcpregisterclient.h \
     tcpremovefromcartclient.h \

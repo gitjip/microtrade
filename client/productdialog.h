@@ -14,7 +14,6 @@ class ProductDialog : public QDialog {
 public:
     explicit ProductDialog(QWidget *parent = nullptr);
     ~ProductDialog();
-    // void setRow(int row);
     void setProductId(qint64 productId);
 
 signals:
@@ -25,12 +24,13 @@ public slots:
     void onAddToCartPushButtonClicked();
 
 private:
-    void onProductClientReadyRead(const TcpResponse &tcpResponse);
-    void onAddToCartClientReadyRead(const TcpResponse &tcpResponse);
+    void onProductClientReadyRead(const TcpResponse &response);
+    void onAddToCartClientReadyRead(const TcpResponse &response);
+    void onTcpProductPromotionListClientReadyRead(const TcpResponse &response);
 
 private:
     enum class InfoRowName { Image, Name, Price, Stock, Description };
-    enum class PromRowName { Id, Text, Start, End };
+    enum class PromColomnName { Id, Text, Start, End };
 
 private:
     void setImage(const QUrl &imageUrl);
@@ -38,6 +38,12 @@ private:
     void setPrice(double price);
     void setStock(qint64 stock);
     void setDescription(const QString &description);
+
+private:
+    void setPromId(int row, qint64 id);
+    void setPromText(int row, const QString &text);
+    void setPromStart(int row, const QDateTime &startAt);
+    void setPromEndAt(int row, const QDateTime &endAt);
 
 private:
     Ui::ProductDialog *ui;

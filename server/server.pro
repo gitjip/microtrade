@@ -47,6 +47,7 @@ SOURCES += \
         tcppaymenthandler.cpp \
         tcpproducthandler.cpp \
         tcpproductlisthandler.cpp \
+        tcpproductpromotionlisthandler.cpp \
         tcppromotionlisthandler.cpp \
         tcpregisterhandler.cpp \
         tcpremovefromcarthandler.cpp \
@@ -97,6 +98,7 @@ HEADERS += \
     tcppaymenthandler.h \
     tcpproducthandler.h \
     tcpproductlisthandler.h \
+    tcpproductpromotionlisthandler.h \
     tcppromotionlisthandler.h \
     tcpregisterhandler.h \
     tcpremovefromcarthandler.h \
