@@ -1,51 +1,121 @@
-QT       += core gui network sql
+QT = core network sql
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-CONFIG += c++17
+CONFIG += c++17 cmdline
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    controlwidget.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    welcomewidget.cpp
-
-HEADERS += \
-    controlwidget.h \
-    mainwindow.h \
-    welcomewidget.h
-
-FORMS += \
-    controlwidget.ui \
-    mainwindow.ui \
-    welcomewidget.ui
+        config.cpp \
+        costcalculator.cpp \
+        main.cpp \
+        sqlauthenticator.cpp \
+        sqlauthorizer.cpp \
+        sqlcartcreator.cpp \
+        sqlcartfinder.cpp \
+        sqlcartitemcreator.cpp \
+        sqlcartitemlistfinder.cpp \
+        sqlcartitemremover.cpp \
+        sqlcartsyncer.cpp \
+        sqllocalserver.cpp \
+        sqlloginchecker.cpp \
+        sqlordercreator.cpp \
+        sqlorderitemlistcreator.cpp \
+        sqlorderitemlistfinder.cpp \
+        sqlorderlistfinder.cpp \
+        sqlordertreefinder.cpp \
+        sqlproductfinder.cpp \
+        sqlproductlistfinder.cpp \
+        sqlproductreducer.cpp \
+        sqlunauthorizer.cpp \
+        sqlusercreator.cpp \
+        sqluserfinder.cpp \
+        tcpaddtocarthandler.cpp \
+        tcpcartproductlisthandler.cpp \
+        tcpcartsynchandler.cpp \
+        tcplocaldistributor.cpp \
+        tcplocalresponse.cpp \
+        tcplocalserver.cpp \
+        tcploginhandler.cpp \
+        tcplogouthandler.cpp \
+        tcporderhandler.cpp \
+        tcppaymenthandler.cpp \
+        tcpproducthandler.cpp \
+        tcpproductlisthandler.cpp \
+        tcpregisterhandler.cpp \
+        tcpremovefromcarthandler.cpp \
+        tcpuserhandler.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../controllers/release/ -lcontrollers
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../controllers/debug/ -lcontrollers
-else:unix: LIBS += -L$$OUT_PWD/../controllers/ -lcontrollers
+HEADERS += \
+    config.h \
+    costcalculator.h \
+    sqlauthenticator.h \
+    sqlauthorizer.h \
+    sqlcartcreator.h \
+    sqlcartfinder.h \
+    sqlcartitemcreator.h \
+    sqlcartitemlistfinder.h \
+    sqlcartitemremover.h \
+    sqlcartsyncer.h \
+    sqllocalserver.h \
+    sqlloginchecker.h \
+    sqlordercreator.h \
+    sqlorderitemlistcreator.h \
+    sqlorderitemlistfinder.h \
+    sqlorderlistfinder.h \
+    sqlordertreefinder.h \
+    sqlproductfinder.h \
+    sqlproductlistfinder.h \
+    sqlproductreducer.h \
+    sqlunauthorizer.h \
+    sqlusercreator.h \
+    sqluserfinder.h \
+    tcpaddtocarthandler.h \
+    tcpcartproductlisthandler.h \
+    tcpcartsynchandler.h \
+    tcplocaldistributor.h \
+    tcplocalresponse.h \
+    tcplocalserver.h \
+    tcploginhandler.h \
+    tcplogouthandler.h \
+    tcporderhandler.h \
+    tcppaymenthandler.h \
+    tcpproducthandler.h \
+    tcpproductlisthandler.h \
+    tcpregisterhandler.h \
+    tcpremovefromcarthandler.h \
+    tcpuserhandler.h
 
-INCLUDEPATH += $$PWD/../controllers
-DEPENDPATH += $$PWD/../controllers
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../entity/release/ -lentity
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../entity/debug/ -lentity
+else:unix: LIBS += -L$$OUT_PWD/../entity/ -lentity
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../mylib/release/ -lmylib
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../mylib/debug/ -lmylib
-else:unix: LIBS += -L$$OUT_PWD/../mylib/ -lmylib
+INCLUDEPATH += $$PWD/../entity
+DEPENDPATH += $$PWD/../entity
 
-INCLUDEPATH += $$PWD/../mylib
-DEPENDPATH += $$PWD/../mylib
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../sqlserver/release/ -lsqlserver
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../sqlserver/debug/ -lsqlserver
+else:unix: LIBS += -L$$OUT_PWD/../sqlserver/ -lsqlserver
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../models/release/ -lmodels
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../models/debug/ -lmodels
-else:unix: LIBS += -L$$OUT_PWD/../models/ -lmodels
+INCLUDEPATH += $$PWD/../sqlserver
+DEPENDPATH += $$PWD/../sqlserver
 
-INCLUDEPATH += $$PWD/../models
-DEPENDPATH += $$PWD/../models
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../tcpinteraction/release/ -ltcpinteraction
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../tcpinteraction/debug/ -ltcpinteraction
+else:unix: LIBS += -L$$OUT_PWD/../tcpinteraction/ -ltcpinteraction
+
+INCLUDEPATH += $$PWD/../tcpinteraction
+DEPENDPATH += $$PWD/../tcpinteraction
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../tcpserver/release/ -ltcpserver
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../tcpserver/debug/ -ltcpserver
+else:unix: LIBS += -L$$OUT_PWD/../tcpserver/ -ltcpserver
+
+INCLUDEPATH += $$PWD/../tcpserver
+DEPENDPATH += $$PWD/../tcpserver

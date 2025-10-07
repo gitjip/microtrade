@@ -13,44 +13,44 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(31, 31, 31);</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
-      <property name="tabPosition">
-       <enum>QTabWidget::TabPosition::North</enum>
-      </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
       <widget class="WelcomeWidget" name="welcomeTab">
        <attribute name="title">
-        <string>欢迎</string>
+        <string>Welcome</string>
        </attribute>
       </widget>
       <widget class="ShopWidget" name="shopTab">
        <attribute name="title">
-        <string>商店</string>
+        <string>Shop</string>
        </attribute>
       </widget>
       <widget class="CartWidget" name="cartTab">
        <attribute name="title">
-        <string>购物车</string>
+        <string>Cart</string>
        </attribute>
       </widget>
       <widget class="OrderWidget" name="orderTab">
        <attribute name="title">
-        <string>订单</string>
+        <string>Order</string>
+       </attribute>
+      </widget>
+      <widget class="ProfileWidget" name="profileTab">
+       <attribute name="title">
+        <string>Profile</string>
        </attribute>
       </widget>
       <widget class="NotificationWidget" name="notificationTab">
        <attribute name="title">
-        <string>通知</string>
-       </attribute>
-      </widget>
-      <widget class="UserCenterWidget" name="userCenterTab">
-       <attribute name="title">
-        <string>用户中心</string>
+        <string>Notification</string>
        </attribute>
       </widget>
      </widget>
@@ -68,18 +68,78 @@
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="separator"/>
+   <addaction name="actionPublicRefresh"/>
+   <addaction name="separator"/>
+   <addaction name="actionPrivateRefresh"/>
+   <addaction name="separator"/>
+   <addaction name="actionSync"/>
+   <addaction name="separator"/>
+  </widget>
+  <action name="actionPrivateRefresh">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::ViewRefresh"/>
+   </property>
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+   <property name="toolTip">
+    <string>Update resources of the current  user.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionPublicRefresh">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::AddressBookNew"/>
+   </property>
+   <property name="text">
+    <string>PublicRefresh</string>
+   </property>
+   <property name="toolTip">
+    <string>Update the resources of the shop.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionSync">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::SyncSynchronizing"/>
+   </property>
+   <property name="text">
+    <string>Sync</string>
+   </property>
+   <property name="toolTip">
+    <string>Sync the current state to the remote.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>NotificationWidget</class>
+   <extends>QWidget</extends>
+   <header>notificationwidget.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>WelcomeWidget</class>
    <extends>QWidget</extends>
    <header>welcomewidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>ShopWidget</class>
-   <extends>QWidget</extends>
-   <header>shopwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
@@ -95,15 +155,15 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>UserCenterWidget</class>
+   <class>ProfileWidget</class>
    <extends>QWidget</extends>
-   <header>usercenterwidget.h</header>
+   <header>profilewidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>NotificationWidget</class>
+   <class>ShopWidget</class>
    <extends>QWidget</extends>
-   <header>notificationwidget.h</header>
+   <header>shopwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

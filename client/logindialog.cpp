@@ -1,35 +1,37 @@
 #include "logindialog.h"
-#include "mylib_constants.h"
+#include "authorization.h"
+#include "commander.h"
+#include "passwordhasher.h"
+#include "tcploginclient.h"
 #include "ui_logindialog.h"
 
-#include <QMessageBox>
-
 LoginDialog::LoginDialog(QWidget *parent)
-    : QDialog(parent), ui(new Ui::LoginDialog), client(nullptr) {
+    : QDialog(parent), ui(new Ui::LoginDialog) {
     ui->setupUi(this);
-    setAttribute(Qt::WA_DeleteOnClose);
 }
 
 LoginDialog::~LoginDialog() { delete ui; }
 
-void LoginDialog::setClient(My::TcpClient *client) { this->client = client; }
-
-void LoginDialog::on_pushButtonConfirm_clicked() {
-    QJsonObject body;
-    body["username"] = ui->lineEditUsername->text();
-    body["password"] = ui->lineEditPassword->text();
-    My::Response res = client->post("/login", My::Headers(), body);
-    if (res.status == 200) {
-        int userId = res.body["id"].toInt();
-        qDebug() << "LoginDialog::on_pushButtonConfirm_clicked:"
-                 << res.body["id"].toInt() << res.body["username"].toString()
-                 << res.body["password"].toString();
-        emit readySetUserId(userId);
-        qDebug() << "LoginDialog::on_pushButtonConfirm_clicked:" << userId;
-    } else {
-        QMessageBox::critical(this, "login failed", res.error);
-    }
+void LoginDialog::accept() {
+    TcpLoginClient *loginClient = new TcpLoginClient(this);
+    connect(loginClient, &TcpLoginClient::readyRead, this, &LoginDialog::login);
+    loginClient->sendAsync(ui->usernameLineEdit->text(),
+                           PasswordHasher::hash(ui->passwordLineEdit->text()));
     close();
 }
 
-void LoginDialog::on_pushButtonCancel_clicked() { close(); }
+void LoginDialog::login(const TcpResponse &response) {
+    qDebug() << "LoginDialog::accept:"
+             << "response:" << response.toJson();
+    if (response.success()) {
+        QJsonObject responseBody = response.body();
+        Authorization authorization =
+            Authorization::fromJson(responseBody["authorization"].toObject());
+        qDebug() << "LoginDialog::login:" << authorization.token();
+        Commander::instance()->login(authorization.token());
+    } else {
+        qDebug() << "LoginDialog::accept:" << "error:"
+                 << TcpResponse::statusTypeToString(response.statusType())
+                 << response.statusDetail();
+    }
+}

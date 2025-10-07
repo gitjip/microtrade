@@ -1,30 +1,31 @@
 #include "registerdialog.h"
+#include "passwordhasher.h"
+#include "tcpregisterclient.h"
 #include "ui_registerdialog.h"
-#include <QMessageBox>
 
 RegisterDialog::RegisterDialog(QWidget *parent)
     : QDialog(parent), ui(new Ui::RegisterDialog) {
     ui->setupUi(this);
-    setAttribute(Qt::WA_DeleteOnClose);
 }
 
 RegisterDialog::~RegisterDialog() { delete ui; }
 
-void RegisterDialog::setClient(My::TcpClient *client) { this->client = client; }
-
-void RegisterDialog::setUser(My::User *user) { this->user = user; }
-
-void RegisterDialog::on_pushButtonConfirm_clicked() {
-    QJsonObject body;
-    body["username"] = ui->lineEditUsername->text();
-    body["password"] = ui->lineEditPassword->text();
-    My::Response res = client->post("/register", QJsonObject(), body);
-    if (res.status == 200) {
-        QMessageBox::information(this, "注册成功", "请回到用户中心继续登录");
-    } else {
-        QMessageBox::critical(this, "注册失败", res.error);
-    }
+void RegisterDialog::accept() {
+    TcpRegisterClient *registerClient = new TcpRegisterClient(this);
+    connect(registerClient, &TcpClient::readyRead, this,
+            &RegisterDialog::onReadyRead);
+    registerClient->sendAsync(ui->usernameLineEdit->text(),
+                              PasswordHasher::hash(ui->passwordLineEdit->text()));
     close();
 }
 
-void RegisterDialog::on_pushButtonCancel_clicked() { close(); }
+void RegisterDialog::onReadyRead(const TcpResponse &response) {
+    // qDebug() << "RegisterDialog::onReadyRead:" << "response:"
+    //          << response.toJson();
+    if (response.success()) {
+        // qDebug() << "RegisterDialog::onReadyRead:" << "success";
+    } else {
+        // qDebug() << "RegisterDialog::onReadyRead:" << "error:"
+        //          << response.statusDetail();
+    }
+}

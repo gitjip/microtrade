@@ -4,38 +4,65 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
 
-VERSION = 1.0.0
-QMAKE_TARGET_PRODUCT = "Microtrade"
-QMAKE_TARGET_COMPANY = "JLU"
-QMAKE_TARGET_DESCRIPTION = "Microtrade" "Client"
-QMAKE_TARGET_COPYRIGHT = "Copyright(C)" "2025" "JLU." "All" "rights" "reserved."
-# RC_ICONS = .ico
-
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
     cartwidget.cpp \
+    commander.cpp \
+    config.cpp \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
     notificationwidget.cpp \
     orderwidget.cpp \
+    passwordhasher.cpp \
+    productdialog.cpp \
+    profilewidget.cpp \
     registerdialog.cpp \
     shopwidget.cpp \
-    usercenterwidget.cpp \
+    tcpaddtocartclient.cpp \
+    tcpcartproductlistclient.cpp \
+    tcpcartsyncclient.cpp \
+    tcplocalclient.cpp \
+    tcploginclient.cpp \
+    tcplogoutclient.cpp \
+    tcporderclient.cpp \
+    tcppaymentclient.cpp \
+    tcpproductclient.cpp \
+    tcpproductlistclient.cpp \
+    tcpregisterclient.cpp \
+    tcpremovefromcartclient.cpp \
+    tcpuserclient.cpp \
     welcomewidget.cpp
 
 HEADERS += \
     cartwidget.h \
+    commander.h \
+    config.h \
     logindialog.h \
     mainwindow.h \
     notificationwidget.h \
     orderwidget.h \
+    passwordhasher.h \
+    productdialog.h \
+    profilewidget.h \
     registerdialog.h \
     shopwidget.h \
-    usercenterwidget.h \
+    tcpaddtocartclient.h \
+    tcpcartproductlistclient.h \
+    tcpcartsyncclient.h \
+    tcplocalclient.h \
+    tcploginclient.h \
+    tcplogoutclient.h \
+    tcporderclient.h \
+    tcppaymentclient.h \
+    tcpproductclient.h \
+    tcpproductlistclient.h \
+    tcpregisterclient.h \
+    tcpremovefromcartclient.h \
+    tcpuserclient.h \
     welcomewidget.h
 
 FORMS += \
@@ -44,9 +71,10 @@ FORMS += \
     mainwindow.ui \
     notificationwidget.ui \
     orderwidget.ui \
+    productdialog.ui \
+    profilewidget.ui \
     registerdialog.ui \
     shopwidget.ui \
-    usercenterwidget.ui \
     welcomewidget.ui
 
 # Default rules for deployment.
@@ -54,16 +82,26 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../mylib/release/ -lmylib
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../mylib/debug/ -lmylib
-else:unix: LIBS += -L$$OUT_PWD/../mylib/ -lmylib
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../tcpinteraction/release/ -ltcpinteraction
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../tcpinteraction/debug/ -ltcpinteraction
+else:unix: LIBS += -L$$OUT_PWD/../tcpinteraction/ -ltcpinteraction
 
-INCLUDEPATH += $$PWD/../mylib
-DEPENDPATH += $$PWD/../mylib
+INCLUDEPATH += $$PWD/../tcpinteraction
+DEPENDPATH += $$PWD/../tcpinteraction
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../models/release/ -lmodels
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../models/debug/ -lmodels
-else:unix: LIBS += -L$$OUT_PWD/../models/ -lmodels
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../tcpclient/release/ -ltcpclient
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../tcpclient/debug/ -ltcpclient
+else:unix: LIBS += -L$$OUT_PWD/../tcpclient/ -ltcpclient
 
-INCLUDEPATH += $$PWD/../models
-DEPENDPATH += $$PWD/../models
+INCLUDEPATH += $$PWD/../tcpclient
+DEPENDPATH += $$PWD/../tcpclient
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../entity/release/ -lentity
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../entity/debug/ -lentity
+else:unix: LIBS += -L$$OUT_PWD/../entity/ -lentity
+
+INCLUDEPATH += $$PWD/../entity
+DEPENDPATH += $$PWD/../entity
+
+RESOURCES += \
+    resrc.qrc

@@ -1,8 +1,7 @@
 #ifndef REGISTERDIALOG_H
 #define REGISTERDIALOG_H
 
-#include "tcpclient.h"
-#include "user.h"
+#include "tcpresponse.h"
 #include <QDialog>
 
 namespace Ui {
@@ -16,18 +15,13 @@ class RegisterDialog : public QDialog
 public:
     explicit RegisterDialog(QWidget *parent = nullptr);
     ~RegisterDialog();
-    void setClient(My::TcpClient *client);
-    void setUser(My::User *user);
 
-private slots:
-    void on_pushButtonConfirm_clicked();
-
-    void on_pushButtonCancel_clicked();
+public slots:
+    void accept() override;
+    void onReadyRead(const TcpResponse &response);
 
 private:
     Ui::RegisterDialog *ui;
-    My::TcpClient *client;
-    My::User *user;
 };
 
 #endif // REGISTERDIALOG_H
