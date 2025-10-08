@@ -78,10 +78,12 @@ void OrderWidget::onOrderClientReadyRead(const TcpResponse &response) {
 }
 
 void OrderWidget::onTreeWidgetItemDoubleClicked(QTreeWidgetItem *item, int) {
-    ProductDialog *dialog = new ProductDialog(this);
-    dialog->setProductId(productIdMap[item]);
-    dialog->update();
-    dialog->show();
+    if (item->parent()) {
+        ProductDialog *dialog = new ProductDialog(this);
+        dialog->setProductId(productIdMap[item]);
+        dialog->update();
+        dialog->show();
+    }
 }
 
 void OrderWidget::clear() { ui->treeWidget->clear(); }

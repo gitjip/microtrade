@@ -1,5 +1,6 @@
 #include "tcplocaldistributor.h"
 #include "tcpaddtocarthandler.h"
+#include "tcpalterusernamehandler.h"
 #include "tcpcartproductlisthandler.h"
 #include "tcpcartsynchandler.h"
 #include "tcplocalresponse.h"
@@ -9,8 +10,11 @@
 #include "tcppaymenthandler.h"
 #include "tcpproducthandler.h"
 #include "tcpproductlisthandler.h"
+#include "tcpproductpromotionlisthandler.h"
+#include "tcppromotionlisthandler.h"
 #include "tcpregisterhandler.h"
 #include "tcpremovefromcarthandler.h"
+#include "tcpresetpasswordhandler.h"
 #include "tcpuserhandler.h"
 
 TcpLocalDistributor::TcpLocalDistributor(QObject *parent)
@@ -48,6 +52,14 @@ TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
         handler = new TcpOrderHandler(this);
     } else if (request.route() == "/remove-from-cart") {
         handler = new TcpRemoveFromCartHandler(this);
+    } else if (request.route() == "/promotion-list") {
+        handler = new TcpPromotionListHandler(this);
+    } else if (request.route() == "/product-promotion-list") {
+        handler = new TcpProductPromotionListHandler(this);
+    } else if (request.route() == "/alter-username") {
+        handler = new TcpAlterUsernameHandler(this);
+    } else if (request.route() == "/reset-password") {
+        handler = new TcpResetPasswordHandler(this);
     }
     if (handler) {
         return handler->handle(request);

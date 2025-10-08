@@ -22,10 +22,12 @@ public slots:
 private slots:
     void onUserClientReadyRead(const TcpResponse &response);
     void clear();
+    void onUsernameAlterPushButtonClicked();
+    void onPasswordResetPushButtonClicked();
 
 private:
     void setUser(const User &user);
-    void setUserAvatar(const QUrl &avatarUrl);
+    // void setUserAvatar(const QUrl &avatarUrl);
     void setUserName(const QString &username);
 
 private:

@@ -9,6 +9,7 @@ CONFIG += c++17 cmdline
 SOURCES += \
         config.cpp \
         costcalculator.cpp \
+        costcalculatorwithpromotion.cpp \
         main.cpp \
         sqlauthenticator.cpp \
         sqlauthorizer.cpp \
@@ -21,17 +22,23 @@ SOURCES += \
         sqllocalserver.cpp \
         sqlloginchecker.cpp \
         sqlordercreator.cpp \
+        sqlorderitemcreator.cpp \
         sqlorderitemlistcreator.cpp \
         sqlorderitemlistfinder.cpp \
         sqlorderlistfinder.cpp \
-        sqlordertreefinder.cpp \
+        sqlpasswordupdater.cpp \
         sqlproductfinder.cpp \
         sqlproductlistfinder.cpp \
         sqlproductreducer.cpp \
+        sqlpromotionfinder.cpp \
+        sqlpromotionidlistfinder.cpp \
+        sqlpromotionlistfinder.cpp \
         sqlunauthorizer.cpp \
         sqlusercreator.cpp \
         sqluserfinder.cpp \
+        sqlusernameupdater.cpp \
         tcpaddtocarthandler.cpp \
+        tcpalterusernamehandler.cpp \
         tcpcartproductlisthandler.cpp \
         tcpcartsynchandler.cpp \
         tcplocaldistributor.cpp \
@@ -43,8 +50,11 @@ SOURCES += \
         tcppaymenthandler.cpp \
         tcpproducthandler.cpp \
         tcpproductlisthandler.cpp \
+        tcpproductpromotionlisthandler.cpp \
+        tcppromotionlisthandler.cpp \
         tcpregisterhandler.cpp \
         tcpremovefromcarthandler.cpp \
+        tcpresetpasswordhandler.cpp \
         tcpuserhandler.cpp
 
 # Default rules for deployment.
@@ -55,6 +65,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     config.h \
     costcalculator.h \
+    costcalculatorwithpromotion.h \
     sqlauthenticator.h \
     sqlauthorizer.h \
     sqlcartcreator.h \
@@ -66,17 +77,23 @@ HEADERS += \
     sqllocalserver.h \
     sqlloginchecker.h \
     sqlordercreator.h \
+    sqlorderitemcreator.h \
     sqlorderitemlistcreator.h \
     sqlorderitemlistfinder.h \
     sqlorderlistfinder.h \
-    sqlordertreefinder.h \
+    sqlpasswordupdater.h \
     sqlproductfinder.h \
     sqlproductlistfinder.h \
     sqlproductreducer.h \
+    sqlpromotionfinder.h \
+    sqlpromotionidlistfinder.h \
+    sqlpromotionlistfinder.h \
     sqlunauthorizer.h \
     sqlusercreator.h \
     sqluserfinder.h \
+    sqlusernameupdater.h \
     tcpaddtocarthandler.h \
+    tcpalterusernamehandler.h \
     tcpcartproductlisthandler.h \
     tcpcartsynchandler.h \
     tcplocaldistributor.h \
@@ -88,8 +105,11 @@ HEADERS += \
     tcppaymenthandler.h \
     tcpproducthandler.h \
     tcpproductlisthandler.h \
+    tcpproductpromotionlisthandler.h \
+    tcppromotionlisthandler.h \
     tcpregisterhandler.h \
     tcpremovefromcarthandler.h \
+    tcpresetpasswordhandler.h \
     tcpuserhandler.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../entity/release/ -lentity

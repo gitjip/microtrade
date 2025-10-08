@@ -1,6 +1,7 @@
 #include "cartwidget.h"
 #include "cartitem.h"
 #include "commander.h"
+#include "productdialog.h"
 #include "tcpcartproductlistclient.h"
 #include "tcpcartsyncclient.h"
 #include "tcppaymentclient.h"
@@ -36,6 +37,8 @@ CartWidget::CartWidget(QWidget *parent)
             &CartWidget::clear);
     connect(ui->payPushButton, &QPushButton::clicked, this,
             &CartWidget::onPayPushButtonClicked);
+    connect(ui->tableWidget, &QTableWidget::itemDoubleClicked, this,
+            &CartWidget::onItemDoubleClicked);
 }
 
 CartWidget::~CartWidget() { delete ui; }
@@ -53,6 +56,7 @@ void CartWidget::onCartProductListClientReadyRead(const TcpResponse &response) {
     if (response.success()) {
         QJsonObject body = response.body();
         QJsonArray productQuantityJsonArray = body["productQuantityMap"].toArray();
+        productIdList.clear();
         ui->tableWidget->setRowCount(productQuantityJsonArray.count());
         for (qsizetype i = 0; i < productQuantityJsonArray.count(); ++i) {
             QJsonObject productQuantityPair = productQuantityJsonArray[i].toObject();
@@ -60,6 +64,7 @@ void CartWidget::onCartProductListClientReadyRead(const TcpResponse &response) {
                 Product::fromJson(productQuantityPair["product"].toObject());
             qint64 quantity = productQuantityPair["quantity"].toInteger();
             setProduct(i, product, quantity);
+            productIdList.append(product.id());
         }
     }
 }
@@ -113,6 +118,13 @@ void CartWidget::onCommanderSynchronoused() {
     connect(cartSyncClient, &TcpLocalClient::readyRead, this,
             &CartWidget::onCartSyncClientReadyRead);
     cartSyncClient->sendAsync(cartItemList);
+}
+
+void CartWidget::onItemDoubleClicked(QTableWidgetItem *item) {
+    ProductDialog *dialog = new ProductDialog(this);
+    dialog->setProductId(productIdList[item->row()]);
+    dialog->update();
+    dialog->show();
 }
 
 void CartWidget::clear() { ui->tableWidget->setRowCount(0); }

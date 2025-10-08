@@ -19,7 +19,7 @@ public:
     Promotion(const qint64 &id, const QDateTime &createdAt,
               const QDateTime &removedAt, const QDateTime &startAt,
               const QDateTime &endAt, Strategy strategy, double threshold,
-              double value);
+              double value, const QString &description = QString());
     static Promotion fromJson(const QJsonObject &json);
     QJsonObject toJson() const override;
     static QString strategyToString(Strategy strategy);
@@ -34,6 +34,7 @@ public:
     Strategy strategy() const;
     double threshold() const;
     double value() const;
+    QString description() const;
     bool isActive() const;
 
 private:
@@ -45,6 +46,7 @@ private:
     Strategy m_strategy = Strategy::Null;
     double m_threshold = -1;
     double m_value = -1;
+    QString m_description;
 };
 
 #endif // PROMOTION_H

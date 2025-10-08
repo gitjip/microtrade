@@ -1,15 +1,18 @@
 #include "productdialog.h"
 #include "commander.h"
 #include "product.h"
+#include "promotion.h"
+#include "qjsonarray.h"
 #include "tcpaddtocartclient.h"
 #include "tcpproductclient.h"
+#include "tcpproductpromotionlistclient.h"
 #include "ui_productdialog.h"
 
 ProductDialog::ProductDialog(QWidget *parent)
     : QDialog(parent), ui(new Ui::ProductDialog) {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(
+    ui->infoTableWidget->horizontalHeader()->setSectionResizeMode(
         QHeaderView::Stretch);
     connect(Commander::instance(), &Commander::privateUpdated, this,
             &ProductDialog::update);
@@ -22,21 +25,20 @@ ProductDialog::~ProductDialog() { delete ui; }
 void ProductDialog::setProductId(qint64 productId) {
     m_productId = productId;
     qDebug() << Q_FUNC_INFO << productId;
-    // QTableWidgetItem *item = new QTableWidgetItem(QString::number(productId));
-    // ui->tableWidget->setItem(int(RowName::Id), 0, item);
-    ui->tableWidget->horizontalHeaderItem(0)->setText(QString("product-id:  %1").arg(productId));
+    ui->infoTableWidget->horizontalHeaderItem(0)->setText(
+        QString("product-id:  %1").arg(productId));
 }
-
-// void ProductDialog::setRow(int row) {
-//     QTableWidgetItem *item = new QTableWidgetItem(QString::number(row + 1));
-//     ui->tableWidget->setItem(int(RowName::Row), 0, item);
-// }
 
 void ProductDialog::update() {
     TcpProductClient *productClient = new TcpProductClient(this);
-    productClient->sendAsync(m_productId);
     connect(productClient, &TcpProductClient::readyRead, this,
             &ProductDialog::onProductClientReadyRead);
+    productClient->sendAsync(m_productId);
+    TcpProductPromotionListClient *productPromotionListClient =
+        new TcpProductPromotionListClient(this);
+    connect(productPromotionListClient, &TcpProductPromotionListClient::readyRead,
+            this, &ProductDialog::onTcpProductPromotionListClientReadyRead);
+    productPromotionListClient->sendAsync(m_productId);
 }
 
 void ProductDialog::setImage(const QUrl &imageUrl) {
@@ -48,28 +50,29 @@ void ProductDialog::setImage(const QUrl &imageUrl) {
     } else {
         item = new QTableWidgetItem(icon, "");
     }
-    ui->tableWidget->verticalHeader()->resizeSection(int(RowName::Image), 80);
-    ui->tableWidget->setItem(int(RowName::Image), 0, item);
+    ui->infoTableWidget->verticalHeader()->resizeSection(int(InfoRowName::Image),
+                                                         80);
+    ui->infoTableWidget->setItem(int(InfoRowName::Image), 0, item);
 }
 
 void ProductDialog::setName(const QString &name) {
     QTableWidgetItem *item = new QTableWidgetItem(name);
-    ui->tableWidget->setItem(int(RowName::Name), 0, item);
+    ui->infoTableWidget->setItem(int(InfoRowName::Name), 0, item);
 }
 
 void ProductDialog::setPrice(double price) {
     QTableWidgetItem *item = new QTableWidgetItem(QString::number(price));
-    ui->tableWidget->setItem(int(RowName::Price), 0, item);
+    ui->infoTableWidget->setItem(int(InfoRowName::Price), 0, item);
 }
 
 void ProductDialog::setStock(qint64 stock) {
     QTableWidgetItem *item = new QTableWidgetItem(QString::number(stock));
-    ui->tableWidget->setItem(int(RowName::Stock), 0, item);
+    ui->infoTableWidget->setItem(int(InfoRowName::Stock), 0, item);
 }
 
 void ProductDialog::setDescription(const QString &description) {
     QTableWidgetItem *item = new QTableWidgetItem(description);
-    ui->tableWidget->setItem(int(RowName::Description), 0, item);
+    ui->infoTableWidget->setItem(int(InfoRowName::Description), 0, item);
 }
 
 void ProductDialog::onAddToCartPushButtonClicked() {
@@ -100,4 +103,43 @@ void ProductDialog::onAddToCartClientReadyRead(const TcpResponse &response) {
         Commander::instance()->privateUpdate();
         emit addedToCart();
     }
+}
+
+void ProductDialog::onTcpProductPromotionListClientReadyRead(
+    const TcpResponse &response) {
+    qDebug() << Q_FUNC_INFO << response.toJson();
+    if (response.success()) {
+        QJsonObject responseBody = response.body();
+        QJsonArray promotionJsonArray = responseBody["promotionList"].toArray();
+        ui->promTableWidget->setRowCount(promotionJsonArray.count());
+        for (qsizetype i = 0; i < promotionJsonArray.count(); ++i) {
+            Promotion promotion =
+                Promotion::fromJson(promotionJsonArray[i].toObject());
+            qDebug() << promotion.toJson();
+            setPromId(i, promotion.id());
+            setPromText(i, promotion.description());
+            setPromStart(i, promotion.startAt());
+            setPromEndAt(i, promotion.endAt());
+        }
+    }
+}
+
+void ProductDialog::setPromId(int row, qint64 id) {
+    QTableWidgetItem *item = new QTableWidgetItem(QString::number(id));
+    ui->promTableWidget->setItem(row, int(PromColomnName::Id), item);
+}
+
+void ProductDialog::setPromText(int row, const QString &text) {
+    QTableWidgetItem *item = new QTableWidgetItem(text);
+    ui->promTableWidget->setItem(row, int(PromColomnName::Text), item);
+}
+
+void ProductDialog::setPromStart(int row, const QDateTime &startAt) {
+    QTableWidgetItem *item = new QTableWidgetItem(startAt.toString());
+    ui->promTableWidget->setItem(row, int(PromColomnName::Start), item);
+}
+
+void ProductDialog::setPromEndAt(int row, const QDateTime &endAt) {
+    QTableWidgetItem *item = new QTableWidgetItem(endAt.toString());
+    ui->promTableWidget->setItem(row, int(PromColomnName::End), item);
 }

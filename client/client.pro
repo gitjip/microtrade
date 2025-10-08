@@ -18,11 +18,14 @@ SOURCES += \
     notificationwidget.cpp \
     orderwidget.cpp \
     passwordhasher.cpp \
+    passwordresetdialog.cpp \
     productdialog.cpp \
     profilewidget.cpp \
+    promotionwidget.cpp \
     registerdialog.cpp \
     shopwidget.cpp \
     tcpaddtocartclient.cpp \
+    tcpalterusernameclient.cpp \
     tcpcartproductlistclient.cpp \
     tcpcartsyncclient.cpp \
     tcplocalclient.cpp \
@@ -32,9 +35,13 @@ SOURCES += \
     tcppaymentclient.cpp \
     tcpproductclient.cpp \
     tcpproductlistclient.cpp \
+    tcpproductpromotionlistclient.cpp \
+    tcppromotionlistclient.cpp \
     tcpregisterclient.cpp \
     tcpremovefromcartclient.cpp \
+    tcpresetpasswordclient.cpp \
     tcpuserclient.cpp \
+    usernamealterdialog.cpp \
     welcomewidget.cpp
 
 HEADERS += \
@@ -46,11 +53,14 @@ HEADERS += \
     notificationwidget.h \
     orderwidget.h \
     passwordhasher.h \
+    passwordresetdialog.h \
     productdialog.h \
     profilewidget.h \
+    promotionwidget.h \
     registerdialog.h \
     shopwidget.h \
     tcpaddtocartclient.h \
+    tcpalterusernameclient.h \
     tcpcartproductlistclient.h \
     tcpcartsyncclient.h \
     tcplocalclient.h \
@@ -60,9 +70,13 @@ HEADERS += \
     tcppaymentclient.h \
     tcpproductclient.h \
     tcpproductlistclient.h \
+    tcpproductpromotionlistclient.h \
+    tcppromotionlistclient.h \
     tcpregisterclient.h \
     tcpremovefromcartclient.h \
+    tcpresetpasswordclient.h \
     tcpuserclient.h \
+    usernamealterdialog.h \
     welcomewidget.h
 
 FORMS += \
@@ -71,10 +85,13 @@ FORMS += \
     mainwindow.ui \
     notificationwidget.ui \
     orderwidget.ui \
+    passwordresetdialog.ui \
     productdialog.ui \
     profilewidget.ui \
+    promotionwidget.ui \
     registerdialog.ui \
     shopwidget.ui \
+    usernamealterdialog.ui \
     welcomewidget.ui
 
 # Default rules for deployment.

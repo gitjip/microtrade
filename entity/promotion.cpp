@@ -6,9 +6,10 @@ Promotion::Promotion() {}
 Promotion::Promotion(const qint64 &id, const QDateTime &createdAt,
                      const QDateTime &removedAt, const QDateTime &startAt,
                      const QDateTime &endAt, Strategy strategy,
-                     double threshold, double value)
+                     double threshold, double value, const QString &description)
     : Entity(id, createdAt, removedAt), m_startAt(startAt), m_endAt(endAt),
-    m_strategy(strategy), m_threshold(threshold), m_value(value) {}
+    m_strategy(strategy), m_threshold(threshold), m_value(value),
+    m_description(description) {}
 
 Promotion Promotion::fromJson(const QJsonObject &json) {
     Promotion promotion;
@@ -33,6 +34,9 @@ QJsonObject Promotion::toJson() const {
     if (m_value != -1) {
         json["value"] = m_value;
     }
+    if (!m_description.isEmpty()) {
+        json["description"] = m_description;
+    }
     return json;
 }
 
@@ -43,6 +47,7 @@ void Promotion::initFromJson(const QJsonObject &json) {
     m_strategy = stringToStrategy(json["strategy"].toString());
     m_threshold = json["threshold"].toDouble(-1);
     m_value = json["value"].toDouble(-1);
+    m_description = json["description"].toString();
 }
 
 QString Promotion::strategyToString(Strategy strategy) {
@@ -94,6 +99,8 @@ Promotion::Strategy Promotion::strategy() const { return m_strategy; }
 double Promotion::threshold() const { return m_threshold; }
 
 double Promotion::value() const { return m_value; }
+
+QString Promotion::description() const { return m_description; }
 
 bool Promotion::isActive() const {
     QDateTime now = QDateTime::currentDateTime();
