@@ -4,6 +4,7 @@
 #include "passwordhasher.h"
 #include "tcploginclient.h"
 #include "ui_logindialog.h"
+#include <QMessageBox>
 
 LoginDialog::LoginDialog(QWidget *parent)
     : QDialog(parent), ui(new Ui::LoginDialog) {
@@ -29,9 +30,13 @@ void LoginDialog::login(const TcpResponse &response) {
             Authorization::fromJson(responseBody["authorization"].toObject());
         qDebug() << "LoginDialog::login:" << authorization.token();
         Commander::instance()->login(authorization.token());
+        QMessageBox::information(this, "Login successfully!", "");
     } else {
         qDebug() << "LoginDialog::accept:" << "error:"
                  << TcpResponse::statusTypeToString(response.statusType())
                  << response.statusDetail();
+        QMessageBox::critical(
+            this, "Login failed!",
+            "Your username or password maybe wrong. Please try again.");
     }
 }

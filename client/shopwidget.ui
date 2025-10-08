@@ -72,7 +72,10 @@
    <item row="2" column="0">
     <widget class="QLineEdit" name="searchLineEdit">
      <property name="text">
-      <string>press &quot;enter&quot; to start searching...</string>
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>Press &quot;Enter&quot; to search ... (Coming Soon)</string>
      </property>
     </widget>
    </item>

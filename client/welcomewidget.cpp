@@ -65,10 +65,13 @@ void WelcomeWidget::onLogoutClientReadyRead(const TcpResponse &response) {
     // qDebug() << Q_FUNC_INFO << "response fetched:" << response.toJson();
     if (response.success()) {
         // qDebug() << Q_FUNC_INFO << "success";
+        QMessageBox::information(this, "Logout successfully!", "");
         Commander::instance()->logout();
         QTimer::singleShot(50, this, [=]() { emit aboutToLogout(); });
     } else {
         // qDebug() << Q_FUNC_INFO << "failed";
+        QMessageBox::critical(this, "Logout failed!",
+                              "You can refresh the page and try again");
         ui->logoutPushButton->setEnabled(true);
     }
 }
@@ -77,7 +80,6 @@ void WelcomeWidget::onAuthorizationManagerLogin() {
     ui->tipLabel->setText("You have been authorized to use this application. You "
                           "can also logout if you want to quit.");
     ui->statusLabel->setText("Status: already login");
-
     ui->loginPushButton->setEnabled(false);
     ui->registerPushButton->setEnabled(false);
     ui->logoutPushButton->setEnabled(true);
@@ -87,7 +89,6 @@ void WelcomeWidget::onAuthorizationManagerLogout() {
     ui->tipLabel->setText("You can login if you already have an account. "
                           "Otherwise you should register first.");
     ui->statusLabel->setText("Status: not login");
-
     ui->loginPushButton->setEnabled(true);
     ui->registerPushButton->setEnabled(true);
     ui->logoutPushButton->setEnabled(false);
