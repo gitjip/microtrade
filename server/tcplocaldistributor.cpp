@@ -1,5 +1,6 @@
 #include "tcplocaldistributor.h"
 #include "tcpaddtocarthandler.h"
+#include "tcpalterusernamehandler.h"
 #include "tcpcartproductlisthandler.h"
 #include "tcpcartsynchandler.h"
 #include "tcplocalresponse.h"
@@ -54,6 +55,8 @@ TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
         handler = new TcpPromotionListHandler(this);
     } else if (request.route() == "/product-promotion-list") {
         handler = new TcpProductPromotionListHandler(this);
+    } else if (request.route() == "/alter-username") {
+        handler = new TcpAlterUsernameHandler(this);
     }
     if (handler) {
         return handler->handle(request);

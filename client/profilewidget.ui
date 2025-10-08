@@ -14,14 +14,17 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="3" column="2" colspan="3">
+   <item row="1" column="3">
+    <widget class="QLineEdit" name="usernameLineEdit"/>
+   </item>
+   <item row="2" column="2" colspan="3">
     <widget class="QPushButton" name="passwordResetPushButton">
      <property name="text">
       <string>reset password</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="2">
+   <item row="1" column="2">
     <widget class="QLabel" name="usernamePromptLabel">
      <property name="text">
       <string>username:</string>
@@ -31,28 +34,15 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="2" colspan="3">
-    <widget class="QLabel" name="avatarLabel">
-     <property name="text">
-      <string>avatar</string>
+   <item row="1" column="4">
+    <widget class="QPushButton" name="usernameAlterPushButton">
+     <property name="enabled">
+      <bool>false</bool>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="4">
-    <widget class="QToolButton" name="usernameToolButton">
      <property name="text">
       <string>alter</string>
      </property>
-     <property name="icon">
-      <iconset theme="QIcon::ThemeIcon::MailMessageNew"/>
-     </property>
     </widget>
-   </item>
-   <item row="2" column="3">
-    <widget class="QLineEdit" name="usernameLineEdit"/>
    </item>
   </layout>
  </widget>

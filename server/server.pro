@@ -35,7 +35,9 @@ SOURCES += \
         sqlunauthorizer.cpp \
         sqlusercreator.cpp \
         sqluserfinder.cpp \
+        sqlusernameupdater.cpp \
         tcpaddtocarthandler.cpp \
+        tcpalterusernamehandler.cpp \
         tcpcartproductlisthandler.cpp \
         tcpcartsynchandler.cpp \
         tcplocaldistributor.cpp \
@@ -51,6 +53,7 @@ SOURCES += \
         tcppromotionlisthandler.cpp \
         tcpregisterhandler.cpp \
         tcpremovefromcarthandler.cpp \
+        tcpresetpasswordhandler.cpp \
         tcpuserhandler.cpp
 
 # Default rules for deployment.
@@ -86,7 +89,9 @@ HEADERS += \
     sqlunauthorizer.h \
     sqlusercreator.h \
     sqluserfinder.h \
+    sqlusernameupdater.h \
     tcpaddtocarthandler.h \
+    tcpalterusernamehandler.h \
     tcpcartproductlisthandler.h \
     tcpcartsynchandler.h \
     tcplocaldistributor.h \
@@ -102,6 +107,7 @@ HEADERS += \
     tcppromotionlisthandler.h \
     tcpregisterhandler.h \
     tcpremovefromcarthandler.h \
+    tcpresetpasswordhandler.h \
     tcpuserhandler.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../entity/release/ -lentity

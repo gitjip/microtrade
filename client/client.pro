@@ -24,6 +24,7 @@ SOURCES += \
     registerdialog.cpp \
     shopwidget.cpp \
     tcpaddtocartclient.cpp \
+    tcpalterusernameclient.cpp \
     tcpcartproductlistclient.cpp \
     tcpcartsyncclient.cpp \
     tcplocalclient.cpp \
@@ -37,7 +38,9 @@ SOURCES += \
     tcppromotionlistclient.cpp \
     tcpregisterclient.cpp \
     tcpremovefromcartclient.cpp \
+    tcpresetpasswordclient.cpp \
     tcpuserclient.cpp \
+    usernamealterdialog.cpp \
     welcomewidget.cpp
 
 HEADERS += \
@@ -55,6 +58,7 @@ HEADERS += \
     registerdialog.h \
     shopwidget.h \
     tcpaddtocartclient.h \
+    tcpalterusernameclient.h \
     tcpcartproductlistclient.h \
     tcpcartsyncclient.h \
     tcplocalclient.h \
@@ -68,7 +72,9 @@ HEADERS += \
     tcppromotionlistclient.h \
     tcpregisterclient.h \
     tcpremovefromcartclient.h \
+    tcpresetpasswordclient.h \
     tcpuserclient.h \
+    usernamealterdialog.h \
     welcomewidget.h
 
 FORMS += \
@@ -82,6 +88,7 @@ FORMS += \
     promotionwidget.ui \
     registerdialog.ui \
     shopwidget.ui \
+    usernamealterdialog.ui \
     welcomewidget.ui
 
 # Default rules for deployment.
