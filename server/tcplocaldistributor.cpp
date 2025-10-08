@@ -11,6 +11,7 @@
 #include "tcpproducthandler.h"
 #include "tcpproductlisthandler.h"
 #include "tcpproductpromotionlisthandler.h"
+#include "tcpproductsearchhandler.h"
 #include "tcppromotionlisthandler.h"
 #include "tcpregisterhandler.h"
 #include "tcpremovefromcarthandler.h"
@@ -60,6 +61,8 @@ TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
         handler = new TcpAlterUsernameHandler(this);
     } else if (request.route() == "/reset-password") {
         handler = new TcpResetPasswordHandler(this);
+    } else if (request.route() == "/product-search") {
+        handler = new TcpProductSearchHandler(this);
     }
     if (handler) {
         return handler->handle(request);

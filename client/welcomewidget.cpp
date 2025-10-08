@@ -62,18 +62,20 @@ void WelcomeWidget::tryToLogout() {
 }
 
 void WelcomeWidget::onLogoutClientReadyRead(const TcpResponse &response) {
-    // qDebug() << Q_FUNC_INFO << "response fetched:" << response.toJson();
-    if (response.success()) {
-        // qDebug() << Q_FUNC_INFO << "success";
-        QMessageBox::information(this, "Logout successfully!", "");
-        Commander::instance()->logout();
-        QTimer::singleShot(50, this, [=]() { emit aboutToLogout(); });
-    } else {
-        // qDebug() << Q_FUNC_INFO << "failed";
-        QMessageBox::critical(this, "Logout failed!",
-                              "You can refresh the page and try again");
-        ui->logoutPushButton->setEnabled(true);
-    }
+    QMetaObject::invokeMethod(this, [=]() {
+        // qDebug() << Q_FUNC_INFO << "response fetched:" << response.toJson();
+        if (response.success()) {
+            // qDebug() << Q_FUNC_INFO << "success";
+            QMessageBox::information(this, "Logout successfully!", "");
+            Commander::instance()->logout();
+            QTimer::singleShot(50, this, [=]() { emit aboutToLogout(); });
+        } else {
+            // qDebug() << Q_FUNC_INFO << "failed";
+            QMessageBox::critical(this, "Logout failed!",
+                                  "You can refresh the page and try again");
+            ui->logoutPushButton->setEnabled(true);
+        }
+    }, Qt::QueuedConnection);
 }
 
 void WelcomeWidget::onAuthorizationManagerLogin() {

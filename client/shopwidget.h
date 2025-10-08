@@ -1,9 +1,9 @@
 #ifndef SHOPWIDGET_H
 #define SHOPWIDGET_H
 
-#include <QWidget>
 #include "product.h"
 #include "tcpresponse.h"
+#include <QWidget>
 
 namespace Ui {
 class ShopWidget;
@@ -21,6 +21,8 @@ public slots:
 
 private slots:
     void onProductListClientReadyRead(const TcpResponse &tcpResponse);
+    void onSearchTriggered();
+    void onSearchResponseReady(const TcpResponse& response);
 
 private:
     enum class ColomnName { Id, Image, Name, Price, Stock, View };

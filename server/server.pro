@@ -30,6 +30,7 @@ SOURCES += \
         sqlproductfinder.cpp \
         sqlproductlistfinder.cpp \
         sqlproductreducer.cpp \
+        sqlproductsearcher.cpp \
         sqlpromotionfinder.cpp \
         sqlpromotionidlistfinder.cpp \
         sqlpromotionlistfinder.cpp \
@@ -51,6 +52,7 @@ SOURCES += \
         tcpproducthandler.cpp \
         tcpproductlisthandler.cpp \
         tcpproductpromotionlisthandler.cpp \
+        tcpproductsearchhandler.cpp \
         tcppromotionlisthandler.cpp \
         tcpregisterhandler.cpp \
         tcpremovefromcarthandler.cpp \
@@ -85,6 +87,7 @@ HEADERS += \
     sqlproductfinder.h \
     sqlproductlistfinder.h \
     sqlproductreducer.h \
+    sqlproductsearcher.h \
     sqlpromotionfinder.h \
     sqlpromotionidlistfinder.h \
     sqlpromotionlistfinder.h \
@@ -106,6 +109,7 @@ HEADERS += \
     tcpproducthandler.h \
     tcpproductlisthandler.h \
     tcpproductpromotionlisthandler.h \
+    tcpproductsearchhandler.h \
     tcppromotionlisthandler.h \
     tcpregisterhandler.h \
     tcpremovefromcarthandler.h \

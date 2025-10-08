@@ -75,7 +75,7 @@
       <string/>
      </property>
      <property name="placeholderText">
-      <string>Press &quot;Enter&quot; to search ... (Coming Soon)</string>
+      <string>Press &quot;Enter&quot; to search ...</string>
      </property>
     </widget>
    </item>

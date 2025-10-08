@@ -22,21 +22,26 @@ void LoginDialog::accept() {
 }
 
 void LoginDialog::login(const TcpResponse &response) {
-    qDebug() << "LoginDialog::accept:"
-             << "response:" << response.toJson();
-    if (response.success()) {
-        QJsonObject responseBody = response.body();
-        Authorization authorization =
-            Authorization::fromJson(responseBody["authorization"].toObject());
-        qDebug() << "LoginDialog::login:" << authorization.token();
-        Commander::instance()->login(authorization.token());
-        QMessageBox::information(this, "Login successfully!", "");
-    } else {
-        qDebug() << "LoginDialog::accept:" << "error:"
-                 << TcpResponse::statusTypeToString(response.statusType())
-                 << response.statusDetail();
-        QMessageBox::critical(
-            this, "Login failed!",
-            "Your username or password maybe wrong. Please try again.");
-    }
+    QMetaObject::invokeMethod(
+        this,
+        [=]() {
+            qDebug() << "LoginDialog::accept:"
+                     << "response:" << response.toJson();
+            if (response.success()) {
+                QJsonObject responseBody = response.body();
+                Authorization authorization =
+                    Authorization::fromJson(responseBody["authorization"].toObject());
+                qDebug() << "LoginDialog::login:" << authorization.token();
+                Commander::instance()->login(authorization.token());
+                QMessageBox::information(this, "Login successfully!", "");
+            } else {
+                qDebug() << "LoginDialog::accept:" << "error:"
+                         << TcpResponse::statusTypeToString(response.statusType())
+                         << response.statusDetail();
+                QMessageBox::critical(
+                    this, "Login failed!",
+                    "Your username or password maybe wrong. Please try again.");
+            }
+        },
+        Qt::QueuedConnection);
 }

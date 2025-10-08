@@ -2,9 +2,11 @@
 #include "commander.h"
 #include "productdialog.h"
 #include "tcpproductlistclient.h"
+#include "tcpproductsearchclient.h"
 #include "ui_shopwidget.h"
 #include <QJsonArray>
 #include <QLabel>
+#include <QMessageBox>
 
 ShopWidget::ShopWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::ShopWidget) {
@@ -24,6 +26,8 @@ ShopWidget::ShopWidget(QWidget *parent)
     ui->tableWidget->setColumnWidth(int(ColomnName::Image), 80);
     connect(Commander::instance(), &Commander::publicUpdated, this,
             &ShopWidget::update);
+    connect(ui->searchLineEdit, &QLineEdit::returnPressed, this,
+            &ShopWidget::onSearchTriggered);
 }
 
 ShopWidget::~ShopWidget() { delete ui; }
@@ -45,6 +49,31 @@ void ShopWidget::onProductListClientReadyRead(const TcpResponse &tcpResponse) {
             setProduct(i, Product::fromJson(productJsonArray[i].toObject()));
         }
     }
+}
+
+void ShopWidget::onSearchTriggered() {
+    QString keyword = ui->searchLineEdit->text().trimmed();
+    TcpProductSearchClient *searchClient = new TcpProductSearchClient(this);
+    connect(searchClient, &TcpProductSearchClient::readyRead, this,
+            &ShopWidget::onSearchResponseReady);
+    searchClient->sendAsync(keyword);
+}
+
+void ShopWidget::onSearchResponseReady(const TcpResponse &response) {
+    QMetaObject::invokeMethod(this, [=]() {
+        if (response.success()) {
+            QJsonObject body = response.body();
+            QJsonArray products = body["searchResult"].toArray();
+            ui->tableWidget->setRowCount(products.count());
+            for (qsizetype i = 0; i < products.count(); ++i) {
+                Product product = Product::fromJson(products[i].toObject());
+                setProduct(i, product);
+            }
+        } else {
+            qDebug() << Q_FUNC_INFO << response.toJson();
+            QMessageBox::critical(this, "search failed", response.statusDetail());
+        }
+    }, Qt::QueuedConnection);
 }
 
 void ShopWidget::setProduct(int row, const Product &product) {
