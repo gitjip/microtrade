@@ -14,84 +14,87 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0">
+   <item row="0" column="0">
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
+     </property>
+     <widget class="QTableWidget" name="infoTableWidget">
+      <property name="editTriggers">
+       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>80</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="showGrid">
+       <bool>false</bool>
+      </property>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>37</number>
+      </attribute>
+      <row>
+       <property name="text">
+        <string>image</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>name</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>price</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>stock</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>detail</string>
+       </property>
+      </row>
+      <column>
+       <property name="text">
+        <string>product-id</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QTableWidget" name="promTableWidget">
+      <column>
+       <property name="text">
+        <string>id</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>text</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>start</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>end</string>
+       </property>
+      </column>
+     </widget>
+    </widget>
+   </item>
+   <item row="1" column="0">
     <widget class="QPushButton" name="addToCartPushButton">
      <property name="text">
       <string>add to cart</string>
      </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QTableWidget" name="infoTableWidget">
-     <property name="editTriggers">
-      <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>80</width>
-       <height>80</height>
-      </size>
-     </property>
-     <property name="showGrid">
-      <bool>false</bool>
-     </property>
-     <attribute name="verticalHeaderDefaultSectionSize">
-      <number>37</number>
-     </attribute>
-     <row>
-      <property name="text">
-       <string>image</string>
-      </property>
-     </row>
-     <row>
-      <property name="text">
-       <string>name</string>
-      </property>
-     </row>
-     <row>
-      <property name="text">
-       <string>price</string>
-      </property>
-     </row>
-     <row>
-      <property name="text">
-       <string>stock</string>
-      </property>
-     </row>
-     <row>
-      <property name="text">
-       <string>detail</string>
-      </property>
-     </row>
-     <column>
-      <property name="text">
-       <string>product-id</string>
-      </property>
-     </column>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QTableWidget" name="promTableWidget">
-     <column>
-      <property name="text">
-       <string>id</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>text</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>start</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>end</string>
-      </property>
-     </column>
     </widget>
    </item>
   </layout>

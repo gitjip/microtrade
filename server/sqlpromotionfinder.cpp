@@ -5,7 +5,9 @@ SqlPromotionFinder::SqlPromotionFinder() {}
 
 Promotion SqlPromotionFinder::exec(qint64 promotionId) {
     QSqlQuery query(db);
-    query.prepare("SELECT * FROM promotions WHERE id=:id AND removed_at IS NULL");
+    query.prepare("SELECT * FROM promotions WHERE id=:id AND removed_at IS "
+                  "NULL AND start_at<=:time AND end_at>=:time");
+    query.bindValue(":time", QDateTime::currentDateTime());
     query.bindValue(":id", promotionId);
     if (!query.exec()) {
         qDebug() << Q_FUNC_INFO << query.lastError().text();

@@ -16,7 +16,9 @@ TcpResponse TcpProductPromotionListHandler::handle(const TcpRequest &request) {
     QJsonArray promotionJsonArray;
     for (qsizetype i = 0; i < promotionIdList.count(); ++i) {
         Promotion promotion = promotionFinder.exec(promotionIdList[i]);
-        promotionJsonArray.append(promotion.toJson());
+        if(promotion.isActive()) {
+            promotionJsonArray.append(promotion.toJson());
+        }
     }
     QJsonObject responseBody;
     responseBody["promotionList"] = promotionJsonArray;

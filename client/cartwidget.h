@@ -3,14 +3,14 @@
 
 #include "product.h"
 #include "tcpresponse.h"
+#include <QTableWidgetItem>
 #include <QWidget>
 
 namespace Ui {
 class CartWidget;
 }
 
-class CartWidget : public QWidget
-{
+class CartWidget : public QWidget {
     Q_OBJECT
 
 public:
@@ -27,6 +27,7 @@ private slots:
     void sendPaymentRequest(const TcpResponse &);
     void onPaymentClientReadyRead(const TcpResponse &response);
     void onCommanderSynchronoused();
+    void onItemDoubleClicked(QTableWidgetItem *item);
     void clear();
 
 private:
@@ -44,6 +45,7 @@ private:
 
 private:
     Ui::CartWidget *ui;
+    QList<qint64> productIdList;
 };
 
 #endif // CARTWIDGET_H
