@@ -15,10 +15,17 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="3">
-    <widget class="QLineEdit" name="usernameLineEdit"/>
+    <widget class="QLineEdit" name="usernameLineEdit">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="2" column="2" colspan="3">
     <widget class="QPushButton" name="passwordResetPushButton">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="text">
       <string>reset password</string>
      </property>

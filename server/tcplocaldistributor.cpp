@@ -14,6 +14,7 @@
 #include "tcppromotionlisthandler.h"
 #include "tcpregisterhandler.h"
 #include "tcpremovefromcarthandler.h"
+#include "tcpresetpasswordhandler.h"
 #include "tcpuserhandler.h"
 
 TcpLocalDistributor::TcpLocalDistributor(QObject *parent)
@@ -57,6 +58,8 @@ TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
         handler = new TcpProductPromotionListHandler(this);
     } else if (request.route() == "/alter-username") {
         handler = new TcpAlterUsernameHandler(this);
+    } else if (request.route() == "/reset-password") {
+        handler = new TcpResetPasswordHandler(this);
     }
     if (handler) {
         return handler->handle(request);

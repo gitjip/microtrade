@@ -18,6 +18,7 @@ SOURCES += \
     notificationwidget.cpp \
     orderwidget.cpp \
     passwordhasher.cpp \
+    passwordresetdialog.cpp \
     productdialog.cpp \
     profilewidget.cpp \
     promotionwidget.cpp \
@@ -52,6 +53,7 @@ HEADERS += \
     notificationwidget.h \
     orderwidget.h \
     passwordhasher.h \
+    passwordresetdialog.h \
     productdialog.h \
     profilewidget.h \
     promotionwidget.h \
@@ -83,6 +85,7 @@ FORMS += \
     mainwindow.ui \
     notificationwidget.ui \
     orderwidget.ui \
+    passwordresetdialog.ui \
     productdialog.ui \
     profilewidget.ui \
     promotionwidget.ui \
