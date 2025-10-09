@@ -66,7 +66,7 @@ void WelcomeWidget::onLogoutClientReadyRead(const TcpResponse &response) {
         // qDebug() << Q_FUNC_INFO << "response fetched:" << response.toJson();
         if (response.success()) {
             // qDebug() << Q_FUNC_INFO << "success";
-            QMessageBox::information(this, "Logout successfully!", "");
+            // QMessageBox::information(this, "Logout successfully!", "");
             Commander::instance()->logout();
             QTimer::singleShot(50, this, [=]() { emit aboutToLogout(); });
         } else {

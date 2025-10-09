@@ -9,6 +9,7 @@
 #include "ui_cartwidget.h"
 #include <QJsonArray>
 #include <QLabel>
+#include <QMessageBox>
 #include <QSpinBox>
 
 CartWidget::CartWidget(QWidget *parent)
@@ -99,9 +100,25 @@ void CartWidget::sendPaymentRequest(const TcpResponse &) {
     paymentClient->sendAsync();
 }
 
-void CartWidget::onPaymentClientReadyRead(const TcpResponse &) {
-    // qDebug() << Q_FUNC_INFO << response.toJson();
-    Commander::instance()->privateUpdate();
+void CartWidget::onPaymentClientReadyRead(const TcpResponse &response) {
+    QMetaObject::invokeMethod(
+        this,
+        [=]() {
+        // qDebug() << Q_FUNC_INFO << response.toJson();
+        if (response.success()) {
+            Commander::instance()->privateUpdate();
+            QMessageBox::information(this, "Pay all products successfully!",
+                                     "The order has been generated.");
+        } else {
+            if (response.statusType() == TcpResponse::StatusType::Failed) {
+                QMessageBox::warning(this, "Cannot pay all!", "The order is empty.");
+            } else {
+                QMessageBox::critical(this, "Payment failed!",
+                                      "Unknown error occurred.");
+            }
+        }
+        },
+        Qt::QueuedConnection);
 }
 
 void CartWidget::onCommanderSynchronoused() {

@@ -7,6 +7,7 @@
 #include "tcpproductclient.h"
 #include "tcpproductpromotionlistclient.h"
 #include "ui_productdialog.h"
+#include <QMessageBox>
 
 ProductDialog::ProductDialog(QWidget *parent)
     : QDialog(parent), ui(new Ui::ProductDialog) {
@@ -98,11 +99,30 @@ void ProductDialog::onProductClientReadyRead(const TcpResponse &request) {
 }
 
 void ProductDialog::onAddToCartClientReadyRead(const TcpResponse &response) {
-    qDebug() << Q_FUNC_INFO << "response:" << response.toJson();
-    if (response.success()) {
-        Commander::instance()->privateUpdate();
-        emit addedToCart();
-    }
+    QMetaObject::invokeMethod(
+        this,
+        [=]() {
+        qDebug() << Q_FUNC_INFO << "response:" << response.toJson();
+        if (response.success()) {
+            Commander::instance()->privateUpdate();
+            emit addedToCart();
+            QMessageBox::information(this, "Add to cart successfully!",
+                                     "You cart has been updated.");
+        } else {
+            if (response.statusType() == TcpResponse::StatusType::Unauthorized) {
+                QMessageBox::critical(this, "Add to cart failed!",
+                                      "You have not login yet.");
+            } else if (response.statusType() == TcpResponse::StatusType::Failed) {
+                QMessageBox::critical(
+                    this, "Add to cart failed!",
+                    "This product may already exist in your cart.");
+            } else {
+                QMessageBox::critical(this, "Add to cart failed!",
+                                      "Unknown error occurred.");
+            }
+        }
+        },
+        Qt::QueuedConnection);
 }
 
 void ProductDialog::onTcpProductPromotionListClientReadyRead(

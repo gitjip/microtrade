@@ -14,11 +14,23 @@ LoginDialog::LoginDialog(QWidget *parent)
 LoginDialog::~LoginDialog() { delete ui; }
 
 void LoginDialog::accept() {
-    TcpLoginClient *loginClient = new TcpLoginClient(this);
-    connect(loginClient, &TcpLoginClient::readyRead, this, &LoginDialog::login);
-    loginClient->sendAsync(ui->usernameLineEdit->text(),
-                           PasswordHasher::hash(ui->passwordLineEdit->text()));
-    close();
+    QMetaObject::invokeMethod(
+        this,
+        [=]() {
+            if (!ui->usernameLineEdit->text().trimmed().isEmpty() &&
+                !ui->passwordLineEdit->text().trimmed().isEmpty()) {
+                TcpLoginClient *loginClient = new TcpLoginClient(this);
+                connect(loginClient, &TcpLoginClient::readyRead, this,
+                        &LoginDialog::login);
+                loginClient->sendAsync(
+                    ui->usernameLineEdit->text(),
+                    PasswordHasher::hash(ui->passwordLineEdit->text()));
+                close();
+            } else {
+                QMessageBox::information(this, "Tip", "Input username and password.");
+            }
+        },
+        Qt::QueuedConnection);
 }
 
 void LoginDialog::login(const TcpResponse &response) {
@@ -33,7 +45,7 @@ void LoginDialog::login(const TcpResponse &response) {
                     Authorization::fromJson(responseBody["authorization"].toObject());
                 qDebug() << "LoginDialog::login:" << authorization.token();
                 Commander::instance()->login(authorization.token());
-                QMessageBox::information(this, "Login successfully!", "");
+                // QMessageBox::information(this, "Login successfully!", "");
             } else {
                 qDebug() << "LoginDialog::accept:" << "error:"
                          << TcpResponse::statusTypeToString(response.statusType())
