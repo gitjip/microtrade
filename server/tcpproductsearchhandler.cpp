@@ -8,9 +8,13 @@ TcpProductSearchHandler::TcpProductSearchHandler(QObject *parent)
 
 TcpResponse TcpProductSearchHandler::handle(const TcpRequest &request) {
     QJsonObject requestBody = request.body();
-    QString keyword = requestBody["keyword"].toString().trimmed();
+    QJsonArray tokenArray = requestBody["tokens"].toArray();
+    QStringList tokens;
+    for (const auto& token : std::as_const(tokenArray)) {
+        tokens << token.toString().trimmed();
+    }
     SqlProductSearcher searcher;
-    QList<Product> products = searcher.exec(keyword);
+    QList<Product> products = searcher.exec(tokens);
     QJsonObject responseBody;
     QJsonArray productArray;
     for (const auto &product : std::as_const(products)) {

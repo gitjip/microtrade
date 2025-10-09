@@ -7,6 +7,7 @@
 #include <QJsonArray>
 #include <QLabel>
 #include <QMessageBox>
+#include <QRegularExpression>
 
 ShopWidget::ShopWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::ShopWidget) {
@@ -53,10 +54,16 @@ void ShopWidget::onProductListClientReadyRead(const TcpResponse &tcpResponse) {
 
 void ShopWidget::onSearchTriggered() {
     QString keyword = ui->searchLineEdit->text().trimmed();
-    TcpProductSearchClient *searchClient = new TcpProductSearchClient(this);
-    connect(searchClient, &TcpProductSearchClient::readyRead, this,
-            &ShopWidget::onSearchResponseReady);
-    searchClient->sendAsync(keyword);
+    QStringList tokens;
+    if (!keyword.isEmpty()) {
+        QRegularExpression re("\\s+");
+        tokens = keyword.split(re, Qt::SkipEmptyParts);
+        if (tokens.isEmpty()) tokens << keyword;
+    }
+    TcpProductSearchClient* searchClient = new TcpProductSearchClient(this);
+    connect(searchClient, &TcpProductSearchClient::readyRead,
+            this, &ShopWidget::onSearchResponseReady);
+    searchClient->sendAsync(tokens);
 }
 
 void ShopWidget::onSearchResponseReady(const TcpResponse &response) {

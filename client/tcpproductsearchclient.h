@@ -8,7 +8,7 @@ class TcpProductSearchClient : public TcpLocalClient
     Q_OBJECT
 public:
     explicit TcpProductSearchClient(QObject *parent = nullptr);
-    void sendAsync(const QString& keyword);
+    void sendAsync(const QStringList& tokens);
 };
 
 #endif // TCPPRODUCTSEARCHCLIENT_H

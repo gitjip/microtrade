@@ -1,11 +1,12 @@
 #include "tcpproductsearchclient.h"
+#include <QJsonArray>
 
 TcpProductSearchClient::TcpProductSearchClient(QObject *parent)
     : TcpLocalClient{parent}
 {}
 
-void TcpProductSearchClient::sendAsync(const QString& keyword) {
+void TcpProductSearchClient::sendAsync(const QStringList& tokens) {
     QJsonObject body;
-    body["keyword"] = keyword;
+    body["tokens"] = QJsonArray::fromStringList(tokens);
     TcpLocalClient::sendAsync("/product-search", body);
 }

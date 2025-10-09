@@ -8,7 +8,7 @@ class SqlProductSearcher : public SqlLocalServer
 {
 public:
     SqlProductSearcher();
-    QList<Product> exec(const QString& keyword);
+    QList<Product> exec(const QStringList &tokens);
 };
 
 #endif // SQLPRODUCTSEARCHER_H
