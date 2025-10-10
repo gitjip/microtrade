@@ -11,7 +11,7 @@ LogManager *LogManager::getInstance() {
 
 void LogManager::info(const QString &text) {
     Log log(-1, QDateTime::currentDateTime(), QDateTime(), Log::Type::Info, text);
-    bool result = log(log);
+    bool result = exec(log);
     if (result) {
         qDebug() << "[INFO]" << text;
     }
@@ -19,7 +19,7 @@ void LogManager::info(const QString &text) {
 
 void LogManager::warning(const QString &text) {
     Log log(-1, QDateTime::currentDateTime(), QDateTime(), Log::Type::Warning, text);
-    bool result = log(log);
+    bool result = exec(log);
     if (result) {
         qDebug() << "[WARNING]" << text;
     }
@@ -27,13 +27,13 @@ void LogManager::warning(const QString &text) {
 
 void LogManager::error(const QString &text) {
     Log log(-1, QDateTime::currentDateTime(), QDateTime(), Log::Type::Error, text);
-    bool result = log(log);
+    bool result = exec(log);
     if (result) {
         qDebug() << "[ERROR]" << text;
     }
 }
 
-bool LogManager::log(const Log &log) {
+bool LogManager::exec(const Log &log) {
     SqlLogWriter logWriter;
     bool result = logWriter.exec(log);
     if (!result) {

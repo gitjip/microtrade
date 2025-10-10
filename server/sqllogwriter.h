@@ -5,7 +5,7 @@
 #include "log.h"
 
 /**
- * @brief 将日志写入到数据库中
+ * @brief write log into database
  */
 class SqlLogWriter : public SqlLocalServer
 {
