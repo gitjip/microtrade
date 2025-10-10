@@ -10,6 +10,7 @@ SOURCES += \
         config.cpp \
         costcalculator.cpp \
         costcalculatorwithpromotion.cpp \
+        logmanager.cpp \
         main.cpp \
         sqlauthenticator.cpp \
         sqlauthorizer.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
         sqlcartsyncer.cpp \
         sqllocalserver.cpp \
         sqlloginchecker.cpp \
+        sqllogwriter.cpp \
         sqlordercreator.cpp \
         sqlorderitemcreator.cpp \
         sqlorderitemlistcreator.cpp \
@@ -68,6 +70,7 @@ HEADERS += \
     config.h \
     costcalculator.h \
     costcalculatorwithpromotion.h \
+    logmanager.h \
     sqlauthenticator.h \
     sqlauthorizer.h \
     sqlcartcreator.h \
@@ -78,6 +81,7 @@ HEADERS += \
     sqlcartsyncer.h \
     sqllocalserver.h \
     sqlloginchecker.h \
+    sqllogwriter.h \
     sqlordercreator.h \
     sqlorderitemcreator.h \
     sqlorderitemlistcreator.h \

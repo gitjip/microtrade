@@ -4,34 +4,42 @@
 #include "sqlloginchecker.h"
 #include "tcplocalresponse.h"
 #include "user.h"
+#include "logmanager.h"
 
 TcpLoginHandler::TcpLoginHandler(QObject *parent) : TcpHandler{parent} {}
 
 TcpResponse TcpLoginHandler::handle(const TcpRequest &request) {
     QJsonObject requestBody = request.body();
     SqlLoginChecker sqlUserIdFinder;
-    User user =
+    User user = 
         sqlUserIdFinder.exec(User::fromJson(requestBody["user"].toObject()));
     if (user.isNull()) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::NotFound, "user not found");
+        // 记录登录失败日志
+        LogManager::getInstance()->warning(QString("Login failed: User not found - username: %1").arg(
+            requestBody["user"].toObject()["username"].toString()));
         qDebug() << "TcpLoginHandler::handle" << response.toJson();
         return response;
     }
     SqlAuthorizer sqlAuthorizer;
     Authorization authorization = sqlAuthorizer.exec(user);
     if (authorization.isNull()) {
-        TcpResponse response =
+        TcpResponse response = 
             TcpLocalResponse::make(false, TcpResponse::StatusType::Failed,
                 "failed to create authorization");
+        // 记录授权创建失败日志
+        LogManager::getInstance()->error(QString("Failed to create authorization for user ID: %1").arg(user.id()));
         qDebug() << "TcpLoginHandler::handle" << response.toJson();
         return response;
     }
     QJsonObject responseBody;
     responseBody["authorization"] = authorization.toJson();
-    TcpResponse response =
+    TcpResponse response = 
         TcpLocalResponse::make(true, TcpResponse::StatusType::Success,
             "successfully create authorization", responseBody);
+    // 记录登录成功日志
+    LogManager::getInstance()->info(QString("User login successful: ID - %1").arg(user.id()));
     // qDebug() << "TcpLoginHandler::handle" << response.toJson();
     return response;
 }
