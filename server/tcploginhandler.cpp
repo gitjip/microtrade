@@ -28,7 +28,6 @@ TcpResponse TcpLoginHandler::handle(const TcpRequest &request) {
         TcpResponse response = 
             TcpLocalResponse::make(false, TcpResponse::StatusType::Failed,
                 "failed to create authorization");
-        // 记录授权创建失败日志
         LogManager::getInstance()->error(QString("Failed to create authorization for user ID: %1").arg(user.id()));
         qDebug() << "TcpLoginHandler::handle" << response.toJson();
         return response;
@@ -38,7 +37,6 @@ TcpResponse TcpLoginHandler::handle(const TcpRequest &request) {
     TcpResponse response = 
         TcpLocalResponse::make(true, TcpResponse::StatusType::Success,
             "successfully create authorization", responseBody);
-    // 记录登录成功日志
     LogManager::getInstance()->info(QString("User login successful: ID - %1").arg(user.id()));
     // qDebug() << "TcpLoginHandler::handle" << response.toJson();
     return response;
