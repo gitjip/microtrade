@@ -28,6 +28,7 @@ SOURCES += \
     tcpalterusernameclient.cpp \
     tcpcartproductlistclient.cpp \
     tcpcartsyncclient.cpp \
+    tcpcancelorderclient.cpp \
     tcplocalclient.cpp \
     tcploginclient.cpp \
     tcplogoutclient.cpp \
@@ -64,6 +65,7 @@ HEADERS += \
     tcpalterusernameclient.h \
     tcpcartproductlistclient.h \
     tcpcartsyncclient.h \
+    tcpcancelorderclient.h \
     tcplocalclient.h \
     tcploginclient.h \
     tcplogoutclient.h \
