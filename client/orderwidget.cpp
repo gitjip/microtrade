@@ -55,6 +55,14 @@ void OrderWidget::onOrderClientReadyRead(const TcpResponse &response) {
                     orderWidgetItem->setText(
                         int(OrderColomn::Status),
                         QString("status:  %1").arg(Order::statusToString(order.status()), 0));
+                    
+                    // 设置Cancelled和Unaccepted状态为红色
+                    Order::Status orderStatus = order.status();
+                    if (orderStatus == Order::Status::Cancelled || 
+                        orderStatus == Order::Status::Unaccepted) {
+                        orderWidgetItem->setForeground(int(OrderColomn::Status), Qt::red);
+                    }
+                    
                     orderWidgetItem->setText(
                         int(OrderColomn::CreatedAt),
                         QString("created:  %1").arg(order.createdAt().toString()));
@@ -93,7 +101,6 @@ void OrderWidget::onTreeWidgetCustomContextMenuRequested(const QPoint &pos) {
     QMetaObject::invokeMethod(
         this,
         [=]() {
-            qDebug() << Q_FUNC_INFO;
             QTreeWidgetItem *item = ui->treeWidget->itemAt(pos);
             if (!item || item->parent()) {
                 return;
@@ -102,7 +109,6 @@ void OrderWidget::onTreeWidgetCustomContextMenuRequested(const QPoint &pos) {
             if (!statusText.contains("pending") && !statusText.contains("accepted")) {
                 return;
             }
-            qDebug() << Q_FUNC_INFO << 2;
             currentOrderItem = item;
             QMenu menu(this);
             QAction *cancelOrderAction = menu.addAction("cancel order");
@@ -116,7 +122,6 @@ void OrderWidget::onCancelOrderTriggered() {
     QMetaObject::invokeMethod(
         this,
         [=]() {
-            qDebug() << Q_FUNC_INFO;
             if (!currentOrderItem) {
                 return;
             }
