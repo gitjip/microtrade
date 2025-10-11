@@ -4,7 +4,6 @@
 #include "tcphandler.h"
 #include "tcprequest.h"
 #include "tcpresponse.h"
-#include "user.h"
 
 class TcpCancelOrderHandler : public TcpHandler
 {

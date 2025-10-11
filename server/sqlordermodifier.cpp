@@ -3,6 +3,7 @@
 #include <QSqlError>
 #include <QDateTime>
 #include <QDebug>
+#include "order.h"
 
 SqlOrderModifier::SqlOrderModifier() {}
 
@@ -22,7 +23,7 @@ bool SqlOrderModifier::exec(qint64 orderId, qint64 userId)
     try {
         // 检查订单是否存在且属于该用户
         QSqlQuery checkQuery(db);
-        checkQuery.prepare("SELECT id FROM `order` WHERE id = ? AND user_id = ?");
+        checkQuery.prepare("SELECT id FROM `orders` WHERE id = ? AND user_id = ? AND removed_at IS NULL");
         checkQuery.addBindValue(orderId);
         checkQuery.addBindValue(userId);
         if (!checkQuery.exec()) {
@@ -39,8 +40,8 @@ bool SqlOrderModifier::exec(qint64 orderId, qint64 userId)
 
         // 更新订单状态为Cancelled
         QSqlQuery updateQuery(db);
-        updateQuery.prepare("UPDATE `order` SET status = ? WHERE id = ?");
-        updateQuery.addBindValue(2); // 2 对应 Order::Status::Cancelled
+        updateQuery.prepare("UPDATE `orders` SET status = ? WHERE id = ? AND removed_at IS NULL");
+        updateQuery.addBindValue(Order::statusToString(Order::Status::Cancelled));
         updateQuery.addBindValue(orderId);
         if (!updateQuery.exec()) {
             qDebug() << "Failed to update order status: " << updateQuery.lastError().text();
@@ -59,7 +60,7 @@ bool SqlOrderModifier::exec(qint64 orderId, qint64 userId)
     }
     catch (const std::exception &e) {
         qDebug() << "Exception occurred: " << e.what();
-        m_db.rollback();
+        db.rollback();
         return false;
     }
 }
