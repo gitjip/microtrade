@@ -42,6 +42,7 @@ SOURCES += \
         sqlusernameupdater.cpp \
         tcpaddtocarthandler.cpp \
         tcpalterusernamehandler.cpp \
+        tcpcancelorderhandler.cpp \
         tcpcartproductlisthandler.cpp \
         tcpcartsynchandler.cpp \
         tcplocaldistributor.cpp \
@@ -103,6 +104,7 @@ HEADERS += \
     sqlusernameupdater.h \
     tcpaddtocarthandler.h \
     tcpalterusernamehandler.h \
+    tcpcancelorderhandler.h \
     tcpcartproductlisthandler.h \
     tcpcartsynchandler.h \
     tcplocaldistributor.h \

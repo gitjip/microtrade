@@ -4,7 +4,7 @@
 #include "tcphandler.h"
 #include "tcprequest.h"
 #include "tcpresponse.h"
-#include "sqlordermodifier.h"
+#include "user.h"
 
 class TcpCancelOrderHandler : public TcpHandler
 {
@@ -12,6 +12,6 @@ class TcpCancelOrderHandler : public TcpHandler
 public:
     explicit TcpCancelOrderHandler(QObject *parent = nullptr);
     TcpResponse handle(const TcpRequest &request) override;
-}; 
+};
 
 #endif // TCPCANCELORDERHANDLER_H
