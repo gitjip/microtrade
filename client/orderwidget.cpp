@@ -56,7 +56,7 @@ void OrderWidget::onOrderClientReadyRead(const TcpResponse &response) {
                         int(OrderColomn::Status),
                         QString("status:  %1").arg(Order::statusToString(order.status()), 0));
                     
-                    // 设置Cancelled和Unaccepted状态为红色
+                    // set red for Cancelled and Unaccepted status
                     Order::Status orderStatus = order.status();
                     if (orderStatus == Order::Status::Cancelled || 
                         orderStatus == Order::Status::Unaccepted) {
