@@ -53,11 +53,6 @@
         <string>Profile</string>
        </attribute>
       </widget>
-      <widget class="NotificationWidget" name="notificationTab">
-       <attribute name="title">
-        <string>Notification</string>
-       </attribute>
-      </widget>
      </widget>
     </item>
    </layout>
@@ -135,12 +130,6 @@
   </action>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>NotificationWidget</class>
-   <extends>QWidget</extends>
-   <header>notificationwidget.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>WelcomeWidget</class>
    <extends>QWidget</extends>
