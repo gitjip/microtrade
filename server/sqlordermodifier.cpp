@@ -4,57 +4,54 @@
 #include <QDateTime>
 #include <QDebug>
 
-SqlOrderModifier::SqlOrderModifier(QObject *parent) : QObject{parent}
-{
-    m_db = SqlServer::instance()->db();
-}
+SqlOrderModifier::SqlOrderModifier() {}
 
-bool SqlOrderModifier::cancelOrder(qint64 orderId, qint64 userId)
+bool SqlOrderModifier::exec(qint64 orderId, qint64 userId)
 {
-    if (!m_db.isOpen()) {
+    if (!db.isOpen()) {
         qDebug() << "Database is not open";
         return false;
     }
 
     // 开始事务
-    if (!m_db.transaction()) {
-        qDebug() << "Failed to start transaction: " << m_db.lastError().text();
+    if (!db.transaction()) {
+        qDebug() << "Failed to start transaction: " << db.lastError().text();
         return false;
     }
 
     try {
         // 检查订单是否存在且属于该用户
-        QSqlQuery checkQuery(m_db);
+        QSqlQuery checkQuery(db);
         checkQuery.prepare("SELECT id FROM `order` WHERE id = ? AND user_id = ?");
         checkQuery.addBindValue(orderId);
         checkQuery.addBindValue(userId);
         if (!checkQuery.exec()) {
             qDebug() << "Failed to check order: " << checkQuery.lastError().text();
-            m_db.rollback();
+            db.rollback();
             return false;
         }
 
         if (!checkQuery.next()) {
             qDebug() << "Order not found or does not belong to user";
-            m_db.rollback();
+            db.rollback();
             return false;
         }
 
         // 更新订单状态为Cancelled
-        QSqlQuery updateQuery(m_db);
+        QSqlQuery updateQuery(db);
         updateQuery.prepare("UPDATE `order` SET status = ? WHERE id = ?");
         updateQuery.addBindValue(2); // 2 对应 Order::Status::Cancelled
         updateQuery.addBindValue(orderId);
         if (!updateQuery.exec()) {
             qDebug() << "Failed to update order status: " << updateQuery.lastError().text();
-            m_db.rollback();
+            db.rollback();
             return false;
         }
 
         // 提交事务
-        if (!m_db.commit()) {
-            qDebug() << "Failed to commit transaction: " << m_db.lastError().text();
-            m_db.rollback();
+        if (!db.commit()) {
+            qDebug() << "Failed to commit transaction: " << db.lastError().text();
+            db.rollback();
             return false;
         }
 

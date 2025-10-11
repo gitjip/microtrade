@@ -28,6 +28,7 @@ SOURCES += \
         sqlorderitemlistcreator.cpp \
         sqlorderitemlistfinder.cpp \
         sqlorderlistfinder.cpp \
+        sqlordermodifier.cpp \
         sqlpasswordupdater.cpp \
         sqlproductfinder.cpp \
         sqlproductlistfinder.cpp \
@@ -90,6 +91,7 @@ HEADERS += \
     sqlorderitemlistcreator.h \
     sqlorderitemlistfinder.h \
     sqlorderlistfinder.h \
+    sqlordermodifier.h \
     sqlpasswordupdater.h \
     sqlproductfinder.h \
     sqlproductlistfinder.h \

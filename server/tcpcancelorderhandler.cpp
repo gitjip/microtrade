@@ -29,7 +29,7 @@ TcpResponse TcpCancelOrderHandler::handle(const TcpRequest &request) {
 
     // 尝试取消订单
     SqlOrderModifier orderModifier;
-    bool success = orderModifier.cancelOrder(orderId, user.id());
+    bool success = orderModifier.exec(orderId, user.id());
 
     // 记录操作日志
     if (success) {
