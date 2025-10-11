@@ -1,3 +1,4 @@
+#include "tcpcancelorderclient.h"
 #include "authorization.h"
 #include "commander.h"
 
@@ -8,5 +9,5 @@ void TcpCancelOrderClient::sendAsync(qint64 orderId) {
     body["authorization"] = 
         Authorization{-1, {}, {}, -1, Commander::instance()->token()}.toJson();
     body["orderId"] = orderId;
-    TcpLocalClient::sendAsync("/order/cancel", body);
+    TcpLocalClient::sendAsync("/cancel-order", body);
 }

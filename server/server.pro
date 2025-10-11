@@ -60,6 +60,8 @@ SOURCES += \
         tcpremovefromcarthandler.cpp \
         tcpresetpasswordhandler.cpp \
         tcpuserhandler.cpp
+        tcpcancelorderhandler.cpp
+        sqlordermodifier.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -119,6 +121,8 @@ HEADERS += \
     tcpremovefromcarthandler.h \
     tcpresetpasswordhandler.h \
     tcpuserhandler.h
+    tcpcancelorderhandler.h
+    sqlordermodifier.h
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../entity/release/ -lentity
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../entity/debug/ -lentity
