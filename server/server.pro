@@ -24,6 +24,7 @@ SOURCES += \
         sqlloginchecker.cpp \
         sqllogwriter.cpp \
         sqlordercreator.cpp \
+        sqlorderdeleter.cpp \
         sqlorderitemcreator.cpp \
         sqlorderitemlistcreator.cpp \
         sqlorderitemlistfinder.cpp \
@@ -46,6 +47,7 @@ SOURCES += \
         tcpcancelorderhandler.cpp \
         tcpcartproductlisthandler.cpp \
         tcpcartsynchandler.cpp \
+        tcpdeleteorderhandler.cpp \
         tcplocaldistributor.cpp \
         tcplocalresponse.cpp \
         tcplocalserver.cpp \
@@ -87,6 +89,7 @@ HEADERS += \
     sqlloginchecker.h \
     sqllogwriter.h \
     sqlordercreator.h \
+    sqlorderdeleter.h \
     sqlorderitemcreator.h \
     sqlorderitemlistcreator.h \
     sqlorderitemlistfinder.h \
@@ -109,6 +112,7 @@ HEADERS += \
     tcpcancelorderhandler.h \
     tcpcartproductlisthandler.h \
     tcpcartsynchandler.h \
+    tcpdeleteorderhandler.h \
     tcplocaldistributor.h \
     tcplocalresponse.h \
     tcplocalserver.h \

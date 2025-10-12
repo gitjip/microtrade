@@ -6,8 +6,7 @@ SqlPromotionFinder::SqlPromotionFinder() {}
 Promotion SqlPromotionFinder::exec(qint64 promotionId) {
     QSqlQuery query(db);
     query.prepare("SELECT * FROM promotions WHERE id=:id AND removed_at IS "
-                  "NULL AND start_at<=:time AND end_at>=:time");
-    query.bindValue(":time", QDateTime::currentDateTime());
+                  "NULL");
     query.bindValue(":id", promotionId);
     if (!query.exec()) {
         qDebug() << Q_FUNC_INFO << query.lastError().text();
@@ -18,7 +17,7 @@ Promotion SqlPromotionFinder::exec(qint64 promotionId) {
         return {};
     }
     Promotion promotion{
-        query.value("id").toLongLong(),
+                        query.value("id").toLongLong(),
         query.value("created_at").toDateTime(),
         query.value("removed_at").toDateTime(),
         query.value("start_at").toDateTime(),
@@ -27,6 +26,10 @@ Promotion SqlPromotionFinder::exec(qint64 promotionId) {
         query.value("threshold").toDouble(),
         query.value("value").toDouble(),
         query.value("description").toString()};
+    if (!promotion.isActive()) {
+        qDebug() << Q_FUNC_INFO << "not active";
+        return {};
+    }
     qDebug() << Q_FUNC_INFO << promotion.toJson();
     return promotion;
 }
