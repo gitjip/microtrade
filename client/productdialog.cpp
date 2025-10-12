@@ -27,7 +27,7 @@ void ProductDialog::setProductId(qint64 productId) {
     m_productId = productId;
     qDebug() << Q_FUNC_INFO << productId;
     ui->infoTableWidget->horizontalHeaderItem(0)->setText(
-        QString("product-id:  %1").arg(productId));
+        QString("id:  %1").arg(productId));
 }
 
 void ProductDialog::update() {
