@@ -105,15 +105,27 @@ void OrderWidget::onTreeWidgetCustomContextMenuRequested(const QPoint &pos) {
             if (!item || item->parent()) {
                 return;
             }
+            
             QString statusText = item->text(int(OrderColomn::Status));
-            if (!statusText.contains("pending") && !statusText.contains("accepted")) {
-                return;
-            }
             currentOrderItem = item;
             QMenu menu(this);
-            QAction *cancelOrderAction = menu.addAction("cancel order");
-            connect(cancelOrderAction, &QAction::triggered, this, &OrderWidget::onCancelOrderTriggered);
-            menu.exec(ui->treeWidget->mapToGlobal(pos));
+            
+            // 为pending和accepted状态的订单添加取消菜单
+            if (statusText.contains("pending") || statusText.contains("accepted")) {
+                QAction *cancelOrderAction = menu.addAction("cancel order");
+                connect(cancelOrderAction, &QAction::triggered, this, &OrderWidget::onCancelOrderTriggered);
+            }
+            
+            // 为cancelled、accepted和unaccepted状态的订单添加删除菜单
+            if (statusText.contains("cancelled") || statusText.contains("accepted") || statusText.contains("unaccepted")) {
+                QAction *deleteOrderAction = menu.addAction("delete order");
+                connect(deleteOrderAction, &QAction::triggered, this, &OrderWidget::onDeleteOrderTriggered);
+            }
+            
+            // 只有当菜单中有动作时才显示
+            if (menu.actions().count() > 0) {
+                menu.exec(ui->treeWidget->mapToGlobal(pos));
+            }
         },
         Qt::QueuedConnection);
 }
@@ -151,6 +163,44 @@ void OrderWidget::onCancelOrderClientReadyRead(const TcpResponse &response) {
                 update();
             } else {
                 QMessageBox::critical(this, "Error", "The order failed to be cancelled\n" + response.statusDetail());
+            }
+        },
+        Qt::QueuedConnection);
+}
+
+void OrderWidget::onDeleteOrderTriggered() {
+    QMetaObject::invokeMethod(
+        this,
+        [=]() {
+            if (!currentOrderItem) {
+                return;
+            }
+            QMessageBox::StandardButton reply = QMessageBox::question(
+                this,
+                "Delete order",
+                "Are you sure to delete the order? This action cannot be undone.",
+                QMessageBox::Yes | QMessageBox::No);
+            if (reply == QMessageBox::Yes) {
+                qint64 orderId = orderIdMap[currentOrderItem];
+                TcpDeleteOrderClient *deleteOrderClient = new TcpDeleteOrderClient(this);
+                connect(deleteOrderClient, &TcpDeleteOrderClient::readyRead, this, 
+                        &OrderWidget::onDeleteOrderClientReadyRead);
+                deleteOrderClient->sendAsync(orderId);
+            }
+        },
+        Qt::QueuedConnection);
+}
+
+void OrderWidget::onDeleteOrderClientReadyRead(const TcpResponse &response) {
+    QMetaObject::invokeMethod(
+        this,
+        [=]() {
+            qDebug() << Q_FUNC_INFO << response.toJson();
+            if (response.success()) {
+                QMessageBox::information(this, "Success", "The order has been deleted successfully");
+                update();
+            } else {
+                QMessageBox::critical(this, "Error", "The order failed to be deleted\n" + response.statusDetail());
             }
         },
         Qt::QueuedConnection);

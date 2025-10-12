@@ -18,6 +18,7 @@
 #include "tcpremovefromcarthandler.h"
 #include "tcpresetpasswordhandler.h"
 #include "tcpuserhandler.h"
+#include "tcpdeleteorderhandler.h"
 
 TcpLocalDistributor::TcpLocalDistributor(QObject *parent)
     : TcpDistributor{parent} {}
@@ -54,6 +55,8 @@ TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
         handler = new TcpOrderHandler(this);
     } else if (request.route() == "/cancel-order") {
         handler = new TcpCancelOrderHandler(this);
+    } else if (request.route() == "/delete-order") {
+        handler = new TcpDeleteOrderHandler(this);
     } else if (request.route() == "/remove-from-cart") {
         handler = new TcpRemoveFromCartHandler(this);
     } else if (request.route() == "/promotion-list") {

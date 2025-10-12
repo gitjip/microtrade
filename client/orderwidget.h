@@ -2,6 +2,7 @@
 #define ORDERWIDGET_H
 
 #include "tcpcancelorderclient.h"
+#include "tcpdeleteorderclient.h"
 #include "tcpresponse.h"
 #include <QAction>
 #include <QMenu>
@@ -30,6 +31,8 @@ private slots:
     void onTreeWidgetCustomContextMenuRequested(const QPoint &pos);
     void onCancelOrderTriggered();
     void onCancelOrderClientReadyRead(const TcpResponse &response);
+    void onDeleteOrderTriggered();
+    void onDeleteOrderClientReadyRead(const TcpResponse &response);
 
 private:
     enum class OrderColomn { Id, Cost, Status, CreatedAt };
