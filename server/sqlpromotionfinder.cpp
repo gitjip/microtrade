@@ -30,6 +30,6 @@ Promotion SqlPromotionFinder::exec(qint64 promotionId) {
         qDebug() << Q_FUNC_INFO << "not active";
         return {};
     }
-    qDebug() << Q_FUNC_INFO << promotion.toJson();
+    // qDebug() << Q_FUNC_INFO << promotion.toJson();
     return promotion;
 }

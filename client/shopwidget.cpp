@@ -100,7 +100,7 @@ void ShopWidget::setProductId(int row, qint64 productId) {
 void ShopWidget::setImage(int row, const QUrl &imageUrl) {
     QTableWidgetItem *item = nullptr;
     QIcon icon(":" + imageUrl.path());
-    qDebug() << Q_FUNC_INFO << imageUrl.path();
+    // qDebug() << Q_FUNC_INFO << imageUrl.path();
     if (icon.isNull()) {
         item = new QTableWidgetItem("image");
         // qDebug() << Q_FUNC_INFO << "failed to load image" << imageUrl.path();

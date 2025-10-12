@@ -19,7 +19,7 @@ QList<qint64> SqlPromotionIdListFinder::exec(qint64 productId) {
     while (query.next()) {
         qint64 promotionId = query.value("promotion_id").toLongLong();
         promotionList.append(promotionId);
-        qDebug() << Q_FUNC_INFO << promotionId;
+        // qDebug() << Q_FUNC_INFO << promotionId;
     }
     return promotionList;
 }

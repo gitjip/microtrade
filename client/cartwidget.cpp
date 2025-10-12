@@ -71,7 +71,7 @@ void CartWidget::onCartProductListClientReadyRead(const TcpResponse &response) {
 }
 
 void CartWidget::onPayPushButtonClicked() {
-    qDebug() << Q_FUNC_INFO;
+    // qDebug() << Q_FUNC_INFO;
     QList<CartItem> cartItemList;
     for (qsizetype i = 0; i < ui->tableWidget->rowCount(); ++i) {
         QTableWidgetItem *idItem = ui->tableWidget->item(i, int(ColomnName::Id));

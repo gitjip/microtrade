@@ -36,7 +36,7 @@ void OrderWidget::onOrderClientReadyRead(const TcpResponse &response) {
     QMetaObject::invokeMethod(
         this,
         [=]() {
-            qDebug() << Q_FUNC_INFO << response.toJson();
+            // qDebug() << Q_FUNC_INFO << response.toJson();
             if (response.success()) {
                 productIdMap.clear();
                 orderIdMap.clear();

@@ -18,7 +18,7 @@ TcpResponse TcpOrderHandler::handle(const TcpRequest &request) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Unauthorized, "not authorized");
         // 记录未授权访问日志
-        LogManager::getInstance()->warning("Unauthorized access attempt to order information");
+        LogManager::instance()->warning("Unauthorized access attempt to order information");
         qDebug() << Q_FUNC_INFO << response.toJson();
         return response;
     }
@@ -27,7 +27,7 @@ TcpResponse TcpOrderHandler::handle(const TcpRequest &request) {
     QList<Order> orderList = orderListFinder.exec(user.id());
     
     // 记录订单查询日志
-    LogManager::getInstance()->info(QString("Order history query for user ID: %1, found %2 orders").arg(user.id()).arg(orderList.count()));
+    LogManager::instance()->info(QString("Order history query for user ID: %1, found %2 orders").arg(user.id()).arg(orderList.count()));
     
     QJsonArray orderTreeJsonArray;
     SqlOrderItemListFinder orderItemListFinder;

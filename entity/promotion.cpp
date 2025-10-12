@@ -104,6 +104,6 @@ QString Promotion::description() const { return m_description; }
 
 bool Promotion::isActive() const {
     QDateTime now = QDateTime::currentDateTime();
-    qDebug() << Q_FUNC_INFO << now;
+    // qDebug() << Q_FUNC_INFO << now;
     return now >= m_startAt && now <= m_endAt && m_removedAt.isNull();
 }

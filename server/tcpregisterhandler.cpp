@@ -19,7 +19,7 @@ TcpResponse TcpRegisterHandler::handle(const TcpRequest &request) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Failed, "failed to register");
         // 记录用户注册失败日志
-        LogManager::getInstance()->error(QString("User registration failed for username: %1").arg(username));
+        LogManager::instance()->error(QString("User registration failed for username: %1").arg(username));
         qDebug() << "TcpRegisterHandler::handle:" << response.statusDetail();
         return response;
     }
@@ -30,12 +30,12 @@ TcpResponse TcpRegisterHandler::handle(const TcpRequest &request) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Failed, "failed to create cart");
         // 记录购物车创建失败日志
-        LogManager::getInstance()->error(QString("Cart creation failed for user ID: %1, username: %2").arg(user.id()).arg(username));
+        LogManager::instance()->error(QString("Cart creation failed for user ID: %1, username: %2").arg(user.id()).arg(username));
         qDebug() << "TcpRegisterHandler::handle:" << response.statusDetail();
         return response;
     }
     // 记录注册成功日志
-    LogManager::getInstance()->info(QString("User registered successfully: ID - %1, username - %2").arg(user.id()).arg(username));
+    LogManager::instance()->info(QString("User registered successfully: ID - %1, username - %2").arg(user.id()).arg(username));
     
     // success
     TcpResponse response = TcpLocalResponse::make(

@@ -4,9 +4,9 @@
 
 LogManager::LogManager(QObject *parent) : QObject(parent) {}
 
-LogManager *LogManager::getInstance() {
-    static LogManager instance;
-    return &instance;
+LogManager *LogManager::instance() {
+    static LogManager logManager;
+    return &logManager;
 }
 
 void LogManager::info(const QString &text) {

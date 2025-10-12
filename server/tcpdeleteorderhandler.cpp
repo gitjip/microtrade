@@ -21,7 +21,7 @@ TcpResponse TcpDeleteOrderHandler::handle(const TcpRequest &request) {
     SqlAuthenticator authenticator;
     User user = authenticator.exec(auth);
     if (user.isNull()) {
-        LogManager::getInstance()->warning("Unauthorized access attempt to delete order");
+        LogManager::instance()->warning("Unauthorized access attempt to delete order");
         return TcpLocalResponse::make(false, TcpResponse::StatusType::Unauthorized,
                                      "Unauthorized access");
     }
@@ -32,11 +32,11 @@ TcpResponse TcpDeleteOrderHandler::handle(const TcpRequest &request) {
     
     // success
     if (success) {
-        LogManager::getInstance()->info(QString("Order deleted successfully: ID - %1 by user ID - %2").arg(orderId).arg(user.id()));
+        LogManager::instance()->info(QString("Order deleted successfully: ID - %1 by user ID - %2").arg(orderId).arg(user.id()));
         return TcpLocalResponse::make(true, TcpResponse::StatusType::Success,
                                      "Order deleted successfully");
     } else {
-        LogManager::getInstance()->warning(QString("Failed to delete order: ID - %1 by user ID - %2").arg(orderId).arg(user.id()));
+        LogManager::instance()->warning(QString("Failed to delete order: ID - %1 by user ID - %2").arg(orderId).arg(user.id()));
         return TcpLocalResponse::make(false, TcpResponse::StatusType::Failed,
                                      "Failed to delete order");
     }

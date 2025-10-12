@@ -38,8 +38,8 @@ void TcpClient::sendAsync(const TcpRequest &request, qint64 timeout) {
             } else {
                 connect(m_socket, &QTcpSocket::readyRead, this, [=]() {
                     emit readyRead(TcpResponse::fromSocket(m_socket));
-                    qDebug() << "TcpClient::sendAsync:" << "request:"
-                             << request.toJson();
+                    // qDebug() << "TcpClient::sendAsync:" << "request:"
+                    //          << request.toJson();
                     deleteLater();
                 });
             }

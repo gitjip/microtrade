@@ -12,7 +12,7 @@ class LogManager : public QObject
 {
     Q_OBJECT
 public:
-    static LogManager *getInstance();
+    static LogManager *instance();
     void info(const QString &text);
     void warning(const QString &text);
     void error(const QString &text);

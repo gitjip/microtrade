@@ -25,7 +25,7 @@ TcpResponse TcpPaymentHandler::handle(const TcpRequest &request) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Unauthorized, "not authorized");
         // 记录未授权访问日志
-        LogManager::getInstance()->warning("Unauthorized access attempt to payment system");
+        LogManager::instance()->warning("Unauthorized access attempt to payment system");
         qDebug() << Q_FUNC_INFO << response.toJson();
         return response;
     }
@@ -36,7 +36,7 @@ TcpResponse TcpPaymentHandler::handle(const TcpRequest &request) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::NotFound, "cart not found");
         // 记录购物车未找到日志
-        LogManager::getInstance()->warning(QString("Cart not found for user ID: %1").arg(user.id()));
+        LogManager::instance()->warning(QString("Cart not found for user ID: %1").arg(user.id()));
         qDebug() << Q_FUNC_INFO << response.toJson();
         return response;
     }
@@ -45,7 +45,7 @@ TcpResponse TcpPaymentHandler::handle(const TcpRequest &request) {
     QList<CartItem> cartItemList = cartItemListFinder.exec(cart);
     
     // 记录支付开始日志
-    LogManager::getInstance()->info(QString("Payment process started for user ID: %1 with %2 items in cart").arg(user.id()).arg(cartItemList.count()));
+    LogManager::instance()->info(QString("Payment process started for user ID: %1 with %2 items in cart").arg(user.id()).arg(cartItemList.count()));
     
     // find product list
     SqlProductFinder productFinder;
@@ -68,7 +68,7 @@ TcpResponse TcpPaymentHandler::handle(const TcpRequest &request) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Failed, "order is empty");
         // 记录订单为空日志
-        LogManager::getInstance()->warning(QString("Payment failed for user ID: %1 - order is empty after stock check").arg(user.id()));
+        LogManager::instance()->warning(QString("Payment failed for user ID: %1 - order is empty after stock check").arg(user.id()));
         qDebug() << Q_FUNC_INFO << response.toJson();
         return response;
     }
@@ -99,7 +99,7 @@ TcpResponse TcpPaymentHandler::handle(const TcpRequest &request) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Failed, "failed to create order");
         // 记录订单创建失败日志
-        LogManager::getInstance()->error(QString("Failed to create order for user ID: %1, total cost: %2").arg(user.id()).arg(totalCost));
+        LogManager::instance()->error(QString("Failed to create order for user ID: %1, total cost: %2").arg(user.id()).arg(totalCost));
         qDebug() << Q_FUNC_INFO << response.toJson();
         return response;
     }
@@ -122,12 +122,12 @@ TcpResponse TcpPaymentHandler::handle(const TcpRequest &request) {
             TcpLocalResponse::make(false, TcpResponse::StatusType::Failed,
                                                       "failed to create all order items");
         // 记录订单项创建失败日志
-        LogManager::getInstance()->error(QString("Failed to create all order items for order ID: %1, user ID: %2").arg(orderId).arg(user.id()));
+        LogManager::instance()->error(QString("Failed to create all order items for order ID: %1, user ID: %2").arg(orderId).arg(user.id()));
         qDebug() << Q_FUNC_INFO << response.toJson();
         return response;
     }
     // 记录支付成功日志
-    LogManager::getInstance()->info(QString("Payment successful: Order ID - %1, User ID - %2, Total Cost - %3").arg(orderId).arg(user.id()).arg(totalCost));
+    LogManager::instance()->info(QString("Payment successful: Order ID - %1, User ID - %2, Total Cost - %3").arg(orderId).arg(user.id()).arg(totalCost));
     
     // success
     QJsonObject responseBody;

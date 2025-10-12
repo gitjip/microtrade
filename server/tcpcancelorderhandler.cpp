@@ -20,7 +20,7 @@ TcpResponse TcpCancelOrderHandler::handle(const TcpRequest &request) {
     SqlAuthenticator authenticator;
     User user = authenticator.exec(auth);
     if (user.isNull()) {
-        LogManager::getInstance()->warning("Unauthorized access attempt to cancel order");
+        LogManager::instance()->warning("Unauthorized access attempt to cancel order");
         return TcpLocalResponse::make(false, TcpResponse::StatusType::Unauthorized,
                                      "Unauthorized access");
     }
@@ -29,11 +29,11 @@ TcpResponse TcpCancelOrderHandler::handle(const TcpRequest &request) {
     bool success = orderModifier.exec(orderId, user.id());
     // success
     if (success) {
-        LogManager::getInstance()->info(QString("Order cancelled successfully: ID - %1 by user ID - %2").arg(orderId).arg(user.id()));
+        LogManager::instance()->info(QString("Order cancelled successfully: ID - %1 by user ID - %2").arg(orderId).arg(user.id()));
         return TcpLocalResponse::make(true, TcpResponse::StatusType::Success,
                                      "Order cancelled successfully");
     } else {
-        LogManager::getInstance()->warning(QString("Failed to cancel order: ID - %1 by user ID - %2").arg(orderId).arg(user.id()));
+        LogManager::instance()->warning(QString("Failed to cancel order: ID - %1 by user ID - %2").arg(orderId).arg(user.id()));
         return TcpLocalResponse::make(false, TcpResponse::StatusType::Failed,
                                      "Failed to cancel order");
     }
