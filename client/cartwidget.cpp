@@ -45,15 +45,16 @@ CartWidget::CartWidget(QWidget *parent)
 CartWidget::~CartWidget() { delete ui; }
 
 void CartWidget::update() {
-    TcpCartProductListClient *cartProductListClient =
-        new TcpCartProductListClient(this);
-    connect(cartProductListClient, &TcpLocalClient::readyRead, this,
-            &CartWidget::onCartProductListClientReadyRead);
-    cartProductListClient->sendAsync();
+    QMetaObject::invokeMethod(this, [=](){
+        TcpCartProductListClient *cartProductListClient =
+            new TcpCartProductListClient(this);
+        connect(cartProductListClient, &TcpLocalClient::readyRead, this,
+                &CartWidget::onCartProductListClientReadyRead);
+        cartProductListClient->sendAsync();
+    },Qt::QueuedConnection);
 }
 
 void CartWidget::onCartProductListClientReadyRead(const TcpResponse &response) {
-    // qDebug() << Q_FUNC_INFO << "response:" << response.toJson();
     if (response.success()) {
         QJsonObject body = response.body();
         QJsonArray productQuantityJsonArray = body["productQuantityMap"].toArray();
@@ -71,7 +72,6 @@ void CartWidget::onCartProductListClientReadyRead(const TcpResponse &response) {
 }
 
 void CartWidget::onPayPushButtonClicked() {
-    // qDebug() << Q_FUNC_INFO;
     QList<CartItem> cartItemList;
     for (qsizetype i = 0; i < ui->tableWidget->rowCount(); ++i) {
         QTableWidgetItem *idItem = ui->tableWidget->item(i, int(ColomnName::Id));
@@ -89,7 +89,6 @@ void CartWidget::onPayPushButtonClicked() {
 }
 
 void CartWidget::onCartSyncClientReadyRead(const TcpResponse &) {
-    // qDebug() << Q_FUNC_INFO << response.toJson();
     Commander::instance()->privateUpdate();
 }
 
@@ -104,7 +103,6 @@ void CartWidget::onPaymentClientReadyRead(const TcpResponse &response) {
     QMetaObject::invokeMethod(
         this,
         [=]() {
-        // qDebug() << Q_FUNC_INFO << response.toJson();
         if (response.success()) {
             Commander::instance()->privateUpdate();
             QMessageBox::information(this, "Pay all products successfully!",
@@ -122,7 +120,6 @@ void CartWidget::onPaymentClientReadyRead(const TcpResponse &response) {
 }
 
 void CartWidget::onCommanderSynchronoused() {
-    // qDebug() << Q_FUNC_INFO;
     QList<CartItem> cartItemList;
     for (qsizetype i = 0; i < ui->tableWidget->rowCount(); ++i) {
         QTableWidgetItem *idItem = ui->tableWidget->item(i, int(ColomnName::Id));

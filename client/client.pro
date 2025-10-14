@@ -1,4 +1,4 @@
-QT       += core gui network
+QT       += core gui network graphs
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -24,6 +24,7 @@ SOURCES += \
     promotionwidget.cpp \
     registerdialog.cpp \
     shopwidget.cpp \
+    statisticwidget.cpp \
     tcpaddtocartclient.cpp \
     tcpalterusernameclient.cpp \
     tcpcartproductlistclient.cpp \
@@ -62,6 +63,7 @@ HEADERS += \
     promotionwidget.h \
     registerdialog.h \
     shopwidget.h \
+    statisticwidget.h \
     tcpaddtocartclient.h \
     tcpalterusernameclient.h \
     tcpcartproductlistclient.h \
@@ -97,6 +99,7 @@ FORMS += \
     promotionwidget.ui \
     registerdialog.ui \
     shopwidget.ui \
+    statisticwidget.ui \
     usernamealterdialog.ui \
     welcomewidget.ui
 

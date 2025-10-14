@@ -21,7 +21,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>5</number>
       </property>
       <widget class="WelcomeWidget" name="welcomeTab">
        <attribute name="title">
@@ -31,6 +31,11 @@
       <widget class="ShopWidget" name="shopTab">
        <attribute name="title">
         <string>Shop</string>
+       </attribute>
+      </widget>
+      <widget class="PromotionWidget" name="promotionTab">
+       <attribute name="title">
+        <string>Promotion</string>
        </attribute>
       </widget>
       <widget class="CartWidget" name="cartTab">
@@ -43,9 +48,9 @@
         <string>Order</string>
        </attribute>
       </widget>
-      <widget class="PromotionWidget" name="promotionTab">
+      <widget class="StatisticWidget" name="statisticTab">
        <attribute name="title">
-        <string>Promotion</string>
+        <string>Statistic</string>
        </attribute>
       </widget>
       <widget class="ProfileWidget" name="profileTab">
@@ -164,6 +169,12 @@
    <class>PromotionWidget</class>
    <extends>QWidget</extends>
    <header>promotionwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>StatisticWidget</class>
+   <extends>QWidget</extends>
+   <header>statisticwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
