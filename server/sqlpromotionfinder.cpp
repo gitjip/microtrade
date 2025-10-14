@@ -27,7 +27,7 @@ Promotion SqlPromotionFinder::exec(qint64 promotionId) {
         query.value("value").toDouble(),
         query.value("description").toString()};
     if (!promotion.isActive()) {
-        qDebug() << Q_FUNC_INFO << "not active";
+        // qDebug() << Q_FUNC_INFO << "not active";
         return {};
     }
     // qDebug() << Q_FUNC_INFO << promotion.toJson();

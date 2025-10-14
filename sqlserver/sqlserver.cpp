@@ -10,9 +10,7 @@ bool SqlServer::open(const QString &databaseName) {
     }
     db.setDatabaseName(databaseName);
     if (!db.open()) {
-        qDebug() << "SqlServer::open:" << "database not open";
         return false;
     }
-    qDebug() << "SqlServer::open:" << "successfully open" << db.databaseName();
     return true;
 }

@@ -23,7 +23,6 @@ void PromotionWidget::update() {
 
 void PromotionWidget::onPromotionListClientReadyRead(
     const TcpResponse &response) {
-    qDebug() << Q_FUNC_INFO << response.toJson();
     if (response.success()) {
         QJsonObject responseBody = response.body();
         QJsonArray promotionJsonArray = responseBody["promotionList"].toArray();

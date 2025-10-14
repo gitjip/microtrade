@@ -19,6 +19,5 @@ qint64 SqlOrderItemCreator::exec(qint64 orderId, qint64 productId,
         qDebug() << Q_FUNC_INFO << query.lastError().text();
         return -1;
     }
-    qDebug() << Q_FUNC_INFO << "success";
     return query.lastInsertId().toLongLong();
 }

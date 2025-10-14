@@ -72,20 +72,33 @@ void CartWidget::onCartProductListClientReadyRead(const TcpResponse &response) {
 }
 
 void CartWidget::onPayPushButtonClicked() {
-    QList<CartItem> cartItemList;
-    for (qsizetype i = 0; i < ui->tableWidget->rowCount(); ++i) {
-        QTableWidgetItem *idItem = ui->tableWidget->item(i, int(ColomnName::Id));
-        QSpinBox *quantityItem = qobject_cast<QSpinBox *>(
-            ui->tableWidget->cellWidget(i, int(ColomnName::Quantity)));
-        cartItemList.append(
-            {-1, {}, {}, -1, idItem->text().toLongLong(), quantityItem->value()});
-    }
-    TcpCartSyncClient *cartSyncClient = new TcpCartSyncClient(this);
-    connect(cartSyncClient, &TcpLocalClient::readyRead, this,
-            &CartWidget::onCartSyncClientReadyRead);
-    connect(cartSyncClient, &TcpLocalClient::readyRead, this,
-            &CartWidget::sendPaymentRequest);
-    cartSyncClient->sendAsync(cartItemList);
+    QMetaObject::invokeMethod(
+        this,
+        [=]() {
+        QList<CartItem> cartItemList;
+        for (qsizetype i = 0; i < ui->tableWidget->rowCount(); ++i) {
+            QTableWidgetItem *idItem =
+                ui->tableWidget->item(i, int(ColomnName::Id));
+            QSpinBox *quantityItem = qobject_cast<QSpinBox *>(
+                ui->tableWidget->cellWidget(i, int(ColomnName::Quantity)));
+            cartItemList.append({-1,
+                                 {},
+                                 {},
+                                 -1,
+                                 idItem->text().toLongLong(),
+                                 quantityItem->value()});
+        }
+        TcpCartSyncClient *cartSyncClient = new TcpCartSyncClient(this);
+        connect(cartSyncClient, &TcpLocalClient::readyRead, this,
+                &CartWidget::onCartSyncClientReadyRead);
+        connect(cartSyncClient, &TcpLocalClient::readyRead, this,
+                &CartWidget::sendPaymentRequest);
+        connect(cartSyncClient, &TcpLocalClient::timedOut, this, [=]() {
+            QMessageBox::critical(this, "Sync cart failed!", "Connection timeout.");
+        });
+        cartSyncClient->sendAsync(cartItemList);
+        },
+        Qt::QueuedConnection);
 }
 
 void CartWidget::onCartSyncClientReadyRead(const TcpResponse &) {
@@ -93,10 +106,18 @@ void CartWidget::onCartSyncClientReadyRead(const TcpResponse &) {
 }
 
 void CartWidget::sendPaymentRequest(const TcpResponse &) {
-    TcpPaymentClient *paymentClient = new TcpPaymentClient(this);
-    connect(paymentClient, &TcpLocalClient::readyRead, this,
-            &CartWidget::onPaymentClientReadyRead);
-    paymentClient->sendAsync();
+    QMetaObject::invokeMethod(
+        this,
+        [=]() {
+            TcpPaymentClient *paymentClient = new TcpPaymentClient(this);
+            connect(paymentClient, &TcpLocalClient::readyRead, this,
+                    &CartWidget::onPaymentClientReadyRead);
+            connect(paymentClient, &TcpLocalClient::timedOut, this, [=]() {
+                QMessageBox::critical(this, "Pay failed!", "Connection timeout.");
+            });
+            paymentClient->sendAsync();
+        },
+        Qt::QueuedConnection);
 }
 
 void CartWidget::onPaymentClientReadyRead(const TcpResponse &response) {
@@ -154,7 +175,6 @@ void CartWidget::setProduct(int row, const Product &product, qint64 quantity) {
 }
 
 void CartWidget::setProductId(int row, qint64 productId) {
-    // qDebug() << Q_FUNC_INFO << productId;
     QTableWidgetItem *item = new QTableWidgetItem(QString::number(productId));
     ui->tableWidget->setItem(row, int(ColomnName::Id), item);
 }
@@ -164,7 +184,6 @@ void CartWidget::setImage(int row, const QUrl &imageUrl) {
     QIcon icon(":" + imageUrl.path());
     if (icon.isNull()) {
         item = new QTableWidgetItem("image");
-        qDebug() << Q_FUNC_INFO << "failed to load image" << imageUrl.path();
     } else {
         item = new QTableWidgetItem(icon, "");
     }
@@ -207,9 +226,8 @@ void CartWidget::setRemove(int row, qint64 productId) {
         TcpRemoveFromCartClient *client = new TcpRemoveFromCartClient(this);
         connect(client, &TcpRemoveFromCartClient::readyRead, this,
                 [=](const TcpResponse &response) {
-                    // qDebug() << Q_FUNC_INFO << response.toJson();
             if (response.success()) {
-                        Commander::instance()->privateUpdate();
+                Commander::instance()->privateUpdate();
             }
         });
         client->sendAsync(productId);

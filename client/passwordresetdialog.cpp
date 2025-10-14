@@ -21,6 +21,11 @@ void PasswordResetDialog::accept() {
                     new TcpResetPasswordClient(this);
                 connect(resetPasswordClient, &TcpResetPasswordClient::readyRead, this,
                         &PasswordResetDialog::onPasswordUpdaterClientReadyRead);
+                connect(resetPasswordClient, &TcpResetPasswordClient::timedOut,
+                        this, [=]() {
+                    QMessageBox::critical(this, "Reset password failed!",
+                                          "Connection timeout.");
+                });
                 QString oldPasswordHash =
                     PasswordHasher::hash(ui->oldLineEdit->text());
                 QString newPasswordHash =

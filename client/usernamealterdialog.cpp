@@ -24,7 +24,12 @@ void UsernameAlterDialog::accept() {
                 new TcpAlterUsernameClient(this);
             connect(alterUsernameClient, &TcpAlterUsernameClient::readyRead, this,
                         &UsernameAlterDialog::onUsernameAlterClientReadyRead);
-                alterUsernameClient->sendAsync(ui->newLineEdit->text());
+            connect(alterUsernameClient, &TcpAlterUsernameClient::timedOut,
+                    this, [=]() {
+                QMessageBox::critical(this, "Alter username failed!",
+                                      "Connection timeout.");
+            });
+            alterUsernameClient->sendAsync(ui->newLineEdit->text());
             close();
         } else {
             QMessageBox::information(this, "Tip", "Input new username.");

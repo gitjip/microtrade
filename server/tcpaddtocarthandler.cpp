@@ -18,9 +18,7 @@ TcpResponse TcpAddToCartHandler::handle(const TcpRequest &request) {
     if (user.isNull()) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Unauthorized, "not authorized");
-        // 记录未授权访问日志
         LogManager::instance()->warning("Unauthorized access attempt to add to cart functionality");
-        qDebug() << "TcpAddToCartHandler::handle:" << response.statusDetail();
         return response;
     }
     // find cart by user id
@@ -29,12 +27,9 @@ TcpResponse TcpAddToCartHandler::handle(const TcpRequest &request) {
     if (cart.isNull()) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::NotFound, "cart not found");
-        // 记录购物车未找到日志
         LogManager::instance()->warning(QString("Cart not found for user ID: %1").arg(user.id()));
-        qDebug() << "TcpAddToCartHandler::handle:" << response.statusDetail();
         return response;
     }
-    // 获取商品ID用于日志
     qint64 productId = requestBody["product"].toObject()["id"].toDouble();
     
     // add cart item
@@ -44,17 +39,13 @@ TcpResponse TcpAddToCartHandler::handle(const TcpRequest &request) {
     if (cartItem.isNull()) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Failed, "failed to create cart");
-        // 记录添加失败日志
         LogManager::instance()->error(QString("Failed to add product ID: %1 to cart for user ID: %2").arg(productId).arg(user.id()));
-        qDebug() << "TcpAddToCartHandler::handle:" << response.statusDetail();
         return response;
     }
-    // 记录添加成功日志
     LogManager::instance()->info(QString("Product ID: %1 added to cart successfully for user ID: %2").arg(productId).arg(user.id()));
     
     // success
     TcpResponse response = TcpLocalResponse::make(
         true, TcpResponse::StatusType::Success, "successfully add to cart");
-    // qDebug() << "TcpAddToCartHandler::handle:" << response.statusDetail();
     return response;
 }

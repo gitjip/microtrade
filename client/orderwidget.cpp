@@ -36,7 +36,6 @@ void OrderWidget::onOrderClientReadyRead(const TcpResponse &response) {
     QMetaObject::invokeMethod(
         this,
         [=]() {
-            // qDebug() << Q_FUNC_INFO << response.toJson();
             if (response.success()) {
                 productIdMap.clear();
                 orderIdMap.clear();
@@ -55,19 +54,16 @@ void OrderWidget::onOrderClientReadyRead(const TcpResponse &response) {
                     orderWidgetItem->setText(
                         int(OrderColomn::Status),
                         QString("status:  %1").arg(Order::statusToString(order.status()), 0));
-                    
                     // set red for Cancelled and Unaccepted status
                     Order::Status orderStatus = order.status();
                     if (orderStatus == Order::Status::Cancelled || 
                         orderStatus == Order::Status::Unaccepted) {
                         orderWidgetItem->setForeground(int(OrderColomn::Status), Qt::red);
                     }
-                    
                     orderWidgetItem->setText(
                         int(OrderColomn::CreatedAt),
                         QString("created:  %1").arg(order.createdAt().toString()));
                     orderIdMap[orderWidgetItem] = order.id();
-                    
                     QJsonArray orderItemList = orderPair["orderItemList"].toArray();
                     for (qsizetype j = 0; j < orderItemList.count(); ++j) {
                         OrderItem orderItem = OrderItem::fromJson(orderItemList[j].toObject());
@@ -105,7 +101,6 @@ void OrderWidget::onTreeWidgetCustomContextMenuRequested(const QPoint &pos) {
             if (!item || item->parent()) {
                 return;
             }
-            
             QString statusText = item->text(int(OrderColomn::Status));
             currentOrderItem = item;
             QMenu menu(this);
@@ -141,6 +136,11 @@ void OrderWidget::onCancelOrderTriggered() {
                 TcpCancelOrderClient *cancelOrderClient = new TcpCancelOrderClient(this);
                 connect(cancelOrderClient, &TcpCancelOrderClient::readyRead, this, 
                         &OrderWidget::onCancelOrderClientReadyRead);
+                connect(cancelOrderClient, &TcpCancelOrderClient::timedOut,
+                        this, [=]() {
+                    QMessageBox::critical(this, "Cancel Order failed!",
+                                          "Connection timeout.");
+                });
                 cancelOrderClient->sendAsync(orderId);
             }
         },
@@ -151,12 +151,11 @@ void OrderWidget::onCancelOrderClientReadyRead(const TcpResponse &response) {
     QMetaObject::invokeMethod(
         this,
         [=]() {
-            qDebug() << Q_FUNC_INFO << response.toJson();
             if (response.success()) {
-                QMessageBox::information(this, "Success", "The order has been cancelled successfully");
+                QMessageBox::information(this, "Success", "The order has been cancelled successfully.");
                 update();
             } else {
-                QMessageBox::critical(this, "Error", "The order failed to be cancelled\n" + response.statusDetail());
+                QMessageBox::critical(this, "Error", "The order failed to be cancelled.\n" + response.statusDetail());
             }
         },
         Qt::QueuedConnection);
@@ -179,6 +178,11 @@ void OrderWidget::onDeleteOrderTriggered() {
                 TcpDeleteOrderClient *deleteOrderClient = new TcpDeleteOrderClient(this);
                 connect(deleteOrderClient, &TcpDeleteOrderClient::readyRead, this, 
                         &OrderWidget::onDeleteOrderClientReadyRead);
+                connect(deleteOrderClient, &TcpDeleteOrderClient::timedOut,
+                        this, [=]() {
+                    QMessageBox::critical(this, "Delete order failed!",
+                                          "Connection timeout.");
+                });
                 deleteOrderClient->sendAsync(orderId);
             }
         },
@@ -189,7 +193,6 @@ void OrderWidget::onDeleteOrderClientReadyRead(const TcpResponse &response) {
     QMetaObject::invokeMethod(
         this,
         [=]() {
-            qDebug() << Q_FUNC_INFO << response.toJson();
             if (response.success()) {
                 QMessageBox::information(this, "Success", "The order has been deleted successfully");
                 update();

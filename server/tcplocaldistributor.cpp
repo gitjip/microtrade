@@ -30,7 +30,7 @@ TcpLocalDistributor *TcpLocalDistributor::instance() {
 
 TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
     TcpHandler *handler = nullptr;
-    qDebug() << "TcpLocalDistributor::distribute:" << request.route();
+    // qDebug() << "TcpLocalDistributor::distribute:" << request.route();
     if (request.route() == "/login") {
         handler = new TcpLoginHandler(this);
     } else if (request.route() == "/product") {
