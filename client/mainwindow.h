@@ -21,6 +21,12 @@ protected:
     void closeEvent(QCloseEvent *e) override;
 
 private:
+    void setupMenuTheme();
+    bool isSystemDarkTheme();
+    void applyLightTheme();
+    void applyDarkTheme();
+
+private:
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

@@ -13,9 +13,6 @@ void Commander::login(const QString &token) {
         m_token = token;
         emit loggedin();
         emit privateUpdated();
-        // qDebug() << Q_FUNC_INFO << m_token;
-    } else {
-        // qDebug() << Q_FUNC_INFO << "already login" << token;
     }
 }
 
@@ -23,10 +20,6 @@ void Commander::logout() {
     if (!m_token.isEmpty()) {
         m_token = "";
         emit loggedout();
-        // emit synchronoused();
-        // qDebug() << Q_FUNC_INFO << "successfully logout";
-    } else {
-        // qDebug() << Q_FUNC_INFO << "not login";
     }
 }
 
@@ -39,3 +32,17 @@ void Commander::privateUpdate() { emit privateUpdated(); }
 void Commander::publicUpdate() { emit publicUpdated(); }
 
 void Commander::synchronous() { emit synchronoused(); }
+
+void Commander::setLightTheme(bool checked) {
+    if (checked) {
+        qDebug() << Q_FUNC_INFO << "light";
+        emit readySetLightTheme();
+    }
+}
+
+void Commander::setDarkTheme(bool checked) {
+    if (checked) {
+        qDebug() << Q_FUNC_INFO << "dark";
+        emit readySetDarkTheme();
+    }
+}

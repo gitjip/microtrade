@@ -19,11 +19,17 @@ signals:
     void privateUpdated();
     void publicUpdated();
     void synchronoused();
+    // void readySetAutoTheme();
+    void readySetLightTheme();
+    void readySetDarkTheme();
 
 public slots:
     void privateUpdate();
     void publicUpdate();
     void synchronous();
+    // void setAutoTheme();
+    void setLightTheme(bool checked);
+    void setDarkTheme(bool checked);
 
 private:
     explicit Commander(QObject *parent = nullptr);
