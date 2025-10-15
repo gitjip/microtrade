@@ -17,7 +17,6 @@ TcpResponse TcpMonthlyCostHandler::handle(const TcpRequest &request) {
     if (user.isNull()) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Unauthorized, "not authorized");
-        qDebug() << Q_FUNC_INFO << response.toJson();
         return response;
     }
     // monthly cost
@@ -28,7 +27,6 @@ TcpResponse TcpMonthlyCostHandler::handle(const TcpRequest &request) {
     if (cost == -1) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Failed, "failed to get monthly cost");
-        qDebug() << Q_FUNC_INFO << response.toJson();
         return response;
     }
     // success
@@ -36,6 +34,5 @@ TcpResponse TcpMonthlyCostHandler::handle(const TcpRequest &request) {
     responseBody["cost"] = cost;
     TcpResponse response = TcpLocalResponse::make(
         true, TcpResponse::StatusType::Success, "success", responseBody);
-    qDebug() << Q_FUNC_INFO << response.toJson();
     return response;
 }

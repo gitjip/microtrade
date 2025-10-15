@@ -16,9 +16,7 @@ TcpResponse TcpResetPasswordHandler::handle(const TcpRequest &request) {
     if (user.isNull()) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Unauthorized, "not authorized");
-        // 记录未授权访问日志
         LogManager::instance()->warning("Unauthorized access attempt to password reset functionality");
-        qDebug() << Q_FUNC_INFO << response.toJson();
         return response;
     }
     // update password
@@ -30,17 +28,13 @@ TcpResponse TcpResetPasswordHandler::handle(const TcpRequest &request) {
     if (!isPasswordUpdated) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Failed, "failed to update password");
-        // 记录密码更新失败日志
         LogManager::instance()->error(QString("Password update failed for user ID: %1").arg(user.id()));
-        qDebug() << Q_FUNC_INFO << response.toJson();
         return response;
     }
-    // 记录密码更新成功日志
     LogManager::instance()->info(QString("Password updated successfully for user ID: %1").arg(user.id()));
     
     // success
     TcpResponse response = 
         TcpLocalResponse::make(true, TcpResponse::StatusType::Success, "success");
-    qDebug() << Q_FUNC_INFO << response.toJson();
     return response;
 }

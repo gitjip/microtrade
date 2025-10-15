@@ -16,7 +16,6 @@ TcpResponse TcpAlterUsernameHandler::handle(const TcpRequest &request) {
     if (user.isNull()) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Unauthorized, "not authorized");
-        qDebug() << Q_FUNC_INFO << response.toJson();
         return response;
     }
     // update username
@@ -26,12 +25,10 @@ TcpResponse TcpAlterUsernameHandler::handle(const TcpRequest &request) {
     if (!isUsernameUpdated) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Failed, "failed to update username");
-        qDebug() << Q_FUNC_INFO << response.toJson();
         return response;
     }
     // success
     TcpResponse response = TcpLocalResponse::make(
         true, TcpResponse::StatusType::Success, "success");
-    qDebug() << Q_FUNC_INFO << response.toJson();
     return response;
 }

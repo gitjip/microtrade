@@ -1,4 +1,5 @@
 #include "tcpmonthdailycosthandler.h"
+#include "logmanager.h"
 #include "sqlauthenticator.h"
 #include "tcplocalresponse.h"
 #include "sqlmonthdailycostserver.h"
@@ -17,7 +18,7 @@ TcpResponse TcpMonthDailyCostHandler::handle(const TcpRequest &request) {
     if (user.isNull()) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Unauthorized, "not authorized");
-        qDebug() << Q_FUNC_INFO << response.toJson();
+        LogManager::instance()->warning("Unauthorized access attempt to get month daily cost");
         return response;
     }
     // month daily cost
@@ -28,7 +29,12 @@ TcpResponse TcpMonthDailyCostHandler::handle(const TcpRequest &request) {
     if (costArray.isEmpty()) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Failed, "cost array is empty");
-        qDebug() << Q_FUNC_INFO << response.toJson();
+        LogManager::instance()->warning(
+            QString("Month daily cost is empty for user ID: %1, year: %2, "
+                    "month: %3")
+                .arg(user.id())
+                .arg(year)
+                .arg(month));
         return response;
     }
     // success
@@ -36,6 +42,10 @@ TcpResponse TcpMonthDailyCostHandler::handle(const TcpRequest &request) {
     responseBody["costArray"] = costArray;
     TcpResponse response = TcpLocalResponse::make(
         true, TcpResponse::StatusType::Success, "success", responseBody);
-    qDebug() << Q_FUNC_INFO << response.toJson();
+    LogManager::instance()->info(QString("Month daily cost got successfully, "
+                                         "user ID: %1, year: %2, month: %3")
+                                     .arg(user.id())
+                                     .arg(year)
+                                     .arg(month));
     return response;
 }

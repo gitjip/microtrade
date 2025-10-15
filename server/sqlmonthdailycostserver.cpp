@@ -1,6 +1,7 @@
 #include "sqlmonthdailycostserver.h"
 #include <QDate>
 #include <QSqlError>
+#include "logmanager.h"
 
 SqlMonthDailyCostServer::SqlMonthDailyCostServer() {}
 
@@ -24,6 +25,5 @@ QJsonArray SqlMonthDailyCostServer::exec(qint64 userId, int year, int month) {
         dailyCost["cost"] = query.value("SUM(cost)").toDouble();
         ret.append(dailyCost);
     }
-    qDebug() << Q_FUNC_INFO << ret;
     return ret;
 }

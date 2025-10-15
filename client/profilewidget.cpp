@@ -29,7 +29,6 @@ void ProfileWidget::update() {
 }
 
 void ProfileWidget::onUserClientReadyRead(const TcpResponse &response) {
-    qDebug() << Q_FUNC_INFO << response.toJson();
     if (response.success()) {
         QJsonObject body = response.body();
         User user = User::fromJson(body["user"].toObject());
@@ -47,7 +46,6 @@ void ProfileWidget::clear() {
 }
 
 void ProfileWidget::onUsernameAlterPushButtonClicked() {
-    qDebug() << Q_FUNC_INFO;
     UsernameAlterDialog *dialog = new UsernameAlterDialog(this);
     dialog->setOldUsername(ui->usernameLineEdit->text());
     connect(dialog, &UsernameAlterDialog::altered, this, &ProfileWidget::update);
@@ -55,7 +53,6 @@ void ProfileWidget::onUsernameAlterPushButtonClicked() {
 }
 
 void ProfileWidget::onPasswordResetPushButtonClicked() {
-    qDebug() << Q_FUNC_INFO;
     PasswordResetDialog *dialog = new PasswordResetDialog(this);
     connect(dialog, &PasswordResetDialog::reseted, this, &ProfileWidget::update);
     dialog->open();

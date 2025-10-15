@@ -22,7 +22,6 @@ void TcpClient::sendAsync(const TcpRequest &request, qint64 maxTime) {
         timer->start();
     }
     connect(timer, &QTimer::timeout, this, [=]() {
-        qDebug() << "TcpClient::sendAsync: timeout";
         emit timeout();
         deleteLater();
     });
@@ -35,14 +34,6 @@ void TcpClient::sendAsync(const TcpRequest &request, qint64 maxTime) {
         qDebug() << Q_FUNC_INFO << "failed";
         deleteLater();
     }
-    // connect(m_socket, &QTcpSocket::connected, this, [=]() {
-    //     qDebug() << Q_FUNC_INFO << m_socket->state();
-    //     if (timer->remainingTime() == 0) {
-    //         emit timedOut();
-    //         deleteLater();
-    //     } else {
-    //     }
-    // });
 }
 
 /**
@@ -52,12 +43,12 @@ void TcpClient::sendAsync(const TcpRequest &request, qint64 maxTime) {
  */
 bool TcpClient::send(const TcpRequest &request) {
     if (!m_socket || !m_socket->isOpen()) {
-        qDebug() << "TcpClient::send: socket not open";
+        qDebug() << Q_FUNC_INFO << "socket not open";
         emit notOpened();
         return false;
     }
     if (m_socket->write(request.toBytes()) == -1) {
-        qDebug() << "TcpClient::send: socket writing error";
+        qDebug() << Q_FUNC_INFO << "socket writing error";
         emit writtingErrorOccurred();
         return false;
     }
