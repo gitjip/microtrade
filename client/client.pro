@@ -1,4 +1,4 @@
-QT       += core gui network graphs
+QT       += core gui network charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -34,6 +34,8 @@ SOURCES += \
     tcplocalclient.cpp \
     tcploginclient.cpp \
     tcplogoutclient.cpp \
+    tcpmonthdailycostclient.cpp \
+    tcpmonthlycostclient.cpp \
     tcporderclient.cpp \
     tcppaymentclient.cpp \
     tcpproductclient.cpp \
@@ -73,6 +75,8 @@ HEADERS += \
     tcplocalclient.h \
     tcploginclient.h \
     tcplogoutclient.h \
+    tcpmonthdailycostclient.h \
+    tcpmonthlycostclient.h \
     tcporderclient.h \
     tcppaymentclient.h \
     tcpproductclient.h \

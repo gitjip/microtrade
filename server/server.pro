@@ -23,6 +23,8 @@ SOURCES += \
         sqllocalserver.cpp \
         sqlloginchecker.cpp \
         sqllogwriter.cpp \
+        sqlmonthdailycostserver.cpp \
+        sqlmonthlycostserver.cpp \
         sqlordercreator.cpp \
         sqlorderdeleter.cpp \
         sqlorderitemcreator.cpp \
@@ -53,6 +55,8 @@ SOURCES += \
         tcplocalserver.cpp \
         tcploginhandler.cpp \
         tcplogouthandler.cpp \
+        tcpmonthdailycosthandler.cpp \
+        tcpmonthlycosthandler.cpp \
         tcporderhandler.cpp \
         tcppaymenthandler.cpp \
         tcpproducthandler.cpp \
@@ -88,6 +92,8 @@ HEADERS += \
     sqllocalserver.h \
     sqlloginchecker.h \
     sqllogwriter.h \
+    sqlmonthdailycostserver.h \
+    sqlmonthlycostserver.h \
     sqlordercreator.h \
     sqlorderdeleter.h \
     sqlorderitemcreator.h \
@@ -118,6 +124,8 @@ HEADERS += \
     tcplocalserver.h \
     tcploginhandler.h \
     tcplogouthandler.h \
+    tcpmonthdailycosthandler.h \
+    tcpmonthlycosthandler.h \
     tcporderhandler.h \
     tcppaymenthandler.h \
     tcpproducthandler.h \
