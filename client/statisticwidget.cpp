@@ -5,6 +5,7 @@
 #include <QJsonArray>
 #include <QTime>
 #include <QTimer>
+#include <QToolTip>
 
 StatisticWidget::StatisticWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::StatisticWidget) {
@@ -33,44 +34,69 @@ void StatisticWidget::updateChart() {
 
 void StatisticWidget::readyUpdateChart(const TcpResponse &response) {
     if (response.success()) {
-    QJsonObject body = response.body();
-    QJsonArray costArray = body["costArray"].toArray();
-    QLineSeries *series = new QLineSeries();
+        QJsonObject body = response.body();
+        QJsonArray costArray = body["costArray"].toArray();
+        QLineSeries *series = new QLineSeries();
 
-    double totalCost = 0;
-    double maxCost = 0;
+        double totalCost = 0;
+        double maxCost = 0;
 
-    for (qsizetype i = 0; i < costArray.count(); ++i) {
-        QJsonObject dailyCost = costArray[i].toObject();
-        QDate date = QDate::fromString(dailyCost["date"].toString());
-        double cost = dailyCost["cost"].toDouble();
-        totalCost += cost;
-        maxCost = qMax(maxCost, cost);
-        series->append(QDateTime(date, QTime(12, 0)).toMSecsSinceEpoch(), cost);
-    }
+        QVector<QPair<QDateTime, double>> pointData;
 
-    QChart *chart = new QChart();
-    chart->addSeries(series);
-    chart->setTitle(
-        QString("Consumption of This Month: %1").arg(totalCost, 0, 'f', 2));
-    chart->setTheme(QChart::ChartThemeDark);
+        for (qsizetype i = 0; i < costArray.count(); ++i) {
+            QJsonObject dailyCost = costArray[i].toObject();
+            QDate date = QDate::fromString(dailyCost["date"].toString());
+            double cost = dailyCost["cost"].toDouble();
+            totalCost += cost;
+            maxCost = qMax(maxCost, cost);
 
-    QDateTimeAxis *axisX = new QDateTimeAxis();
-    axisX->setFormat("MM-dd");
-    axisX->setTitleText("date");
+            QDateTime dateTime(date, QTime(12, 0));
+            series->append(dateTime.toMSecsSinceEpoch(), cost);
+            pointData.append(qMakePair(dateTime, cost));
+        }
 
-    QValueAxis *axisY = new QValueAxis();
-    axisY->setTitleText("expense");
-    axisY->setMax(maxCost + 10);
+        QChart *chart = new QChart();
+        chart->addSeries(series);
+        chart->setTitle(
+            QString("Consumption of This Month: %1").arg(totalCost, 0, 'f', 2));
+        chart->setTheme(QChart::ChartThemeDark);
 
-    chart->addAxis(axisX, Qt::AlignBottom);
-    chart->addAxis(axisY, Qt::AlignLeft);
+        QDateTimeAxis *axisX = new QDateTimeAxis();
+        axisX->setFormat("MM-dd");
+        axisX->setTitleText("date");
 
-    series->attachAxis(axisX);
-    series->attachAxis(axisY);
+        QValueAxis *axisY = new QValueAxis();
+        axisY->setTitleText("expense");
+        axisY->setMax(maxCost + 10);
 
-    ui->chartWidget->setChart(chart);
-    ui->chartWidget->setRenderHint(QPainter::Antialiasing);
-    ui->chartWidget->show();
+        chart->addAxis(axisX, Qt::AlignBottom);
+        chart->addAxis(axisY, Qt::AlignLeft);
+
+        series->attachAxis(axisX);
+        series->attachAxis(axisY);
+
+        series->setPointsVisible(true);
+
+        connect(series, &QLineSeries::hovered, this,
+                [pointData](const QPointF &point, bool state) {
+            if (state) {
+                for (const auto &data : pointData) {
+                    if (qAbs(data.first.toMSecsSinceEpoch() - point.x()) <
+                        200000000) {
+                        QToolTip::showText(QCursor::pos(),
+                                           QString("Date: %1\nCost: %2")
+                                               .arg(data.first.toString("MM-dd"))
+                                               .arg(data.second, 0, 'f', 2));
+                        break;
+                    }
+                }
+            } else {
+                QToolTip::hideText();
+            }
+        });
+
+        ui->chartWidget->setChart(chart);
+        ui->chartWidget->setRenderHint(QPainter::Antialiasing);
+        ui->chartWidget->show();
     }
 }
