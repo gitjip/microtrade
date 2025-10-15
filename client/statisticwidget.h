@@ -23,6 +23,7 @@ public:
 public slots:
     void updateChart();
     void readyUpdateChart(const TcpResponse &response);
+    void clearChart();
 
 private:
     Ui::StatisticWidget *ui;
