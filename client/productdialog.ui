@@ -37,54 +37,54 @@
       </attribute>
       <row>
        <property name="text">
-        <string>image</string>
+        <string>Image</string>
        </property>
       </row>
       <row>
        <property name="text">
-        <string>name</string>
+        <string>Name</string>
        </property>
       </row>
       <row>
        <property name="text">
-        <string>price</string>
+        <string>Price</string>
        </property>
       </row>
       <row>
        <property name="text">
-        <string>stock</string>
+        <string>Stock</string>
        </property>
       </row>
       <row>
        <property name="text">
-        <string>detail</string>
+        <string>Detail</string>
        </property>
       </row>
       <column>
        <property name="text">
-        <string>id</string>
+        <string>ID</string>
        </property>
       </column>
      </widget>
      <widget class="QTableWidget" name="promTableWidget">
       <column>
        <property name="text">
-        <string>id</string>
+        <string>ID</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>text</string>
+        <string>Text</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>start</string>
+        <string>Start</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>end</string>
+        <string>End</string>
        </property>
       </column>
      </widget>
@@ -93,7 +93,7 @@
    <item row="1" column="0">
     <widget class="QPushButton" name="addToCartPushButton">
      <property name="text">
-      <string>add to cart</string>
+      <string>Add to Cart</string>
      </property>
     </widget>
    </item>

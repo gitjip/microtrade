@@ -53,11 +53,11 @@ void PromotionWidget::setDescription(int row, const QString &description) {
 }
 
 void PromotionWidget::setStartAt(int row, const QDateTime &startAt) {
-    QTableWidgetItem *item = new QTableWidgetItem(startAt.toString());
+    QTableWidgetItem *item = new QTableWidgetItem(startAt.toString("yyyy-MM-dd"));
     ui->tableWidget->setItem(row, int(ColomnName::Start), item);
 }
 
 void PromotionWidget::setEndAt(int row, const QDateTime &endAt) {
-    QTableWidgetItem *item = new QTableWidgetItem(endAt.toString());
+    QTableWidgetItem *item = new QTableWidgetItem(endAt.toString("yyyy-MM-dd"));
     ui->tableWidget->setItem(row, int(ColomnName::End), item);
 }

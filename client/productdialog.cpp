@@ -158,11 +158,11 @@ void ProductDialog::setPromText(int row, const QString &text) {
 }
 
 void ProductDialog::setPromStart(int row, const QDateTime &startAt) {
-    QTableWidgetItem *item = new QTableWidgetItem(startAt.toString());
+    QTableWidgetItem *item = new QTableWidgetItem(startAt.toString("yyyy-MM-dd"));
     ui->promTableWidget->setItem(row, int(PromColomnName::Start), item);
 }
 
 void ProductDialog::setPromEndAt(int row, const QDateTime &endAt) {
-    QTableWidgetItem *item = new QTableWidgetItem(endAt.toString());
+    QTableWidgetItem *item = new QTableWidgetItem(endAt.toString("yyyy-MM-dd"));
     ui->promTableWidget->setItem(row, int(PromColomnName::End), item);
 }

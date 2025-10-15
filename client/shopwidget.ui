@@ -39,32 +39,32 @@
      </attribute>
      <column>
       <property name="text">
-       <string>id</string>
+       <string>ID</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>image</string>
+       <string>Image</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>name</string>
+       <string>Name</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>price</string>
+       <string>Price</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>stock</string>
+       <string>Stock</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>view details</string>
+       <string>Details</string>
       </property>
      </column>
     </widget>

@@ -24,22 +24,22 @@
      </property>
      <column>
       <property name="text">
-       <string>id</string>
+       <string>ID</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>text</string>
+       <string>Text</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>start</string>
+       <string>Start</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>end</string>
+       <string>End</string>
       </property>
      </column>
     </widget>

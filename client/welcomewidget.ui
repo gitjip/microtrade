@@ -20,7 +20,7 @@
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>logout</string>
+      <string>Logout</string>
      </property>
     </widget>
    </item>
@@ -37,21 +37,21 @@
    <item row="6" column="0">
     <widget class="QPushButton" name="registerPushButton">
      <property name="text">
-      <string>register</string>
+      <string>Register</string>
      </property>
     </widget>
    </item>
    <item row="5" column="0">
     <widget class="QPushButton" name="loginPushButton">
      <property name="text">
-      <string>login</string>
+      <string>Login</string>
      </property>
     </widget>
    </item>
    <item row="9" column="0">
     <widget class="QLabel" name="statusLabel">
      <property name="text">
-      <string>Status: not login.</string>
+      <string>Status: Not Login.</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignmentFlag::AlignCenter</set>

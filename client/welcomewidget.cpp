@@ -75,7 +75,7 @@ void WelcomeWidget::onLogoutClientReadyRead(const TcpResponse &response) {
 void WelcomeWidget::onCommanderLogin() {
     ui->tipLabel->setText("You have been authorized to use this application. You "
                           "can also logout if you want to quit.");
-    ui->statusLabel->setText("Status: already login");
+    ui->statusLabel->setText("Status: Already Login");
     ui->loginPushButton->setEnabled(false);
     ui->registerPushButton->setEnabled(false);
     ui->logoutPushButton->setEnabled(true);
@@ -84,7 +84,7 @@ void WelcomeWidget::onCommanderLogin() {
 void WelcomeWidget::onCommanderLogout() {
     ui->tipLabel->setText("You can login if you already have an account. "
                           "Otherwise you should register first.");
-    ui->statusLabel->setText("Status: not login");
+    ui->statusLabel->setText("Status: Not Login");
     ui->loginPushButton->setEnabled(true);
     ui->registerPushButton->setEnabled(true);
     ui->logoutPushButton->setEnabled(false);

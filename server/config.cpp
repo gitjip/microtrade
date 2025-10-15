@@ -9,11 +9,12 @@ Config::Config(QObject *parent)
     : QObject{parent},
     m_settings(new QSettings("server.ini", QSettings::IniFormat, this)) {
     qDebug() << "================================";
-    qDebug() << "[Config] host_address" << hostAddress();
-    qDebug() << "[Config] port" << port();
-    qDebug() << "[Config] timeout" << timeout();
-    qDebug() << "[Config] max_thread_count" << maxThreadCount();
-    qDebug() << "[Config] database_name" << databaseName();
+    qDebug() << "[Config] file_name:" << m_settings->fileName();
+    qDebug() << "[Config] host_address:" << hostAddress().toString();
+    qDebug() << "[Config] port:" << port();
+    qDebug() << "[Config] timeout:" << timeout();
+    qDebug() << "[Config] max_thread_count:" << maxThreadCount();
+    qDebug() << "[Config] database_name:" << databaseName();
     qDebug() << "================================";
 }
 
