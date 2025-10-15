@@ -93,7 +93,7 @@ void CartWidget::onPayPushButtonClicked() {
                 &CartWidget::onCartSyncClientReadyRead);
         connect(cartSyncClient, &TcpLocalClient::readyRead, this,
                 &CartWidget::sendPaymentRequest);
-        connect(cartSyncClient, &TcpLocalClient::timedOut, this, [=]() {
+        connect(cartSyncClient, &TcpLocalClient::timeout, this, [=]() {
             QMessageBox::critical(this, "Sync cart failed!", "Connection timeout.");
         });
         cartSyncClient->sendAsync(cartItemList);
@@ -112,7 +112,7 @@ void CartWidget::sendPaymentRequest(const TcpResponse &) {
             TcpPaymentClient *paymentClient = new TcpPaymentClient(this);
             connect(paymentClient, &TcpLocalClient::readyRead, this,
                     &CartWidget::onPaymentClientReadyRead);
-            connect(paymentClient, &TcpLocalClient::timedOut, this, [=]() {
+            connect(paymentClient, &TcpLocalClient::timeout, this, [=]() {
                 QMessageBox::critical(this, "Pay failed!", "Connection timeout.");
             });
             paymentClient->sendAsync();

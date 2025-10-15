@@ -21,7 +21,7 @@ void PasswordResetDialog::accept() {
                     new TcpResetPasswordClient(this);
                 connect(resetPasswordClient, &TcpResetPasswordClient::readyRead, this,
                         &PasswordResetDialog::onPasswordUpdaterClientReadyRead);
-                connect(resetPasswordClient, &TcpResetPasswordClient::timedOut,
+                connect(resetPasswordClient, &TcpResetPasswordClient::timeout,
                         this, [=]() {
                     QMessageBox::critical(this, "Reset password failed!",
                                           "Connection timeout.");

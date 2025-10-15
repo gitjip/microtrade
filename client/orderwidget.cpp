@@ -136,7 +136,7 @@ void OrderWidget::onCancelOrderTriggered() {
                 TcpCancelOrderClient *cancelOrderClient = new TcpCancelOrderClient(this);
                 connect(cancelOrderClient, &TcpCancelOrderClient::readyRead, this, 
                         &OrderWidget::onCancelOrderClientReadyRead);
-                connect(cancelOrderClient, &TcpCancelOrderClient::timedOut,
+                connect(cancelOrderClient, &TcpCancelOrderClient::timeout,
                         this, [=]() {
                     QMessageBox::critical(this, "Cancel Order failed!",
                                           "Connection timeout.");
@@ -178,7 +178,7 @@ void OrderWidget::onDeleteOrderTriggered() {
                 TcpDeleteOrderClient *deleteOrderClient = new TcpDeleteOrderClient(this);
                 connect(deleteOrderClient, &TcpDeleteOrderClient::readyRead, this, 
                         &OrderWidget::onDeleteOrderClientReadyRead);
-                connect(deleteOrderClient, &TcpDeleteOrderClient::timedOut,
+                connect(deleteOrderClient, &TcpDeleteOrderClient::timeout,
                         this, [=]() {
                     QMessageBox::critical(this, "Delete order failed!",
                                           "Connection timeout.");

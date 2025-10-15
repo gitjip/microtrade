@@ -50,7 +50,7 @@ void WelcomeWidget::tryToLogout() {
             TcpLogoutClient *logoutClient = new TcpLogoutClient(this);
             connect(logoutClient, &TcpLocalClient::readyRead, this,
                     &WelcomeWidget::onLogoutClientReadyRead);
-            connect(logoutClient, &TcpLogoutClient::timedOut, this, [=]() {
+            connect(logoutClient, &TcpLogoutClient::timeout, this, [=]() {
                 QMessageBox::critical(this, "Logout failed!", "Connection timeout.");
                 ui->logoutPushButton->setEnabled(true);
             });

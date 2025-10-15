@@ -20,7 +20,7 @@ void RegisterDialog::accept() {
                 TcpRegisterClient *registerClient = new TcpRegisterClient(this);
                 connect(registerClient, &TcpClient::readyRead, this,
                         &RegisterDialog::onReadyRead);
-                connect(registerClient, &TcpRegisterClient::timedOut, this, [=]() {
+                connect(registerClient, &TcpRegisterClient::timeout, this, [=]() {
                     QMessageBox::critical(this, "Register failed!",
                                           "Connection timeout.");
                 });

@@ -24,7 +24,7 @@ void UsernameAlterDialog::accept() {
                 new TcpAlterUsernameClient(this);
             connect(alterUsernameClient, &TcpAlterUsernameClient::readyRead, this,
                         &UsernameAlterDialog::onUsernameAlterClientReadyRead);
-            connect(alterUsernameClient, &TcpAlterUsernameClient::timedOut,
+            connect(alterUsernameClient, &TcpAlterUsernameClient::timeout,
                     this, [=]() {
                 QMessageBox::critical(this, "Alter username failed!",
                                       "Connection timeout.");

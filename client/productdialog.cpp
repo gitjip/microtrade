@@ -83,7 +83,7 @@ void ProductDialog::onAddToCartPushButtonClicked() {
         TcpAddToCartClient *addToCartClient = new TcpAddToCartClient(this);
         connect(addToCartClient, &TcpProductClient::readyRead, this,
                 &ProductDialog::onAddToCartClientReadyRead);
-        connect(addToCartClient, &TcpProductClient::timedOut, this, [=]() {
+        connect(addToCartClient, &TcpProductClient::timeout, this, [=]() {
             QMessageBox::critical(this, "Add to cart failed!", "Connection timeout.");
         });
         addToCartClient->sendAsync(m_productId);

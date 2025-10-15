@@ -22,7 +22,7 @@ void LoginDialog::accept() {
                 TcpLoginClient *loginClient = new TcpLoginClient(this);
                 connect(loginClient, &TcpLoginClient::readyRead, this,
                         &LoginDialog::login);
-                connect(loginClient, &TcpLoginClient::timedOut, this, [=]() {
+                connect(loginClient, &TcpLoginClient::timeout, this, [=]() {
                     QMessageBox::critical(this, "Login failed!",
                                           "Connection timeout.");
                 });

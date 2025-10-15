@@ -12,11 +12,11 @@ class TCPCLIENT_EXPORT TcpClient : public QObject
 public:
     explicit TcpClient(QObject *parent = nullptr);
     void connectToHost(const QHostAddress &hostAddress, qint64 port);
-    void sendAsync(const TcpRequest &tcpRequest, qint64 timeout = -1);
+    void sendAsync(const TcpRequest &request, qint64 maxTime = -1);
 
 signals:
     void readyRead(const TcpResponse &tcpResponse);
-    void timedOut();
+    void timeout();
     void notOpened();
     void writtingErrorOccurred();
 
