@@ -75,6 +75,13 @@ void StatisticWidget::readyUpdateChart(const TcpResponse &response) {
         series->attachAxis(axisX);
         series->attachAxis(axisY);
 
+        if (costArray.count() > 0) {
+            axisX->setMin(
+                QDateTime::fromString(costArray.first().toString()).addDays(-1));
+            axisX->setMax(
+                QDateTime::fromString(costArray.last().toString()).addDays(1));
+        }
+
         series->setPointsVisible(true);
 
         connect(series, &QLineSeries::hovered, this,
@@ -82,7 +89,7 @@ void StatisticWidget::readyUpdateChart(const TcpResponse &response) {
             if (state) {
                 for (const auto &data : pointData) {
                     if (qAbs(data.first.toMSecsSinceEpoch() - point.x()) <
-                        200000000) {
+                        86400000) {
                         QToolTip::showText(QCursor::pos(),
                                            QString("Date: %1\nCost: %2")
                                                .arg(data.first.toString("MM-dd"))
@@ -94,6 +101,22 @@ void StatisticWidget::readyUpdateChart(const TcpResponse &response) {
                 QToolTip::hideText();
             }
         });
+        connect(series, &QLineSeries::clicked, this,
+                [pointData, this](const QPointF &point) {
+            for (const auto &data : pointData) {
+                if (qAbs(data.first.toMSecsSinceEpoch() - point.x()) <
+                    86400000) {
+                    ui->calendarWidget->setSelectedDate(data.first.date());
+                    break;
+                }
+            }
+        });
+
+        // series->setPointsVisible(true);
+        // series->setPointLabelsVisible(true);
+        // series->setPointLabelsFormat("@yPoint");
+        // series->setPointLabelsColor(Qt::white);
+        // series->setPointLabelsFont(QFont("Arial", 9, QFont::Bold));
 
         ui->chartWidget->setChart(chart);
         ui->chartWidget->setRenderHint(QPainter::Antialiasing);
