@@ -807,7 +807,6 @@ void MainWindow::setupMenuTheme() {
     actionGroup->addAction(ui->actionAutoTheme);
     actionGroup->addAction(ui->actionLightTheme);
     actionGroup->addAction(ui->actionDarkTheme);
-    actionGroup->addAction(ui->actionMcTheme);
     actionGroup->setExclusive(true);
     connect(ui->actionAutoTheme, &QAction::triggered, Commander::instance(),
             &Commander::setAutoTheme);
