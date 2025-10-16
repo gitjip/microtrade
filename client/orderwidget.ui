@@ -24,27 +24,27 @@
      </attribute>
      <column>
       <property name="text">
-       <string>1</string>
+       <string>ID</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>2</string>
+       <string>Cost</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>3</string>
+       <string>Quantity</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>4</string>
+       <string>Created</string>
       </property>
      </column>
      <column>
       <property name="text">
-       <string>5</string>
+       <string>Product</string>
       </property>
      </column>
     </widget>

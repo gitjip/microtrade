@@ -1,6 +1,5 @@
 #include "welcomewidget.h"
 #include "commander.h"
-// #include "config.h"
 #include "logindialog.h"
 #include "registerdialog.h"
 #include "tcplogoutclient.h"
@@ -12,9 +11,9 @@ WelcomeWidget::WelcomeWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::WelcomeWidget) {
     ui->setupUi(this);
     connect(Commander::instance(), &Commander::loggedin, this,
-            &WelcomeWidget::onAuthorizationManagerLogin);
+            &WelcomeWidget::onCommanderLogin);
     connect(Commander::instance(), &Commander::loggedout, this,
-            &WelcomeWidget::onAuthorizationManagerLogout);
+            &WelcomeWidget::onCommanderLogout);
     connect(ui->loginPushButton, &QPushButton::clicked, this,
             &WelcomeWidget::onLoginPushButtonClicked);
     connect(ui->logoutPushButton, &QPushButton::clicked, this,
@@ -40,57 +39,52 @@ void WelcomeWidget::onLogoutPushButtonClicked() {
         this, "Are you sure to logout?", "Your data will be saved on the cloud.");
     if (reply == QMessageBox::Yes) {
         tryToLogout();
-    } else {
-        qDebug() << Q_FUNC_INFO << "no";
     }
 }
 
 void WelcomeWidget::tryToLogout() {
-    ui->logoutPushButton->setEnabled(false);
-    Commander::instance()->synchronous();
-    QTimer::singleShot(50, this, [=]() {
-        TcpLogoutClient *logoutClient = new TcpLogoutClient(this);
-        connect(logoutClient, &TcpLocalClient::readyRead, this,
-                &WelcomeWidget::onLogoutClientReadyRead);
-        logoutClient->sendAsync();
-        qDebug() << Q_FUNC_INFO << "yes";
-        connect(logoutClient, &TcpLogoutClient::timedOut, this, [=]() {
-            qDebug() << Q_FUNC_INFO << "timeout";
-            ui->logoutPushButton->setEnabled(true);
+    QMetaObject::invokeMethod(this, [=](){
+        ui->logoutPushButton->setEnabled(false);
+        Commander::instance()->synchronous();
+        QTimer::singleShot(50, this, [=]() {
+            TcpLogoutClient *logoutClient = new TcpLogoutClient(this);
+            connect(logoutClient, &TcpLocalClient::readyRead, this,
+                    &WelcomeWidget::onLogoutClientReadyRead);
+            connect(logoutClient, &TcpLogoutClient::timeout, this, [=]() {
+                QMessageBox::critical(this, "Logout failed!", "Connection timeout.");
+                ui->logoutPushButton->setEnabled(true);
+            });
+            logoutClient->sendAsync();
         });
-    });
+    }, Qt::QueuedConnection);
 }
 
 void WelcomeWidget::onLogoutClientReadyRead(const TcpResponse &response) {
     QMetaObject::invokeMethod(this, [=]() {
-        // qDebug() << Q_FUNC_INFO << "response fetched:" << response.toJson();
         if (response.success()) {
-            // qDebug() << Q_FUNC_INFO << "success";
-            // QMessageBox::information(this, "Logout successfully!", "");
             Commander::instance()->logout();
             QTimer::singleShot(50, this, [=]() { emit aboutToLogout(); });
         } else {
-            // qDebug() << Q_FUNC_INFO << "failed";
             QMessageBox::critical(this, "Logout failed!",
-                                  "You can refresh the page and try again");
+                                  "You can refresh the page and try again.");
             ui->logoutPushButton->setEnabled(true);
         }
     }, Qt::QueuedConnection);
 }
 
-void WelcomeWidget::onAuthorizationManagerLogin() {
+void WelcomeWidget::onCommanderLogin() {
     ui->tipLabel->setText("You have been authorized to use this application. You "
                           "can also logout if you want to quit.");
-    ui->statusLabel->setText("Status: already login");
+    ui->statusLabel->setText("Status: Already Login");
     ui->loginPushButton->setEnabled(false);
     ui->registerPushButton->setEnabled(false);
     ui->logoutPushButton->setEnabled(true);
 }
 
-void WelcomeWidget::onAuthorizationManagerLogout() {
+void WelcomeWidget::onCommanderLogout() {
     ui->tipLabel->setText("You can login if you already have an account. "
                           "Otherwise you should register first.");
-    ui->statusLabel->setText("Status: not login");
+    ui->statusLabel->setText("Status: Not Login");
     ui->loginPushButton->setEnabled(true);
     ui->registerPushButton->setEnabled(true);
     ui->logoutPushButton->setEnabled(false);

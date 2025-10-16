@@ -3,10 +3,12 @@
 Config::Config(QObject *parent)
     : QObject(parent),
     m_settings(new QSettings("client.ini", QSettings::IniFormat, this)) {
-    qDebug() << Q_FUNC_INFO << "fileName:" << m_settings->fileName();
-    qDebug() << Q_FUNC_INFO << "host_address" << hostAddress().toString();
-    qDebug() << Q_FUNC_INFO << "port" << port();
-    qDebug() << Q_FUNC_INFO << "timeout" << timeout();
+    qDebug() << "======================";
+    qDebug() << "[Config] fileName:" << m_settings->fileName();
+    qDebug() << "[Config] host_address:" << hostAddress().toString();
+    qDebug() << "[Config] port:" << port();
+    qDebug() << "[Config] timeout:" << timeout();
+    qDebug() << "======================";
 }
 
 Config *Config::instance() {

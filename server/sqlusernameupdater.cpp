@@ -9,12 +9,8 @@ bool SqlUsernameUpdater::exec(qint64 userId, const QString &username) {
                   "removed_at IS NULL");
     query.bindValue(":username", username);
     query.bindValue(":id", userId);
-    qDebug() << Q_FUNC_INFO << query.boundValueNames();
-    qDebug() << Q_FUNC_INFO << query.boundValues();
     if (!query.exec()) {
-        qDebug() << Q_FUNC_INFO << query.lastError().text();
         return false;
     }
-    qDebug() << Q_FUNC_INFO << "success";
     return true;
 }

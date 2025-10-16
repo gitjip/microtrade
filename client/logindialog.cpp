@@ -22,6 +22,10 @@ void LoginDialog::accept() {
                 TcpLoginClient *loginClient = new TcpLoginClient(this);
                 connect(loginClient, &TcpLoginClient::readyRead, this,
                         &LoginDialog::login);
+                connect(loginClient, &TcpLoginClient::timeout, this, [=]() {
+                    QMessageBox::critical(this, "Login failed!",
+                                          "Connection timeout.");
+                });
                 loginClient->sendAsync(
                     ui->usernameLineEdit->text(),
                     PasswordHasher::hash(ui->passwordLineEdit->text()));
@@ -37,19 +41,12 @@ void LoginDialog::login(const TcpResponse &response) {
     QMetaObject::invokeMethod(
         this,
         [=]() {
-            qDebug() << "LoginDialog::accept:"
-                     << "response:" << response.toJson();
             if (response.success()) {
                 QJsonObject responseBody = response.body();
                 Authorization authorization =
                     Authorization::fromJson(responseBody["authorization"].toObject());
-                qDebug() << "LoginDialog::login:" << authorization.token();
                 Commander::instance()->login(authorization.token());
-                // QMessageBox::information(this, "Login successfully!", "");
             } else {
-                qDebug() << "LoginDialog::accept:" << "error:"
-                         << TcpResponse::statusTypeToString(response.statusType())
-                         << response.statusDetail();
                 QMessageBox::critical(
                     this, "Login failed!",
                     "Your username or password maybe wrong. Please try again.");

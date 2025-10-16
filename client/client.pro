@@ -1,8 +1,10 @@
-QT       += core gui network
+QT       += core gui network charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
+
+RC_ICONS += resrc/microtrade.ico
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -24,6 +26,7 @@ SOURCES += \
     promotionwidget.cpp \
     registerdialog.cpp \
     shopwidget.cpp \
+    statisticwidget.cpp \
     tcpaddtocartclient.cpp \
     tcpalterusernameclient.cpp \
     tcpcartproductlistclient.cpp \
@@ -33,6 +36,8 @@ SOURCES += \
     tcplocalclient.cpp \
     tcploginclient.cpp \
     tcplogoutclient.cpp \
+    tcpmonthdailycostclient.cpp \
+    tcpmonthlycostclient.cpp \
     tcporderclient.cpp \
     tcppaymentclient.cpp \
     tcpproductclient.cpp \
@@ -62,6 +67,7 @@ HEADERS += \
     promotionwidget.h \
     registerdialog.h \
     shopwidget.h \
+    statisticwidget.h \
     tcpaddtocartclient.h \
     tcpalterusernameclient.h \
     tcpcartproductlistclient.h \
@@ -71,6 +77,8 @@ HEADERS += \
     tcplocalclient.h \
     tcploginclient.h \
     tcplogoutclient.h \
+    tcpmonthdailycostclient.h \
+    tcpmonthlycostclient.h \
     tcporderclient.h \
     tcppaymentclient.h \
     tcpproductclient.h \
@@ -97,6 +105,7 @@ FORMS += \
     promotionwidget.ui \
     registerdialog.ui \
     shopwidget.ui \
+    statisticwidget.ui \
     usernamealterdialog.ui \
     welcomewidget.ui
 

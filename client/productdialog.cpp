@@ -47,7 +47,6 @@ void ProductDialog::setImage(const QUrl &imageUrl) {
     QIcon icon(":" + imageUrl.path());
     if (icon.isNull()) {
         item = new QTableWidgetItem("image");
-        qDebug() << Q_FUNC_INFO << "failed to load image" << imageUrl.path();
     } else {
         item = new QTableWidgetItem(icon, "");
     }
@@ -77,16 +76,22 @@ void ProductDialog::setDescription(const QString &description) {
 }
 
 void ProductDialog::onAddToCartPushButtonClicked() {
-    qDebug() << Q_FUNC_INFO;
-    Commander::instance()->synchronous();
-    TcpAddToCartClient *addToCartClient = new TcpAddToCartClient(this);
-    connect(addToCartClient, &TcpProductClient::readyRead, this,
-            &ProductDialog::onAddToCartClientReadyRead);
-    addToCartClient->sendAsync(m_productId);
+    QMetaObject::invokeMethod(
+        this,
+        [=]() {
+        Commander::instance()->synchronous();
+        TcpAddToCartClient *addToCartClient = new TcpAddToCartClient(this);
+        connect(addToCartClient, &TcpProductClient::readyRead, this,
+                &ProductDialog::onAddToCartClientReadyRead);
+        connect(addToCartClient, &TcpProductClient::timeout, this, [=]() {
+            QMessageBox::critical(this, "Add to cart failed!", "Connection timeout.");
+        });
+        addToCartClient->sendAsync(m_productId);
+        },
+        Qt::QueuedConnection);
 }
 
 void ProductDialog::onProductClientReadyRead(const TcpResponse &request) {
-    qDebug() << Q_FUNC_INFO << "response:" << request.toJson();
     if (request.success()) {
         QJsonObject responseBody = request.body();
         Product product = Product::fromJson(responseBody["product"].toObject());
@@ -102,7 +107,6 @@ void ProductDialog::onAddToCartClientReadyRead(const TcpResponse &response) {
     QMetaObject::invokeMethod(
         this,
         [=]() {
-        qDebug() << Q_FUNC_INFO << "response:" << response.toJson();
         if (response.success()) {
             Commander::instance()->privateUpdate();
             emit addedToCart();
@@ -127,7 +131,6 @@ void ProductDialog::onAddToCartClientReadyRead(const TcpResponse &response) {
 
 void ProductDialog::onTcpProductPromotionListClientReadyRead(
     const TcpResponse &response) {
-    qDebug() << Q_FUNC_INFO << response.toJson();
     if (response.success()) {
         QJsonObject responseBody = response.body();
         QJsonArray promotionJsonArray = responseBody["promotionList"].toArray();
@@ -155,11 +158,11 @@ void ProductDialog::setPromText(int row, const QString &text) {
 }
 
 void ProductDialog::setPromStart(int row, const QDateTime &startAt) {
-    QTableWidgetItem *item = new QTableWidgetItem(startAt.toString());
+    QTableWidgetItem *item = new QTableWidgetItem(startAt.toString("yyyy-MM-dd"));
     ui->promTableWidget->setItem(row, int(PromColomnName::Start), item);
 }
 
 void ProductDialog::setPromEndAt(int row, const QDateTime &endAt) {
-    QTableWidgetItem *item = new QTableWidgetItem(endAt.toString());
+    QTableWidgetItem *item = new QTableWidgetItem(endAt.toString("yyyy-MM-dd"));
     ui->promTableWidget->setItem(row, int(PromColomnName::End), item);
 }

@@ -27,8 +27,8 @@ private slots:
     void onRegisterPushButtonClicked();
     void onLogoutPushButtonClicked();
     void onLogoutClientReadyRead(const TcpResponse &response);
-    void onAuthorizationManagerLogin();
-    void onAuthorizationManagerLogout();
+    void onCommanderLogin();
+    void onCommanderLogout();
 
 private:
     Ui::WelcomeWidget *ui;

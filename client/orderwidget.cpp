@@ -9,17 +9,17 @@
 #include <QMessageBox>
 
 OrderWidget::OrderWidget(QWidget *parent)
-    : QWidget(parent), ui(new Ui::OrderWidget), currentOrderItem(nullptr) { 
+    : QWidget(parent), ui(new Ui::OrderWidget), currentOrderItem(nullptr) {
     ui->setupUi(this);
     initFrontEnd();
-    connect(Commander::instance(), &Commander::privateUpdated, this, 
+    connect(Commander::instance(), &Commander::privateUpdated, this,
             &OrderWidget::update);
-    connect(Commander::instance(), &Commander::loggedout, this, 
+    connect(Commander::instance(), &Commander::loggedout, this,
             &OrderWidget::clear);
-    connect(ui->treeWidget, &QTreeWidget::itemDoubleClicked, this, 
+    connect(ui->treeWidget, &QTreeWidget::itemDoubleClicked, this,
             &OrderWidget::onTreeWidgetItemDoubleClicked);
     ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->treeWidget, &QTreeWidget::customContextMenuRequested, this, 
+    connect(ui->treeWidget, &QTreeWidget::customContextMenuRequested, this,
             &OrderWidget::onTreeWidgetCustomContextMenuRequested);
 }
 
@@ -36,7 +36,6 @@ void OrderWidget::onOrderClientReadyRead(const TcpResponse &response) {
     QMetaObject::invokeMethod(
         this,
         [=]() {
-            // qDebug() << Q_FUNC_INFO << response.toJson();
             if (response.success()) {
                 productIdMap.clear();
                 orderIdMap.clear();
@@ -46,48 +45,59 @@ void OrderWidget::onOrderClientReadyRead(const TcpResponse &response) {
                 for (qsizetype i = 0; i < orderTree.count(); ++i) {
                     QJsonObject orderPair = orderTree[i].toObject();
                     Order order = Order::fromJson(orderPair["order"].toObject());
-                    QTreeWidgetItem *orderWidgetItem = new QTreeWidgetItem(ui->treeWidget);
+                    QTreeWidgetItem *orderWidgetItem =
+                        new QTreeWidgetItem(ui->treeWidget);
                     orderWidgetItem->setText(int(OrderColomn::Id),
-                                            QString("id:  %1").arg(order.id(), 0));
+                                             QString("%1").arg(order.id(), 0));
                     orderWidgetItem->setText(
                         int(OrderColomn::Cost),
-                        QString("cost:  %1").arg(order.cost(), 0, 'f', 2));
+                        QString("%1").arg(order.cost(), 0, 'f', 2));
                     orderWidgetItem->setText(
                         int(OrderColomn::Status),
-                        QString("status:  %1").arg(Order::statusToString(order.status()), 0));
-                    
+                        QString("%1")
+                            .arg(Order::statusToString(order.status()), 0));
                     // set red for Cancelled and Unaccepted status
                     Order::Status orderStatus = order.status();
-                    if (orderStatus == Order::Status::Cancelled || 
+                    if (orderStatus == Order::Status::Cancelled ||
                         orderStatus == Order::Status::Unaccepted) {
                         orderWidgetItem->setForeground(int(OrderColomn::Status), Qt::red);
                     }
-                    
+                    // set green for Accepted status
+                    else if (orderStatus == Order::Status::Accepted) {
+                        orderWidgetItem->setForeground(int(OrderColomn::Status),
+                                                       Qt::green);
+                    }
+                    // set blue for other status
+                    else {
+                        orderWidgetItem->setForeground(int(OrderColomn::Status),
+                                                       Qt::blue);
+                    }
                     orderWidgetItem->setText(
                         int(OrderColomn::CreatedAt),
-                        QString("created:  %1").arg(order.createdAt().toString()));
+                        QString("%1").arg(order.createdAt().toString("yyyy-MM-dd")));
                     orderIdMap[orderWidgetItem] = order.id();
-                    
                     QJsonArray orderItemList = orderPair["orderItemList"].toArray();
                     for (qsizetype j = 0; j < orderItemList.count(); ++j) {
-                        OrderItem orderItem = OrderItem::fromJson(orderItemList[j].toObject());
-                        QTreeWidgetItem *orderItemWidgetItem = 
+                        OrderItem orderItem =
+                            OrderItem::fromJson(orderItemList[j].toObject());
+                        QTreeWidgetItem *orderItemWidgetItem =
                             new QTreeWidgetItem(orderWidgetItem);
                         orderItemWidgetItem->setText(
                             int(OrderItemColomn::Id),
-                            QString("id:  %1").arg(orderItem.id(), 0));
+                            QString("%1").arg(orderItem.id(), 0));
                         orderItemWidgetItem->setText(
                             int(OrderItemColomn::ProductId),
-                            QString("product:  %1").arg(orderItem.productId(), 0));
+                            QString("%1").arg(orderItem.productId(), 0));
                         orderItemWidgetItem->setText(
                             int(OrderItemColomn::Quantity),
-                            QString("quantity:  %1").arg(orderItem.quantity(), 0));
+                            QString("%1").arg(orderItem.quantity(), 0));
                         orderItemWidgetItem->setText(
                             int(OrderItemColomn::Cost),
-                            QString("cost:  %1").arg(orderItem.cost(), 0, 'f', 2));
+                            QString("%1").arg(orderItem.cost(), 0, 'f', 2));
                         orderItemWidgetItem->setText(
                             int(OrderItemColomn::CreatedAt),
-                            QString("created:  %1").arg(orderItem.createdAt().toString()));
+                            QString("%1")
+                                .arg(orderItem.createdAt().toString("yyyy-MM-dd")));
                         productIdMap[orderItemWidgetItem] = orderItem.productId();
                     }
                 }
@@ -105,17 +115,20 @@ void OrderWidget::onTreeWidgetCustomContextMenuRequested(const QPoint &pos) {
             if (!item || item->parent()) {
                 return;
             }
-            
             QString statusText = item->text(int(OrderColomn::Status));
             currentOrderItem = item;
             QMenu menu(this);
             if (statusText.contains("pending") || statusText.contains("accepted")) {
                 QAction *cancelOrderAction = menu.addAction("cancel order");
-                connect(cancelOrderAction, &QAction::triggered, this, &OrderWidget::onCancelOrderTriggered);
+                connect(cancelOrderAction, &QAction::triggered, this,
+                        &OrderWidget::onCancelOrderTriggered);
             }
-            if (statusText.contains("cancelled") || statusText.contains("accepted") || statusText.contains("unaccepted")) {
+            if (statusText.contains("cancelled") ||
+                statusText.contains("accepted") ||
+                statusText.contains("unaccepted")) {
                 QAction *deleteOrderAction = menu.addAction("delete order");
-                connect(deleteOrderAction, &QAction::triggered, this, &OrderWidget::onDeleteOrderTriggered);
+                connect(deleteOrderAction, &QAction::triggered, this,
+                        &OrderWidget::onDeleteOrderTriggered);
             }
             if (menu.actions().count() > 0) {
                 menu.exec(ui->treeWidget->mapToGlobal(pos));
@@ -132,15 +145,19 @@ void OrderWidget::onCancelOrderTriggered() {
                 return;
             }
             QMessageBox::StandardButton reply = QMessageBox::question(
-                this,
-                "Cancel order",
-                "Are you sure to cancel the order?",
+                this, "Cancel order", "Are you sure to cancel the order?",
                 QMessageBox::Yes | QMessageBox::No);
             if (reply == QMessageBox::Yes) {
                 qint64 orderId = orderIdMap[currentOrderItem];
-                TcpCancelOrderClient *cancelOrderClient = new TcpCancelOrderClient(this);
-                connect(cancelOrderClient, &TcpCancelOrderClient::readyRead, this, 
+                TcpCancelOrderClient *cancelOrderClient =
+                    new TcpCancelOrderClient(this);
+                connect(cancelOrderClient, &TcpCancelOrderClient::readyRead, this,
                         &OrderWidget::onCancelOrderClientReadyRead);
+                connect(cancelOrderClient, &TcpCancelOrderClient::timeout, this,
+                        [=]() {
+                    QMessageBox::critical(this, "Cancel Order failed!",
+                                          "Connection timeout.");
+                });
                 cancelOrderClient->sendAsync(orderId);
             }
         },
@@ -151,12 +168,14 @@ void OrderWidget::onCancelOrderClientReadyRead(const TcpResponse &response) {
     QMetaObject::invokeMethod(
         this,
         [=]() {
-            qDebug() << Q_FUNC_INFO << response.toJson();
             if (response.success()) {
-                QMessageBox::information(this, "Success", "The order has been cancelled successfully");
+                QMessageBox::information(
+                    this, "Success", "The order has been cancelled successfully.");
                 update();
             } else {
-                QMessageBox::critical(this, "Error", "The order failed to be cancelled\n" + response.statusDetail());
+                QMessageBox::critical(this, "Error",
+                                      "The order failed to be cancelled.\n" +
+                                          response.statusDetail());
             }
         },
         Qt::QueuedConnection);
@@ -170,15 +189,20 @@ void OrderWidget::onDeleteOrderTriggered() {
                 return;
             }
             QMessageBox::StandardButton reply = QMessageBox::question(
-                this,
-                "Delete order",
+                this, "Delete order",
                 "Are you sure to delete the order? This action cannot be undone.",
                 QMessageBox::Yes | QMessageBox::No);
             if (reply == QMessageBox::Yes) {
                 qint64 orderId = orderIdMap[currentOrderItem];
-                TcpDeleteOrderClient *deleteOrderClient = new TcpDeleteOrderClient(this);
-                connect(deleteOrderClient, &TcpDeleteOrderClient::readyRead, this, 
+                TcpDeleteOrderClient *deleteOrderClient =
+                    new TcpDeleteOrderClient(this);
+                connect(deleteOrderClient, &TcpDeleteOrderClient::readyRead, this,
                         &OrderWidget::onDeleteOrderClientReadyRead);
+                connect(deleteOrderClient, &TcpDeleteOrderClient::timeout, this,
+                        [=]() {
+                    QMessageBox::critical(this, "Delete order failed!",
+                                          "Connection timeout.");
+                });
                 deleteOrderClient->sendAsync(orderId);
             }
         },
@@ -189,12 +213,14 @@ void OrderWidget::onDeleteOrderClientReadyRead(const TcpResponse &response) {
     QMetaObject::invokeMethod(
         this,
         [=]() {
-            qDebug() << Q_FUNC_INFO << response.toJson();
             if (response.success()) {
-                QMessageBox::information(this, "Success", "The order has been deleted successfully");
+                QMessageBox::information(this, "Success",
+                                         "The order has been deleted successfully");
                 update();
             } else {
-                QMessageBox::critical(this, "Error", "The order failed to be deleted\n" + response.statusDetail());
+                QMessageBox::critical(this, "Error",
+                                      "The order failed to be deleted\n" +
+                                          response.statusDetail());
             }
         },
         Qt::QueuedConnection);

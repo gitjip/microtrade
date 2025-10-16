@@ -19,6 +19,8 @@
 #include "tcpresetpasswordhandler.h"
 #include "tcpuserhandler.h"
 #include "tcpdeleteorderhandler.h"
+#include "tcpmonthlycosthandler.h"
+#include "tcpmonthdailycosthandler.h"
 
 TcpLocalDistributor::TcpLocalDistributor(QObject *parent)
     : TcpDistributor{parent} {}
@@ -30,7 +32,7 @@ TcpLocalDistributor *TcpLocalDistributor::instance() {
 
 TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
     TcpHandler *handler = nullptr;
-    qDebug() << "TcpLocalDistributor::distribute:" << request.route();
+    // qDebug() << "TcpLocalDistributor::distribute:" << request.route();
     if (request.route() == "/login") {
         handler = new TcpLoginHandler(this);
     } else if (request.route() == "/product") {
@@ -69,6 +71,10 @@ TcpResponse TcpLocalDistributor::distribute(const TcpRequest &request) {
         handler = new TcpResetPasswordHandler(this);
     } else if (request.route() == "/product-search") {
         handler = new TcpProductSearchHandler(this);
+    }else if(request.route()=="/monthly-cost"){
+        handler = new TcpMonthlyCostHandler(this);
+    }else if(request.route()=="/month-daily-cost"){
+        handler = new TcpMonthDailyCostHandler(this);
     }
     if (handler) {
         return handler->handle(request);

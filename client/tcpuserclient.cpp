@@ -10,5 +10,4 @@ void TcpUserClient::sendAsync() {
         Authorization{-1, {}, {}, -1, Commander::instance()->token()}
                                 .toJson();
     TcpLocalClient::sendAsync("/user", body);
-    qDebug() << Q_FUNC_INFO << body;
 }

@@ -18,6 +18,5 @@ TcpResponse TcpPromotionListHandler::handle(const TcpRequest &) {
     TcpResponse response =
         TcpLocalResponse::make(true, TcpResponse::StatusType::Success,
                                                   "successfully find promotion list", responseBody);
-    qDebug() << Q_FUNC_INFO << response.toJson();
     return response;
 }

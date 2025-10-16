@@ -12,39 +12,28 @@ void TcpClient::connectToHost(const QHostAddress &hostAddress, qint64 port) {
 /**
  * @brief TcpClient::sendAsync
  * @param request
- * @param timeout disabled if equals to -1
+ * @param maxTime disabled if equals to -1
  */
-void TcpClient::sendAsync(const TcpRequest &request, qint64 timeout) {
+void TcpClient::sendAsync(const TcpRequest &request, qint64 maxTime) {
     QTimer *timer = new QTimer(this);
-    if (timeout != -1) {
-        timer->setInterval(timeout);
+    if (maxTime != -1) {
+        timer->setInterval(maxTime);
         timer->setSingleShot(true);
         timer->start();
     }
     connect(timer, &QTimer::timeout, this, [=]() {
-        qDebug() << "TcpClient::sendAsync: timeout";
-        emit timedOut();
+        emit timeout();
         deleteLater();
     });
-    connect(m_socket, &QTcpSocket::connected, this, [=]() {
-        qDebug() << "socket state:" << m_socket->state();
-        if (timer->remainingTime() == 0) {
-            emit timedOut();
-            deleteLater();
-        } else {
-            if (!send(request)) {
-                qDebug() << "TcpClient::sendAsync: failed";
-                deleteLater();
-            } else {
-                connect(m_socket, &QTcpSocket::readyRead, this, [=]() {
-                    emit readyRead(TcpResponse::fromSocket(m_socket));
-                    // qDebug() << "TcpClient::sendAsync:" << "request:"
-                    //          << request.toJson();
-                    deleteLater();
-                });
-            }
-        }
+    connect(m_socket, &QTcpSocket::readyRead, this, [=]() {
+        timer->stop();
+        emit readyRead(TcpResponse::fromSocket(m_socket));
+        deleteLater();
     });
+    if (!send(request)) {
+        qDebug() << Q_FUNC_INFO << "failed";
+        deleteLater();
+    }
 }
 
 /**
@@ -54,12 +43,12 @@ void TcpClient::sendAsync(const TcpRequest &request, qint64 timeout) {
  */
 bool TcpClient::send(const TcpRequest &request) {
     if (!m_socket || !m_socket->isOpen()) {
-        qDebug() << "TcpClient::send: socket not open";
+        qDebug() << Q_FUNC_INFO << "socket not open";
         emit notOpened();
         return false;
     }
     if (m_socket->write(request.toBytes()) == -1) {
-        qDebug() << "TcpClient::send: socket writing error";
+        qDebug() << Q_FUNC_INFO << "socket writing error";
         emit writtingErrorOccurred();
         return false;
     }

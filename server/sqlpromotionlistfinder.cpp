@@ -25,7 +25,6 @@ QList<Promotion> SqlPromotionListFinder::exec() {
         if (promotion.isActive()) {
             promotionList.append(promotion);
         }
-        // qDebug() << promotion.toJson();
     }
     return promotionList;
 }

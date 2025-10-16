@@ -21,7 +21,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="WelcomeWidget" name="welcomeTab">
        <attribute name="title">
@@ -31,6 +31,11 @@
       <widget class="ShopWidget" name="shopTab">
        <attribute name="title">
         <string>Shop</string>
+       </attribute>
+      </widget>
+      <widget class="PromotionWidget" name="promotionTab">
+       <attribute name="title">
+        <string>Promotion</string>
        </attribute>
       </widget>
       <widget class="CartWidget" name="cartTab">
@@ -43,9 +48,9 @@
         <string>Order</string>
        </attribute>
       </widget>
-      <widget class="PromotionWidget" name="promotionTab">
+      <widget class="StatisticWidget" name="statisticTab">
        <attribute name="title">
-        <string>Promotion</string>
+        <string>Statistic</string>
        </attribute>
       </widget>
       <widget class="ProfileWidget" name="profileTab">
@@ -66,11 +71,27 @@
      <height>24</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuTheme">
+    <property name="title">
+     <string>Theme</string>
+    </property>
+    <addaction name="actionAutoTheme"/>
+    <addaction name="actionLightTheme"/>
+    <addaction name="actionDarkTheme"/>
+    <addaction name="actionMcTheme"/>
+   </widget>
+   <addaction name="menuTheme"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>LeftToolBarArea</enum>
@@ -128,6 +149,41 @@
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
   </action>
+  <action name="actionLightTheme">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Light</string>
+   </property>
+  </action>
+  <action name="actionDarkTheme">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Dark</string>
+   </property>
+  </action>
+  <action name="actionMcTheme">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>MC</string>
+   </property>
+  </action>
+  <action name="actionAutoTheme">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Auto</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -164,6 +220,12 @@
    <class>PromotionWidget</class>
    <extends>QWidget</extends>
    <header>promotionwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>StatisticWidget</class>
+   <extends>QWidget</extends>
+   <header>statisticwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
