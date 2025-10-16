@@ -17,7 +17,7 @@
    <item row="1" column="0">
     <widget class="QPushButton" name="payPushButton">
      <property name="text">
-      <string>pay all now</string>
+      <string>Pay All Now</string>
      </property>
     </widget>
    </item>

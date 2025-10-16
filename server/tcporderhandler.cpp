@@ -17,16 +17,12 @@ TcpResponse TcpOrderHandler::handle(const TcpRequest &request) {
     if (user.isNull()) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Unauthorized, "not authorized");
-        // 记录未授权访问日志
         LogManager::instance()->warning("Unauthorized access attempt to order information");
-        qDebug() << Q_FUNC_INFO << response.toJson();
         return response;
     }
     // find order tree
     SqlOrderListFinder orderListFinder;
     QList<Order> orderList = orderListFinder.exec(user.id());
-    
-    // 记录订单查询日志
     LogManager::instance()->info(QString("Order history query for user ID: %1, found %2 orders").arg(user.id()).arg(orderList.count()));
     
     QJsonArray orderTreeJsonArray;
@@ -48,6 +44,5 @@ TcpResponse TcpOrderHandler::handle(const TcpRequest &request) {
     TcpResponse response = 
         TcpLocalResponse::make(true, TcpResponse::StatusType::Success,
                                                   "successfully find order tree", responseBody);
-    // qDebug() << Q_FUNC_INFO << response.toJson();
     return response;
 }
