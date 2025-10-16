@@ -59,7 +59,15 @@ void StatisticWidget::readyUpdateChart(const TcpResponse &response) {
         chart->addSeries(series);
         chart->setTitle(
             QString("Consumption of This Month: %1").arg(totalCost, 0, 'f', 2));
-        chart->setTheme(QChart::ChartThemeDark);
+        if (Commander::instance()->isDarkTheme()) {
+            chart->setTheme(QChart::ChartThemeDark);
+        } else {
+            chart->setTheme(QChart::ChartThemeLight);
+        }
+        connect(Commander::instance(), &Commander::readySetDarkTheme, chart,
+                [=]() { chart->setTheme(QChart::ChartThemeDark); });
+        connect(Commander::instance(), &Commander::readySetLightTheme, chart,
+                [=]() { chart->setTheme(QChart::ChartThemeLight); });
 
         QDateTimeAxis *axisX = new QDateTimeAxis();
         axisX->setFormat("MM-dd");

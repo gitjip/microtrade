@@ -22,7 +22,6 @@ protected:
 
 private:
     void setupMenuTheme();
-    bool isSystemDarkTheme();
     void applyLightTheme();
     void applyDarkTheme();
 

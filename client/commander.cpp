@@ -1,4 +1,5 @@
 #include "commander.h"
+#include "qsettings.h"
 #include <QDebug>
 
 Commander::Commander(QObject *parent) : QObject(parent) {}
@@ -36,6 +37,7 @@ void Commander::synchronous() { emit synchronoused(); }
 void Commander::setLightTheme(bool checked) {
     if (checked) {
         qDebug() << Q_FUNC_INFO << "light";
+        m_isDarkTheme = false;
         emit readySetLightTheme();
     }
 }
@@ -43,6 +45,27 @@ void Commander::setLightTheme(bool checked) {
 void Commander::setDarkTheme(bool checked) {
     if (checked) {
         qDebug() << Q_FUNC_INFO << "dark";
+        m_isDarkTheme = true;
         emit readySetDarkTheme();
+    }
+}
+
+bool Commander::isDarkTheme() const { return m_isDarkTheme; }
+
+bool Commander::isSystemDarkTheme() {
+    QSettings settings(
+        "HKEY_CURRENT_"
+        "USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+        QSettings::NativeFormat);
+    return settings.value("AppsUseLightTheme", 1).toInt() == 0;
+}
+
+void Commander::setAutoTheme(bool checked) {
+    if (checked) {
+        if (isSystemDarkTheme()) {
+            Commander::instance()->setDarkTheme(true);
+        } else {
+            Commander::instance()->setLightTheme(true);
+        }
     }
 }

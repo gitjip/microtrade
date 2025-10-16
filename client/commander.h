@@ -12,6 +12,8 @@ public:
     void logout();
     QString token() const;
     bool isLoggedin() const;
+    static bool isSystemDarkTheme();
+    bool isDarkTheme() const;
 
 signals:
     void loggedin();
@@ -30,6 +32,7 @@ public slots:
     // void setAutoTheme();
     void setLightTheme(bool checked);
     void setDarkTheme(bool checked);
+    void setAutoTheme(bool checked);
 
 private:
     explicit Commander(QObject *parent = nullptr);
@@ -38,6 +41,7 @@ private:
 
 private:
     QString m_token;    // Empty if not login
+    bool m_isDarkTheme = false;
 };
 
 #endif // COMMANDER_H

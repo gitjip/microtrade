@@ -5,9 +5,8 @@
 #include <QCloseEvent>
 #include <QMessageBox>
 #include <QPalette>
-#include <QSettings>
-#include <QTimer>
 #include <QStyleFactory>
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -20,23 +19,14 @@ MainWindow::MainWindow(QWidget *parent)
             &Commander::privateUpdate);
     connect(ui->actionSync, &QAction::triggered, Commander::instance(),
             &Commander::synchronous);
-    connect(Commander::instance(), &Commander::readySetDarkTheme, this, [=]() {
-        applyDarkTheme();
-    });
-    connect(Commander::instance(), &Commander::readySetLightTheme, this, [=]() {
-        applyLightTheme();
-    });
+    connect(Commander::instance(), &Commander::readySetDarkTheme, this,
+            [=]() { applyDarkTheme(); });
+    connect(Commander::instance(), &Commander::readySetLightTheme, this,
+            [=]() { applyLightTheme(); });
+    Commander::instance()->setAutoTheme(true);
 }
 
 MainWindow::~MainWindow() { delete ui; }
-
-bool MainWindow::isSystemDarkTheme() {
-    QSettings settings(
-        "HKEY_CURRENT_"
-        "USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
-        QSettings::NativeFormat);
-    return settings.value("AppsUseLightTheme", 1).toInt() == 0;
-}
 
 void MainWindow::applyLightTheme() {
     QApplication::setStyle(QStyleFactory::create("Fusion"));
@@ -56,10 +46,14 @@ void MainWindow::applyLightTheme() {
     lightPalette.setColor(QPalette::Highlight, QColor(0, 120, 215));
     lightPalette.setColor(QPalette::HighlightedText, QColor(255, 255, 255));
 
-    lightPalette.setColor(QPalette::Disabled, QPalette::WindowText, QColor(128, 128, 128));
-    lightPalette.setColor(QPalette::Disabled, QPalette::Text, QColor(128, 128, 128));
-    lightPalette.setColor(QPalette::Disabled, QPalette::ButtonText, QColor(128, 128, 128));
-    lightPalette.setColor(QPalette::Disabled, QPalette::Highlight, QColor(200, 200, 200));
+    lightPalette.setColor(QPalette::Disabled, QPalette::WindowText,
+                          QColor(128, 128, 128));
+    lightPalette.setColor(QPalette::Disabled, QPalette::Text,
+                          QColor(128, 128, 128));
+    lightPalette.setColor(QPalette::Disabled, QPalette::ButtonText,
+                          QColor(128, 128, 128));
+    lightPalette.setColor(QPalette::Disabled, QPalette::Highlight,
+                          QColor(200, 200, 200));
 
     qApp->setPalette(lightPalette);
 
@@ -439,10 +433,14 @@ void MainWindow::applyDarkTheme() {
     darkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
     darkPalette.setColor(QPalette::HighlightedText, QColor(255, 255, 255));
 
-    darkPalette.setColor(QPalette::Disabled, QPalette::WindowText, QColor(128, 128, 128));
-    darkPalette.setColor(QPalette::Disabled, QPalette::Text, QColor(128, 128, 128));
-    darkPalette.setColor(QPalette::Disabled, QPalette::ButtonText, QColor(128, 128, 128));
-    darkPalette.setColor(QPalette::Disabled, QPalette::Highlight, QColor(80, 80, 80));
+    darkPalette.setColor(QPalette::Disabled, QPalette::WindowText,
+                         QColor(128, 128, 128));
+    darkPalette.setColor(QPalette::Disabled, QPalette::Text,
+                         QColor(128, 128, 128));
+    darkPalette.setColor(QPalette::Disabled, QPalette::ButtonText,
+                         QColor(128, 128, 128));
+    darkPalette.setColor(QPalette::Disabled, QPalette::Highlight,
+                         QColor(80, 80, 80));
 
     qApp->setPalette(darkPalette);
 
@@ -811,6 +809,8 @@ void MainWindow::setupMenuTheme() {
     actionGroup->addAction(ui->actionDarkTheme);
     actionGroup->addAction(ui->actionMcTheme);
     actionGroup->setExclusive(true);
+    connect(ui->actionAutoTheme, &QAction::triggered, Commander::instance(),
+            &Commander::setAutoTheme);
     connect(ui->actionDarkTheme, &QAction::triggered, Commander::instance(),
             &Commander::setDarkTheme);
     connect(ui->actionLightTheme, &QAction::triggered, Commander::instance(),
