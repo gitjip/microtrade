@@ -219,7 +219,7 @@ void CartWidget::setQuantity(int row, qint64 quantity) {
 
 void CartWidget::setRemove(int row, qint64 productId) {
     QLabel *removalLink =
-        new QLabel("<a href='#' style='color: red;'>remove</a>");
+        new QLabel("<a href='#' style='color: red;'>Remove</a>");
     removalLink->setOpenExternalLinks(false);
     ui->tableWidget->setCellWidget(row, int(ColomnName::Remove), removalLink);
     connect(removalLink, &QLabel::linkActivated, this, [=]() {

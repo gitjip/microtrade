@@ -127,7 +127,7 @@ void ShopWidget::setStock(int row, qint64 stock) {
 
 void ShopWidget::setView(int row, qint64 productId) {
     QLabel *viewLink =
-        new QLabel("<a href='#' style='color: green;'>view details</a>");
+        new QLabel("<a href='#' style='color: green;'>Details</a>");
     viewLink->setOpenExternalLinks(false);
     ui->tableWidget->setCellWidget(row, int(ColomnName::View), viewLink);
     connect(viewLink, &QLabel::linkActivated, this, [=]() {
