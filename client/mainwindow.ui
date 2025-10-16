@@ -78,7 +78,6 @@
     <addaction name="actionAutoTheme"/>
     <addaction name="actionLightTheme"/>
     <addaction name="actionDarkTheme"/>
-    <addaction name="actionMcTheme"/>
    </widget>
    <addaction name="menuTheme"/>
   </widget>

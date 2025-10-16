@@ -18,7 +18,6 @@ TcpResponse TcpCartProductListHandler::handle(const TcpRequest &request) {
     if (user.isNull()) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Unauthorized, "not authorized");
-        qDebug() << Q_FUNC_INFO << response.statusDetail();
         return response;
     }
     // find cart by user id
@@ -27,7 +26,6 @@ TcpResponse TcpCartProductListHandler::handle(const TcpRequest &request) {
     if (cart.isNull()) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::NotFound, "not found cart");
-        qDebug() << Q_FUNC_INFO << response.statusDetail();
         return response;
     }
     // find cart item list by cart id
@@ -50,6 +48,5 @@ TcpResponse TcpCartProductListHandler::handle(const TcpRequest &request) {
     TcpResponse response =
         TcpLocalResponse::make(true, TcpResponse::StatusType::Success,
                                                   "successfully find product list", responseBody);
-    // qDebug() << Q_FUNC_INFO << response.toJson();
     return response;
 }

@@ -17,7 +17,6 @@ TcpResponse TcpCartSyncHandler::handle(const TcpRequest &request) {
     if (user.isNull()) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::Unauthorized, "not authorized");
-        qDebug() << Q_FUNC_INFO << response.statusDetail();
         return response;
     }
     // find cart
@@ -26,7 +25,6 @@ TcpResponse TcpCartSyncHandler::handle(const TcpRequest &request) {
     if (cart.isNull()) {
         TcpResponse response = TcpLocalResponse::make(
             false, TcpResponse::StatusType::NotFound, "cart not found");
-        qDebug() << Q_FUNC_INFO << response.statusDetail();
         return response;
     }
     // sync remote cart
@@ -39,12 +37,10 @@ TcpResponse TcpCartSyncHandler::handle(const TcpRequest &request) {
     bool cartSyncSuccess = cartSyncer.exec(cart, cartItemList);
     if (!cartSyncSuccess) {
         TcpResponse response = TcpLocalResponse::make(false, TcpResponse::StatusType::Failed, "failed to sync all cart items");
-        qDebug() << Q_FUNC_INFO << response.statusDetail();
         return response;
     }
     // success
     TcpResponse response =
         TcpLocalResponse::make(true, TcpResponse::StatusType::Success, "success");
-    // qDebug() << Q_FUNC_INFO << response.statusDetail();
     return response;
 }
